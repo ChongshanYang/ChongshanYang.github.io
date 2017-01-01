@@ -1,0 +1,619 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库,oracle," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="group by 和having 子句显示工资高于平均工资的员工信息：select * from emp  e where sal &amp;gt; (select avg(sal) from emp)group by 用于对查询结果分组统计having 子句用于限制分组显示结果显示平均工资低于2000的部门号和它的平均工资：select avg(sal), max(sal), deptno from e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle常用操作">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/01/oracle-use/index.html">
+<meta property="og:site_name" content="Kids">
+<meta property="og:description" content="group by 和having 子句显示工资高于平均工资的员工信息：select * from emp  e where sal &amp;gt; (select avg(sal) from emp)group by 用于对查询结果分组统计having 子句用于限制分组显示结果显示平均工资低于2000的部门号和它的平均工资：select avg(sal), max(sal), deptno from e">
+<meta property="og:updated_time" content="2017-01-01T09:35:27.378Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Oracle常用操作">
+<meta name="twitter:description" content="group by 和having 子句显示工资高于平均工资的员工信息：select * from emp  e where sal &amp;gt; (select avg(sal) from emp)group by 用于对查询结果分组统计having 子句用于限制分组显示结果显示平均工资低于2000的部门号和它的平均工资：select avg(sal), max(sal), deptno from e">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/01/oracle-use/"/>
+
+
+  <title> Oracle常用操作 | Kids </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Kids</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">凡人皆有一死，凡人皆需侍奉</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule" rel="section">
+            
+            日程
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Oracle常用操作
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-01-01T17:31:19+08:00" content="2017-01-01">
+              2017-01-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/数据库/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>group by 和having 子句<br>显示工资高于平均工资的员工信息：<br>select * from emp  e where sal &gt; (select avg(sal) from emp)<br>group by 用于对查询结果分组统计<br>having 子句用于限制分组显示结果<br>显示平均工资低于2000的部门号和它的平均工资：<br>select avg(sal), max(sal), deptno from emp group by  deptno having avg(sal) &lt; 2000<br><a id="more"></a><br>数据分组的总结<br>分组函数只能出现在选择列表、having、order by子句中（不能出现在where中）<br>如果在select语句中同时包含有group by,having,order by,那么他们的顺序是group by,having,order by<br>在选择列中如果有列、表达式和分组函数，那么这些列和表达式必须有一个出现在group by子句中<br>多表查询<br>显示雇员名、雇员工资及所在部门的名字<br>select e.ename, e.sal, d.dname from emp e, dept d where e.deptno = d.deptno<br>显示部门号为10的部门名、员工名和工资<br>SELECT d.dname, e.ename, e.sal FROM emp e, dept d WHERE e.deptno = d.deptno and e.deptno = 10;<br>显示各个员工的姓名、工资及工资的级别<br>select e.ename, e.sal, s.grade from emp e, salagrade s where e.sal between s.losal and s.hisal;<br>显示雇员名、雇员工资及所在部门的名字并按部门排序<br>select e.ename, e.sal,d.dname from emp e,dept d where e.deptno=d.deptno order by e.deptno;</p>
+<p>自连接（处在同一张表的连接查询）<br>显示员工‘ford’的上级<br>select worker.ename, boss.ename from emp worker, emp boss where worker.mgr=boss.empno and<br>worker.ename = ‘ford’;</p>
+<p>子查询（嵌套查询）<br>显示与Smith同部门的所有员工<br>select <em> from emp where deptno =(select deptno from emp where ename = ‘smith’);<br>多行子查询（子查询返回多行数据）<br>查询和部门10的工作相同的雇员的名字、岗位、工资、部门号<br>select </em> from emp where job in (select distinct job from emp where deptno = 10);<br>在多行子查询中使用all操作符<br>问题：如何显示工资比部门30的所有员工的工资高的员工的姓名、工资和部门号？<br>–方法一<br>SELECT ename, sal, deptno FROM emp WHERE sal &gt; all(SELECT sal FROM emp WHERE deptno = 30);<br>–方法二(执行效率最高，使用聚合函数)<br>SELECT ename, sal, deptno FROM emp WHERE sal &gt; (SELECT max(sal) FROM emp WHERE deptno = 30);</p>
+<p>在多行子查询中使用any操作符<br>问题：如何显示工资比部门30的任意一个员工的工资高的员工姓名、工资和部门号？<br>–方法一<br>SELECT ename, sal, deptno FROM emp WHERE sal &gt; ANY (SELECT sal FROM emp WHERE deptno = 30);<br>–方法二(执行效率最高，使用聚合函数)<br>SELECT ename, sal, deptno FROM emp WHERE sal &gt; (SELECT min(sal) FROM emp WHERE deptno = 30);<br>多列子查询<br>查询与Smith的部门和岗位完全相同的所有雇员<br>select deptno, job from emp where ename = ‘smith’;<br>slelect * from emp where(deptno, job) = (select deptno, job from emp where ename=’smith’);<br>在from子句中使用子查询(把查询结果看做一张子表)<br>显示高于自己部门平均工资的员工信息<br>select e.ename, e.deptno, e.sal, ds.mysal from emp e, (select deptno, avg(sal) mysal from emp group by deptno) ds where e.deptno = ds.deptno and e.sal &gt; ds.mysal;<br>当在from子句中使用子查询时，该子查询会被作为一个视图来对待，因此叫做内嵌视图，当在from 子句中使用子查询时，必须给子查询指定别名。</p>
+<p>用查询结果创建新表<br>create table mytable(id, name, sal, job, deptno) as select empno, ename, sal, job, deptno from emp;<br>合并查询<br>1). union<br>该操作符用于取得两个结果集的并集。当使用该操作符时，会自动去掉结果集中重复行。<br>SELECT ename, sal, job FROM emp WHERE sal &gt;2500<br>UNION<br>SELECT ename, sal, job FROM emp WHERE job = ‘MANAGER’;</p>
+<p>2).union all<br>该操作符与union相似，但是它不会取消重复行，而且不会排序。<br>SELECT ename, sal, job FROM emp WHERE sal &gt;2500<br>UNION ALL<br>SELECT ename, sal, job FROM emp WHERE job = ‘MANAGER’;<br>该操作符用于取得两个结果集的并集。当使用该操作符时，不会自动去掉结果集中重复行。</p>
+<p>3). intersect<br>使用该操作符用于取得两个结果集的交集。<br>SELECT ename, sal, job FROM emp WHERE sal &gt;2500<br>INTERSECT<br>SELECT ename, sal, job FROM emp WHERE job = ‘MANAGER’;</p>
+<p>4). minus<br>使用该操作符用于取得两个结果集的差集，他只会显示存在第一个集合中，而不存在第二个集合中的数据。<br>SELECT ename, sal, job FROM emp WHERE sal &gt;2500<br>MINUS<br>SELECT ename, sal, job FROM emp WHERE job = ‘MANAGER’;<br>（MINUS就是减法的意思）</p>
+<p>oracle分页方法<br>其中emp为表名称，empno 为表的主键id，获取按empno降序排序后的第1-5条记录，emp表有70000 多条记录。<br>方法一 根据rowid来分<br>SELECT<em><br>FROM EMP<br>WHERE ROWID IN<br>(SELECT RID<br>FROM (SELECT ROWNUM RN, RID<br>FROM (SELECT ROWID RID, EMPNO FROM EMP ORDERBY EMPNO DESC)<br>WHERE ROWNUM &lt;= ( (currentPage-1) </em> pageSize + pageSize )) –每页显示几条<br>WHERE RN &gt; ((currentPage-1) <em> pageSize) ) –当前页数<br>ORDERBY EMPNO DESC;<br>方法二 按分析函数来分<br>SELECT</em><br>FROM (SELECT T.<em>, ROW_NUMBER() OVER(ORDERBY empno DESC) RK FROM emp T)<br>WHERE RK &lt;= ( (currentPage-1) </em> pageSize + pageSize ) –每页显示几条<br>AND RK &gt; ( (currentPage-1) <em> pageSize ); –当前页数<br>方法三 按rownum来分<br>SELECT</em><br>FROM (SELECT T.<em>, ROWNUM RN<br>FROM (SELECT</em>FROM EMP ORDERBY EMPNO DESC) T<br>WHERE ROWNUM &lt;= ( (currentPage-1) <em> pageSize + pageSize )) –每页显示几条<br>WHERE RN &gt; ( (currentPage-1) </em> pageSize ); –当前页数<br>oracle事务<br>事务用于保证数据的一致性，它由一组相关的dml语句组成，该组的dml(数据操作语言，增删改，没有查询)语句要么全部成功，要么全部失败。<br>如：网上转账就是典型的要用事务来处理，用于保证数据的一致性。<br>事务和锁<br>当执行事务操作时(dml语句)，oracle会在被作用的表上加锁，防止其它用户修改表的结构。<br>提交事务<br>当用commit语句执行时可以提交事务。当执行了commit语句之后，会确认事务的变化、结束事务。删除保存点、释放锁，当使用commit语句结束事务之后，其它会话将可以查看到事务变化后的新数据。保存点就是为回滚做的。保存点的个数没有限制。<br>回滚事务<br>保存点是事务中的一点。用于取消部分事务，当结束事务时，会自动的删除该事务所定义的所有保存点。当执行rollback 时，通过指定保存点可以回退到指定的点<br>事务的几个重要操作<br>1.设置保存点 savepoint a<br>2.取消部分事务 rollback to a<br>3.取消全部事务 rollback<br>eg、<br>SQL&gt; savepoint a; –创建保存点a<br>Savepoint created</p>
+<p>SQL&gt; delete from emp where empno=7782;<br>1 row deleted</p>
+<p>SQL&gt; savepoint b; –创建保存到b<br>Savepoint created</p>
+<p>SQL&gt; delete from emp where empno=7934;<br>1 row deleted</p>
+<p>SQL&gt; select * from emp where empno=7934; –无法查询到empno为7934这条记录，因为这条记录已被删除<br>EMPNO ENAME      JOB         MGR HIREDATE          SAL      COMM DEPTNO</p>
+<hr>
+<p>SQL&gt; rollback to b; –通过保持点来恢复这条记录<br>Rollback complete</p>
+<p>SQL&gt; select * from emp where empno=7934;<br>EMPNO ENAME      JOB         MGR HIREDATE          SAL      COMM DEPTNO</p>
+<hr>
+<p> 7934 MILLER     CLERK      7782 1982/1/23     1300.00               10</p>
+<p>SQL&gt; select * from emp where empno=7782; –无法查询到empno为7982这条记录，因为这条记录已被删除<br>EMPNO ENAME      JOB         MGR HIREDATE          SAL      COMM DEPTNO</p>
+<hr>
+<p>SQL&gt; rollback to a; –通过保持点来恢复这条记录<br>Rollback complete</p>
+<p>SQL&gt; select * from emp where empno=7782;<br>EMPNO ENAME      JOB         MGR HIREDATE          SAL      COMM DEPTNO</p>
+<hr>
+<p> 7782 CLARK      MANAGER    7839 1981/6/9      2450.00               10</p>
+<p>SQL&gt;<br>注意：这个回滚事务，必须是没有commit前使用的；如果事务提交了，那么无论你刚才做了多少个保存点，都统统没用。如果没有手动执行commit,而是exit了，那么会自动提交。<br>eg、<br>SQL&gt; savepoint a;<br>Savepoint created</p>
+<p>SQL&gt; delete from emp where empno=7782;<br>1 row deleted</p>
+<p>SQL&gt; commit;<br>Commit complete</p>
+<p>SQL&gt; rollback to a;<br>rollback to a<br>ORA-01086: 从未创建保存点 ‘A’<br>SQL&gt;<br>java程序中如何使用事务<br>在java操作数据库时，为了保证数据的一致性，比如账户操作(1)从一个账户中减掉10$(2)在另一个账户上加入10$,我们看看如何使用事务<br>package junit.test;</p>
+<p>import java.sql.Connection;<br>import java.sql.DriverManager;<br>import java.sql.SQLException;<br>import java.sql.Statement;</p>
+<p>publicclass TransationTest {</p>
+<p>publicstaticvoid main(String[] args) {</p>
+<p>Connection conn = null;<br>try {<br>// 1.加载驱动<br>Class.forName(“oracle.jdbc.driver.OracleDriver”);<br>// 2.得到连接<br>conn = DriverManager.getConnection(“jdbc:oracle:thin:@127.0.0.1:1521:orcl”, “scott”, “oracle”);<br>// 加入事务处理<br>conn.setAutoCommit(false);// 设置不能默认提交<br>Statement sm = conn.createStatement();<br>// 从scott的sal中减去100<br>sm.executeUpdate(“update emp set sal=sal-100 where ename=’SCOTT’”);<br>int i = 7 / 0;<br>// 给smith的sal加上100<br>sm.executeUpdate(“update emp set sal=sal+100 where ename=’SMITH’”);<br>// 提交事务<br>conn.commit();<br>// 关闭打开的资源<br>sm.close();<br>conn.close();<br>} catch (Exception e) {<br>// 如果发生异常，就回滚<br>try {<br>conn.rollback();<br>} catch (SQLException e1) {<br>e1.printStackTrace();<br>}<br>e.printStackTrace();<br>}</p>
+<p>}</p>
+<p>}<br>运行会产生异常，但数据库会回滚，数据不会有变化<br>oracle常用函数<br>字符函数<br>lower(char)：将字符转换成小写的格式<br>upper(char)：将字符转换成大写的格式<br>length(char)：返回字符串长度<br>substr(char,m,n)：截取字符串的子串，从第m个开始截取n个字符<br>replace(char1,search_string, replace_string)：替换字符<br>instr(C1,C2,I,J)：判断某字符或字符串是否存在，存在返回出现的位置的索引<br> C1 被搜索的字符串 ，C2 希望搜索的字符串， I 搜索的开始位置,默认为1  ，J 出现的位置,默认为1<br>instr(char1,char2,[,n[,m]])用法<br>SQL&gt; select instr(‘azhangsanbcd’, ‘zhangsan’) from dual; –返回2<br>SQL&gt; select instr(‘oracle traning’, ‘ra’, 1, 1) instring from dual; –返回2<br>SQL&gt; select instr(‘oracle traning’, ‘ra’, 1, 2) instring from dual; –返回9<br>SQL&gt; select instr(‘oracle traning’, ‘ra’, 1, 3) instring from dual; –返回0，根据条件，由于ra只出现二次，第四个参数3，就是说第3次出现ra的位置，显然第3次是没有再出现了，所以结果返回0。注意空格也算一个字符<br>SQL&gt; select instr(‘abc’,’d’) from dual;  –返回0</p>
+<p>数学函数<br>round(n,[m])：四舍五入函数<br>如果省掉m，则四舍五入到整数。<br>如果m是正数，则四舍五入到小数点的m位后。<br>如果m是负数，则四舍五入到小数点的m位前。<br>eg、SELECT round(23.75123) FROM dual; –返回24<br>SELECT round(23.75123, -1) FROM dual; –返回20<br>SELECT round(27.75123, -1) FROM dual; –返回30<br>SELECT round(23.75123, -3) FROM dual; –返回0<br>SELECT round(23.75123, 1) FROM dual; –返回23.8<br>SELECT round(23.75123, 2) FROM dual; –返回23.75<br>SELECT round(23.75123, 3) FROM dual; –返回23.751<br>trunc(n,[m])：用于截取数字<br>如果省掉m，就截去小数部分，<br>如果m是正数就截取到小数点的m位后，<br>如果m是负数，则截取到小数点的前m位。<br>eg、SELECT trunc(23.75123) FROM dual; –返回23<br>SELECT trunc(23.75123, -1) FROM dual; –返回20<br>SELECT trunc(27.75123, -1) FROM dual; –返回20<br>SELECT trunc(23.75123, -3) FROM dual; –返回0<br>SELECT trunc(23.75123, 1) FROM dual; –返回23.7<br>SELECT trunc(23.75123, 2) FROM dual; –返回23.75<br>SELECT trunc(23.75123, 3) FROM dual; –返回23.751<br>mod(m,n)：取余函数<br>eg、select mod(10,2) from dual; –返回0<br>SELECT MOD(10,3) FROM dual; –返回1<br>floor(n)： 返回小于或是等于n的最大整数<br>ceil(n) ：返回大于或是等于n的最小整数<br>eg、SELECT ceil(24.56) from dual; –返回25<br>SELECT floor(24.56) from dual; –返回24<br>abs(n)： 返回数字n的绝对值</p>
+<p>日期函数<br>sysdate：返回系统时间<br>eg、SQL&gt; select sysdate from dual;<br>add_months(time, months)：得到某一时间之前或之后的n个月的时间<br>eg、select add_months(sysdate,-6) from dual; –该查询的结果是当前时间半年前的时间<br>select add_months(sysdate,6) from dual; –该查询的结果是当前时间半年后的时间<br>last_day(d)：返回指定日期所在月份的最后一天</p>
+<p>问题：查找已经入职8个月多的员工<br>SQL&gt; select <em> from emp where sysdate&gt;=add_months(hiredate,8);<br>问题：显示满10年服务年限的员工的姓名和受雇日期。<br>SQL&gt; select ename, hiredate from emp where sysdate&gt;=add_months(hiredate,12</em>10);<br>问题：对于每个员工，显示其加入公司的天数。<br>SQL&gt; select floor(sysdate-hiredate) “入职天数”,ename from emp;<br>或者<br>SQL&gt; select trunc(sysdate-hiredate) “入职天数”,ename from emp;<br>问题：找出各月倒数第3天受雇的所有员工。<br>SQL&gt; select hiredate,ename from emp where last_day(hiredate)-2=hiredate;</p>
+<p>转换函数<br>to_char()函数<br>你可以使用select ename, hiredate, sal from emp where deptno = 10;显示信息，可是，在某些情况下，这个并不能满足你的需求。<br>问题：日期是否可以显示 时/分/秒<br>SQL&gt; select ename, to_char(hiredate, ‘yyyy-mm-dd hh24:mi:ss’) from emp;<br>问题：薪水是否可以显示指定的货币符号<br>SQL&gt;<br>yy：两位数字的年份 2004–&gt;04<br>yyyy：四位数字的年份 2004年<br>mm：两位数字的月份 8 月–&gt;08<br>dd：两位数字的天 30 号–&gt;30<br>hh24： 8点–&gt;20<br>hh12：8点–&gt;08<br>mi、ss–&gt;显示分钟\秒<br>9：显示数字，并忽略前面0<br>0：显示数字，如位数不足，则用0补齐<br>.：在指定位置显示小数点<br>,：在指定位置显示逗号<br>$：在数字前加美元<br>L：在数字前面加本地货币符号<br>C：在数字前面加国际货币符号<br>G：在指定位置显示组分隔符、<br>D：在指定位置显示小数点符号(.)<br>问题：显示薪水的时候，把本地货币单位加在前面<br>SQL&gt; select ename, to_char(hiredate, ‘yyyy-mm-dd hh24:mi:ss’), to_char(sal,’L99999.99’) from emp;<br>问题：显示1980年入职的所有员工<br>SQL&gt; select <em> from emp where to_char(hiredate, ‘yyyy’)=1980;<br>问题：显示所有12月份入职的员工<br>SQL&gt; select </em> from emp where to_char(hiredate, ‘mm’)=12;<br>to_date()函数<br>函数to_date用于将字符串转换成date类型的数据。<br>问题：能否按照中国人习惯的方式年—月—日添加日期。<br>eg、SELECT to_date(‘2012-02-18 09:25:30’,’yyyy-mm-dd hh24:mi:ss’) FROM dual;<br>sys_context()系统函数<br>1)terminal：当前会话客户所对应的终端的标示符，如计算机名<br>2)language: 语言<br>3)db_name： 当前数据库名称<br>4)nls_date_format： 当前会话客户所对应的日期格式<br>5)session_user： 当前会话客户所对应的数据库用户名<br>6)current_schema： 当前会话客户所对应的默认方案名<br>7)host： 返回数据库所在主机的名称<br>通过该函数，可以查询一些重要信息，比如你正在使用哪个数据库？<br>select sys_context(‘USERENV’,’db_name’) from dual;<br>注意：USERENV是固定的，不能改的，db_name可以换成其它,<br>eg、select sys_context(‘USERENV’,’language’) from dual;<br>select sys_context(‘USERENV’,’current_schema’) from dual;</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+            <a href="/tags/oracle/" rel="tag">#oracle</a>
+          
+        </div>
+      
+
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/20161012143629.png"
+               alt="重山杨" />
+          <p class="site-author-name" itemprop="name">重山杨</p>
+          <p class="site-description motion-element" itemprop="description">科学缩短了距离</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">1</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">重山杨</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
