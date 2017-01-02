@@ -96,22 +96,16 @@
 
 
 
-<meta name="description" content="函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。并且它们的定义部分、可执行部分和异常处理部分都是不同的。
-
-存储过程1. 创建存储过程：CREATE[OR REPLACE] PROCEDURE [schema.] procedure_name[(argument[{IN|OUT|IN">
+<meta name="description" content="函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。并且它们的定义部分、可执行部分和异常处理部分都是不同的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="oracle存储过程和函数">
 <meta property="og:url" content="http://www.yanglc.com/2017/01/02/oracle-procedure/index.html">
 <meta property="og:site_name" content="Sully">
-<meta property="og:description" content="函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。并且它们的定义部分、可执行部分和异常处理部分都是不同的。
-
-存储过程1. 创建存储过程：CREATE[OR REPLACE] PROCEDURE [schema.] procedure_name[(argument[{IN|OUT|IN">
-<meta property="og:updated_time" content="2017-01-02T13:02:42.510Z">
+<meta property="og:description" content="函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。并且它们的定义部分、可执行部分和异常处理部分都是不同的。">
+<meta property="og:updated_time" content="2017-01-02T13:04:59.599Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="oracle存储过程和函数">
-<meta name="twitter:description" content="函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。并且它们的定义部分、可执行部分和异常处理部分都是不同的。
-
-存储过程1. 创建存储过程：CREATE[OR REPLACE] PROCEDURE [schema.] procedure_name[(argument[{IN|OUT|IN">
+<meta name="twitter:description" content="函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。并且它们的定义部分、可执行部分和异常处理部分都是不同的。">
 
 
 
@@ -398,6 +392,7 @@
         <hr>
 <p>函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。<br>存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。<br>并且它们的定义部分、可执行部分和异常处理部分都是不同的。</p>
 <hr>
+<a id="more"></a>
 <h2 id="存储过程"><a href="#存储过程" class="headerlink" title="存储过程"></a>存储过程</h2><h3 id="1-创建存储过程："><a href="#1-创建存储过程：" class="headerlink" title="1. 创建存储过程："></a>1. 创建存储过程：</h3><pre><code>CREATE[OR REPLACE] PROCEDURE [schema.] procedure_name[(argument[{IN|OUT|IN OUT}] datatype[,...])] {IS|AS} pl/sql_body;
 </code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">procedure_name为存储过程的名称==，</div><div class="line"></div><div class="line">argument是参数名，</div><div class="line"></div><div class="line">datatype是对应参数的数据类型，</div><div class="line"></div><div class="line">pl/sql_body是该存储过程真正进行的处理操作的PL/SQL块，</div><div class="line"></div><div class="line">OR REPLACE是可选项，如果存在一个同名的存储过程，则先删除后创建，</div><div class="line"></div><div class="line">关键字IS|AS是等价的，用来引出过程体。</div></pre></td></tr></table></figure>
 <h4 id="1-存储过程的创建与调用"><a href="#1-存储过程的创建与调用" class="headerlink" title="1)存储过程的创建与调用"></a>1)存储过程的创建与调用</h4><h5 id="创建存储过程"><a href="#创建存储过程" class="headerlink" title="创建存储过程"></a>创建存储过程</h5><pre><code>CREATE OR REPLACE PROCEDURE UpdateAuths(p_AuthsCode auths.author_code%TYPE, p_AuthsSalary auths.salary%TYPE)--形参
