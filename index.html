@@ -396,7 +396,7 @@
         
           <hr>
 <p>函数和存储过程非常类似，都有三种模式的参数。他们都可以被存储在数据库中，并且在块中调用。<br>存储过程只能作为一个PL/SQL语句调用，而函数作为表达式的一部分调用。<br>并且它们的定义部分、可执行部分和异常处理部分都是不同的。</p>
-<hr>
+<h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://upload-images.jianshu.io/upload_images/3385496-fdb74704ef9842c0.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="23_1920x1080_w.jpg"></h2>
           <!--noindex-->
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/01/02/oracle-procedure/#more" rel="contents">
@@ -551,11 +551,8 @@
 
       
         
-          <h4 id="group-by-和having-子句"><a href="#group-by-和having-子句" class="headerlink" title="group by 和having 子句"></a>group by 和having 子句</h4><p>显示工资高于平均工资的员工信息：</p>
-<pre><code>select * from emp  e where sal &gt; (select avg(sal) from emp);
-</code></pre><h5 id="group-by-用于对查询结果分组统计"><a href="#group-by-用于对查询结果分组统计" class="headerlink" title="group by 用于对查询结果分组统计"></a>group by 用于对查询结果分组统计</h5><h5 id="having-子句用于限制分组显示结果"><a href="#having-子句用于限制分组显示结果" class="headerlink" title="having 子句用于限制分组显示结果"></a>having 子句用于限制分组显示结果</h5><p>显示平均工资低于2000的部门号和它的平均工资：</p>
-<pre><code>select avg(sal), max(sal), deptno from emp group by  deptno having avg(sal) &lt; 2000;
-</code></pre>
+          <hr>
+<h2 id="oracle数据库查询的常用查询操作及系统函数"><a href="#oracle数据库查询的常用查询操作及系统函数" class="headerlink" title="oracle数据库查询的常用查询操作及系统函数"></a>oracle数据库查询的常用查询操作及系统函数</h2><h2 id=""><a href="#" class="headerlink" title=""></a><img src="http://upload-images.jianshu.io/upload_images/3385496-62b5039bbf07ade7.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="annie_02 (1).jpg"></h2>
           <!--noindex-->
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/01/01/oracle-use/#more" rel="contents">
