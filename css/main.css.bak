@@ -1014,6 +1014,7 @@ pre .javascript .function {
   vertical-align: top;
 }
 .site-title {
+	color: #FFFFFF
   display: inline-block;
   vertical-align: top;
   line-height: 36px;
@@ -1795,7 +1796,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #1b6114;
+  background: #ded5e0;
 }
 .links-of-blogroll {
   font-size: 13px;
