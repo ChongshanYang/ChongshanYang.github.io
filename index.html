@@ -394,7 +394,11 @@
 
       
         
-          <p>group by 和having 子句<br>显示工资高于平均工资的员工信息：<br>select * from emp  e where sal &gt; (select avg(sal) from emp)<br>group by 用于对查询结果分组统计<br>having 子句用于限制分组显示结果<br>显示平均工资低于2000的部门号和它的平均工资：<br>select avg(sal), max(sal), deptno from emp group by  deptno having avg(sal) &lt; 2000<br>
+          <h4 id="group-by-和having-子句"><a href="#group-by-和having-子句" class="headerlink" title="group by 和having 子句"></a>group by 和having 子句</h4><p>显示工资高于平均工资的员工信息：</p>
+<pre><code>select * from emp  e where sal &gt; (select avg(sal) from emp);
+</code></pre><h5 id="group-by-用于对查询结果分组统计"><a href="#group-by-用于对查询结果分组统计" class="headerlink" title="group by 用于对查询结果分组统计"></a>group by 用于对查询结果分组统计</h5><h5 id="having-子句用于限制分组显示结果"><a href="#having-子句用于限制分组显示结果" class="headerlink" title="having 子句用于限制分组显示结果"></a>having 子句用于限制分组显示结果</h5><p>显示平均工资低于2000的部门号和它的平均工资：</p>
+<pre><code>select avg(sal), max(sal), deptno from emp group by  deptno having avg(sal) &lt; 2000;
+</code></pre>
           <!--noindex-->
           <div class="post-more-link text-center">
             <a class="btn" href="/2017/01/01/oracle-use/#more" rel="contents">
