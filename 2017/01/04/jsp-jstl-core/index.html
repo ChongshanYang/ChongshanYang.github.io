@@ -1,0 +1,1388 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="j2ee,jsp,jstl," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon00.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="JSTL标签库的使用是为弥补html标签的不足，规范自定义标签的使用而诞生的。使用JSLT标签的目的就是不希望在jsp页面中出现Java逻辑代码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSTL核心标签库的使用">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/04/jsp-jstl-core/index.html">
+<meta property="og:site_name" content="Sully">
+<meta property="og:description" content="JSTL标签库的使用是为弥补html标签的不足，规范自定义标签的使用而诞生的。使用JSLT标签的目的就是不希望在jsp页面中出现Java逻辑代码">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-d127528a0d31ab86.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-597d09516773d340.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-268fb142894c9400.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-c28d1999a6bf9ee5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-96a395c206042790.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-f90ac28b5496a575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-01-04T06:11:23.304Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSTL核心标签库的使用">
+<meta name="twitter:description" content="JSTL标签库的使用是为弥补html标签的不足，规范自定义标签的使用而诞生的。使用JSLT标签的目的就是不希望在jsp页面中出现Java逻辑代码">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3385496-d127528a0d31ab86.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6370579524316300000',
+      author: '奥雷里亚诺将军'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/04/jsp-jstl-core/"/>
+
+
+
+
+
+  <title> JSTL核心标签库的使用 | Sully </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Sully</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">凡人皆有一死，凡人皆需侍奉</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/04/jsp-jstl-core/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="杨重山">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/touxiang.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Sully">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Sully" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JSTL核心标签库的使用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-04T22:09:04+08:00">
+                2017-01-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/04/jsp-jstl-core/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/04/jsp-jstl-core/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><img src="http://upload-images.jianshu.io/upload_images/3385496-d127528a0d31ab86.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<hr>
+<p>JSTL标签库的使用是为弥补html标签的不足，规范自定义标签的使用而诞生的。使用JSLT标签的目的就是不希望在jsp页面中出现Java逻辑代码</p>
+<hr>
+<a id="more"></a>
+<h2 id="JSTL标签库的分类"><a href="#JSTL标签库的分类" class="headerlink" title="JSTL标签库的分类"></a>JSTL标签库的分类</h2><pre><code>• 核心标签(用得最多)
+• 国际化标签(I18N格式化标签)
+• 数据库标签(SQL标签，很少使用)
+• XML标签(几乎不用)
+• JSTL函数(EL函数)
+</code></pre><h2 id="核心标签库使用说明"><a href="#核心标签库使用说明" class="headerlink" title="核心标签库使用说明"></a>核心标签库使用说明</h2><p>JSTL的核心标签库标签共13个，使用这些标签能够完成JSP页面的基本功能，减少编码工作。</p>
+<p>从功能上可以分为4类：表达式控制标签、流程控制标签、循环标签、URL操作标签。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">（1）表达式控制标签：out标签、set标签、remove标签、catch标签。</div><div class="line">（2）流程控制标签：if标签、choose标签、when标签、otherwise标签。</div><div class="line">（3）循环标签：forEach标签、forTokens标签。</div><div class="line">（4）URL操作标签：import标签、url标签、redirect标签、param标签。</div></pre></td></tr></table></figure>
+<p>在JSP页面引入核心标签库的代码为：</p>
+<pre><code>&lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot; %&gt;
+</code></pre><h3 id="1、表达式控制标签——out标签使用总结"><a href="#1、表达式控制标签——out标签使用总结" class="headerlink" title="1、表达式控制标签——out标签使用总结"></a>1、表达式控制标签——out标签使用总结</h3><h4 id="1-1、标签的功能"><a href="#1-1、标签的功能" class="headerlink" title="1.1、标签的功能"></a>1.1、<c:out>标签的功能</c:out></h4><p><c:out>标签主要是用来输出数据对象（字符串、表达式）的内容或结果。</c:out></p>
+<p>在使用Java脚本输出时常使用的方式为： &lt;% out.println(“字符串”)%&gt; 或者 &lt;%=表达式%&gt; ，在web开发中，为了避免暴露逻辑代码会尽量减少页面中的Java脚本，使用<c:out>标签就可以实现以上功能。</c:out></p>
+<pre><code>1 &lt;c:out value=”字符串”&gt;
+2 &lt;c:out value=”EL表达式”&gt;
+</code></pre><p>JSTL的使用是和EL表达式分不开的，EL表达式虽然可以直接将结果返回给页面，但有时得到的结果为空，<c:out>有特定的结果处理功能，EL的单独使用会降低程序的易读性，建议把EL的结果输入放入<c:out>标签中。</c:out></c:out></p>
+<h4 id="1-2、标签的语法"><a href="#1-2、标签的语法" class="headerlink" title="1.2、标签的语法"></a>1.2、<c:out>标签的语法</c:out></h4><p><c:out>标签的使用有两种语法格式：</c:out></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">【语法1】：&lt;c:out value=”要显示的数据对象” [escapeXml=”true|false”] [default=”默认值”]/&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">【语法2】：&lt;c:out value=”要显示的数据对象”[escapeXml=”true|false”]&gt;默认值&lt;/c:out&gt;</div></pre></td></tr></table></figure>
+<p>这两种方式没有本质的区别，只是格式上的差别。[escapeXml=”true|false”] [default=”默认值”]这些使用[]属性表示是不是必须的。</p>
+<h4 id="1-3、标签的属性"><a href="#1-3、标签的属性" class="headerlink" title="1.3、标签的属性"></a>1.3、<c:out>标签的属性</c:out></h4><p><img src="http://upload-images.jianshu.io/upload_images/3385496-597d09516773d340.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="1-4、标签的使用范例"><a href="#1-4、标签的使用范例" class="headerlink" title="1.4、标签的使用范例"></a>1.4、<c:out>标签的使用范例</c:out></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6 &lt;head&gt;
+ 7     &lt;title&gt;JSTL: --表达式控制标签“out”标签的使用&lt;/title&gt;
+ 8 &lt;/head&gt;
+ 9 
+10 &lt;body&gt;
+11     &lt;h3&gt;&lt;c:out value=&quot;下面的代码演示了c:out的使用，以及在不同属性值状态下的结果。&quot;/&gt;&lt;/h3&gt;
+12     &lt;hr/&gt;
+13     &lt;ul&gt;
+14         &lt;%--（1）直接输出了一个字符串。 --%&gt;
+15         &lt;li&gt;（1）&lt;c:out value=&quot;JSTL的out标签的使用&quot; /&gt;&lt;/li&gt;
+16         
+17         &lt;li&gt;（2）&lt;c:out value=&quot;&lt;a href=&apos;http://www.cnblogs.com/&apos;&gt;点击链接到博客园&lt;/a&gt;&quot; /&gt;&lt;/li&gt;
+18         &lt;%--escapeXml=&quot;false&quot;表示value值中的html标签不进行转义，而是直接输出 --%&gt;
+19         &lt;li&gt;（3）&lt;c:out value=&quot;&lt;a href=&apos;http://www.cnblogs.com/&apos;&gt;点击链接到博客园&lt;/a&gt;&quot; escapeXml=&quot;false&quot;/&gt;&lt;/li&gt;
+20         
+21         &lt;%--(4）字符串中有转义字符，但在默认情况下没有转换。 --%&gt;
+22         &lt;li&gt;（4）&lt;c:out value=&quot;&amp;lt未使用字符转义&amp;gt&quot; /&gt;&lt;/li&gt;
+23         &lt;%--（5）使用了转义字符&amp;lt和&amp;gt分别转换成&lt;和&gt;符号。 --%&gt;
+24         &lt;li&gt;（5）&lt;c:out value=&quot;&amp;lt使用字符转义&amp;gt&quot; escapeXml=&quot;false&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+25         
+26         &lt;%--（6）设定了默认值，从EL表达式${null}得到空值，所以直接输出设定的默认值。 --%&gt;
+27         &lt;li&gt;（6）&lt;c:out value=&quot;${null}&quot;&gt;使用了默认值&lt;/c:out&gt;&lt;/li&gt;
+28         &lt;%--（7）未设定默认值，输出结果为空。 --%&gt;
+29         &lt;li&gt;（7）&lt;c:out value=&quot;${null}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+30         
+31         &lt;%--（8）设定了默认值，从EL表达式${null}得到空值，所以直接输出设定的默认值。 --%&gt;
+32         &lt;li&gt;（8）&lt;c:out value=&quot;${null}&quot; default=&quot;默认值&quot;/&gt;&lt;/li&gt;
+33         &lt;%--（9）未设定默认值，输出结果为空。 --%&gt;
+34         &lt;li&gt;（9）&lt;c:out value=&quot;${null}&quot;/&gt;&lt;/li&gt;
+35     &lt;/ul&gt;
+36 &lt;/body&gt;
+37 &lt;/html&gt;
+</code></pre><h3 id="2、表达式控制标签——set标签使用总结"><a href="#2、表达式控制标签——set标签使用总结" class="headerlink" title="2、表达式控制标签——set标签使用总结"></a>2、表达式控制标签——set标签使用总结</h3><h4 id="2-1、标签的功能"><a href="#2-1、标签的功能" class="headerlink" title="2.1、标签的功能"></a>2.1、<c:set>标签的功能</c:set></h4><p><c:set>标签用于把某一个对象存在指定的域范围内，或者将某一个对象存储到Map或者JavaBean对象中。</c:set></p>
+<h4 id="2-2、标签的语法"><a href="#2-2、标签的语法" class="headerlink" title="2.2、标签的语法"></a>2.2、<c:set>标签的语法</c:set></h4><p><c:set>标签的编写共有4种语法格式。</c:set></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">语法1：存值，把一个值放在指定的域范围内。</div><div class="line">&lt;c:set value=”值1” var=”name1” [scope=”page|request|session|application”]/&gt;</div><div class="line">含义：把一个变量名为name1值为“值1”的变量存储在指定的scope范围内。</div><div class="line">语法2：</div><div class="line">&lt;c:set var=”name2” [scope=”page|request|session|application”]&gt;</div><div class="line">值2</div><div class="line">&lt;/c:set&gt;</div><div class="line">含义：把一个变量名为name2，值为值2的变量存储在指定的scope范围内。</div><div class="line">语法3：</div><div class="line">&lt;c:set value=”值3” target=”JavaBean对象” property=”属性名”/&gt;</div><div class="line">含义：把一个值为“值3”赋值给指定的JavaBean的属性名。相当与setter()方法。</div><div class="line">语法4：</div><div class="line">&lt;c:set target=”JavaBean对象” property=”属性名”&gt;</div><div class="line">值4</div><div class="line">&lt;/c:set&gt;</div><div class="line">含义：把一个值4赋值给指定的JavaBean的属性名。</div></pre></td></tr></table></figure>
+<p>从功能上分语法1和语法2、语法3和语法4的效果是一样的，只是把value值放置的位置不同，至于使用那个根据个人的喜爱，语法1和语法2是向scope范围内存储一个值，语法3和语法4是给指定的JavaBean赋值。</p>
+<h4 id="2-3、标签的属性"><a href="#2-3、标签的属性" class="headerlink" title="2.3、标签的属性"></a>2.3、<c:set>标签的属性</c:set></h4><p><img src="http://upload-images.jianshu.io/upload_images/3385496-268fb142894c9400.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="2-4、标签的使用范例"><a href="#2-4、标签的使用范例" class="headerlink" title="2.4、标签的使用范例"></a>2.4、<c:set>标签的使用范例</c:set></h4><pre><code>  1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+  2 &lt;%--引入JSTL核心标签库 --%&gt;
+  3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+  4 &lt;%--使用JSP的指令元素指定要使用的JavaBean --%&gt;
+  5 &lt;jsp:useBean id=&quot;person&quot; class=&quot;javabean.Person&quot;/&gt;
+  6 &lt;%--负责实例化Bean，id指定实例化后的对象名，可以通过${person}得到person在内存中的值
+  7 （或者使用person.toString()方法）。 --%&gt;
+  8 &lt;!DOCTYPE HTML&gt;
+  9 &lt;html&gt;
+ 10 &lt;head&gt;
+ 11 
+ 12 &lt;title&gt;JSTL: --表达式控制标签“set”标签的使用&lt;/title&gt;
+ 13 
+ 14 &lt;/head&gt;
+ 15 
+ 16 &lt;body&gt;
+ 17     &lt;h3&gt;代码给出了给指定scope范围赋值的示例。&lt;/h3&gt;
+ 18     &lt;ul&gt;
+ 19         &lt;%--通过&lt;c:set&gt;标签将data1的值放入page范围中。--%&gt;
+ 20         &lt;li&gt;把一个值放入page域中:&lt;c:set var=&quot;data1&quot; value=&quot;xdp&quot; scope=&quot;page&quot;/&gt;&lt;/li&gt;
+ 21         &lt;%--使用EL表达式从pageScope得到data1的值。--%&gt;
+ 22         &lt;li&gt;从page域中得到值：${pageScope.data1}&lt;/li&gt;
+ 23         
+ 24         &lt;%--通过&lt;c:set&gt;标签将data2的值放入request范围中。--%&gt;
+ 25         &lt;li&gt;把一个值放入request域中:&lt;c:set var=&quot;data2&quot; value=&quot;gacl&quot; scope=&quot;request&quot;/&gt;&lt;/li&gt;
+ 26         &lt;%--使用EL表达式从requestScope得到data2的值。--%&gt;
+ 27         &lt;li&gt;从request域中得到值：${requestScope.data2}&lt;/li&gt;
+ 28         
+ 29         &lt;%--通过&lt;c:set&gt;标签将值name1的值放入session范围中。--%&gt;
+ 30         &lt;li&gt;把一个值放入session域中。&lt;c:set value=&quot;孤傲苍狼&quot; var=&quot;name1&quot; scope=&quot;session&quot;&gt;&lt;/c:set&gt;&lt;/li&gt;
+ 31         &lt;%--使用EL表达式从sessionScope得到name1的值。--%&gt;
+ 32         &lt;li&gt;从session域中得到值:${sessionScope.name1} &lt;/li&gt;
+ 33         
+ 34         &lt;%--把name2放入application范围中。 --%&gt;
+ 35         &lt;li&gt;把一个值放入application域中。&lt;c:set var=&quot;name2&quot; scope=&quot;application&quot;&gt;白虎神皇&lt;/c:set&gt;&lt;/li&gt;
+ 36         &lt;%--使用EL表达式从application范围中取值，用&lt;c:out&gt;标签输出使得页面规范化。 --%&gt;
+ 37         &lt;li&gt;使用out标签和EL表达式嵌套从application域中得到值： 
+ 38              &lt;c:out value=&quot;${applicationScope.name2}&quot;&gt;未得到name的值&lt;/c:out&gt;
+ 39         &lt;/li&gt;
+ 40         
+ 41         &lt;%--不指定范围使用EL自动查找得到值 --%&gt; 
+ 42         &lt;li&gt;未指定scope的范围，会从不同的范围内查找得到相应的值：${data1}、${data2}、${name1}、${name2}&lt;/li&gt;
+ 43     &lt;/ul&gt;
+ 44     &lt;hr/&gt;
+ 45     &lt;h3&gt;使用Java脚本实现以上功能&lt;/h3&gt;
+ 46     &lt;ul&gt;
+ 47     
+ 48         &lt;li&gt;把一个值放入page域中。&lt;%pageContext.setAttribute(&quot;data1&quot;,&quot;xdp&quot;);%&gt;&lt;/li&gt;
+ 49         &lt;li&gt;从page域中得到值:&lt;%out.println(pageContext.getAttribute(&quot;data1&quot;));%&gt;&lt;/li&gt;
+ 50         
+ 51         &lt;li&gt;把一个值放入request域中。&lt;%request.setAttribute(&quot;data2&quot;,&quot;gacl&quot;);%&gt;&lt;/li&gt;
+ 52         &lt;li&gt;从request域中得到值:&lt;%out.println(request.getAttribute(&quot;data2&quot;));%&gt;&lt;/li&gt;
+ 53         
+ 54         &lt;li&gt;把一个值放入session域中。&lt;%session.setAttribute(&quot;name1&quot;,&quot;孤傲苍狼&quot;);%&gt;&lt;/li&gt;
+ 55         &lt;li&gt;从session中域得到值:&lt;%out.println(session.getAttribute(&quot;name1&quot;));%&gt;&lt;/li&gt;
+ 56         &lt;%--out.println()方法与&lt;%=%&gt;表达式输出功能一样 
+ 57         但使用表达式输出（&lt;%=%&gt;）明显要比使用out.println()输出更好。
+ 58         --%&gt;
+ 59         &lt;li&gt;&lt;%=session.getAttribute(&quot;name1&quot;) %&gt;&lt;/li&gt;
+ 60         &lt;li&gt;把另一个值放入application域中。&lt;%application.setAttribute(&quot;name2&quot;,&quot;白虎神皇&quot;);%&gt;&lt;/li&gt;
+ 61         &lt;li&gt; 从application域中得到值：&lt;%out.println(application.getAttribute(&quot;name2&quot;));%&gt;&lt;/li&gt;
+ 62         &lt;li&gt;&lt;%=application.getAttribute(&quot;name2&quot;)%&gt;&lt;/li&gt;
+ 63         
+ 64         &lt;li&gt;未指定scope的范围，会从不同的范围内查找得到相应的值：
+ 65             &lt;%=pageContext.findAttribute(&quot;data1&quot;)%&gt;、
+ 66             &lt;%=pageContext.findAttribute(&quot;data2&quot;)%&gt;、
+ 67             &lt;%=pageContext.findAttribute(&quot;name1&quot;)%&gt;、
+ 68             &lt;%=pageContext.findAttribute(&quot;name2&quot;)%&gt;
+ 69         &lt;/li&gt;
+ 70         
+ 71     &lt;/ul&gt;
+ 72     &lt;hr/&gt;
+ 73     &lt;h3&gt;操作JavaBean，设置JavaBean的属性值&lt;/h3&gt;
+ 74     &lt;%--设置JavaBean的属性值，等同与setter方法，Target指向实例化后的对象，property指向要插入值的参数名。
+ 75     注意：使用target时一定要指向实例化后的JavaBean对象，也就是要跟&lt;jsp:useBean&gt;配套使用，
+ 76     也可以java脚本实例化，但这就失去了是用标签的本质意义。
+ 77     使用Java脚本实例化：
+ 78     &lt;%@page import=&quot;javabean.Person&quot;%
+ 79     &lt;% Person person=new Person(); %&gt;
+ 80      --%&gt;
+ 81     &lt;c:set target=&quot;${person}&quot; property=&quot;name&quot;&gt;孤傲苍狼&lt;/c:set&gt;
+ 82     &lt;c:set target=&quot;${person}&quot; property=&quot;age&quot;&gt;25&lt;/c:set&gt;
+ 83     &lt;c:set target=&quot;${person}&quot; property=&quot;sex&quot;&gt;男&lt;/c:set&gt;
+ 84     &lt;c:set target=&quot;${person}&quot; property=&quot;home&quot;&gt;中国&lt;/c:set&gt;
+ 85     &lt;ul&gt;
+ 86         &lt;li&gt;使用的目标对象为：${person}&lt;/li&gt;
+ 87         &lt;li&gt;从Bean中获得的name值为：&lt;c:out value=&quot;${person.name}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+ 88         &lt;li&gt;从Bean中获得的age值为：&lt;c:out value=&quot;${person.age}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+ 89         &lt;li&gt;从Bean中获得的sex值为：&lt;c:out value=&quot;${person.sex}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+ 90         &lt;li&gt;从Bean中获得的home值为：&lt;c:out value=&quot;${person.home}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+ 91     &lt;/ul&gt;
+ 92     &lt;hr/&gt;
+ 93     &lt;h3&gt;操作Map&lt;/h3&gt;
+ 94      &lt;% 
+ 95         Map map = new HashMap();
+ 96         request.setAttribute(&quot;map&quot;,map);
+ 97      %&gt;
+ 98      &lt;%--将data对象的值存储到map集合中 --%&gt;
+ 99     &lt;c:set property=&quot;data&quot; value=&quot;gacl&quot; target=&quot;${map}&quot;/&gt;
+100         ${map.data}
+101 &lt;/body&gt;
+102 &lt;/html&gt;
+</code></pre><p>jsp页面中使用到的javabean.Person类的代码如下：</p>
+<pre><code> 1 package javabean;
+ 2 
+ 3 /**
+ 4  * 项目名称：JSTLStudy 
+ 5  * 类名称：Person 
+ 6  * 类描述：一个只有getter和setter方法的JavaBean或者说一个pojo(简单的Java对象(Plain Old Java Objects))类，
+ 7  * 作为一个vo（数据传输对象）。定义了四个变量age、name、sex和home。 
+ 8  */
+ 9  
+10 public class Person {
+11 
+12     private String age;
+13 
+14     private String home;
+15 
+16     private String name;
+17 
+18     private String sex;
+19 
+20     public String getAge() {
+21         return age;
+22     }
+23 
+24     public String getHome() {
+25         return home;
+26     }
+27 
+28     public String getName() {
+29         return name;
+30     }
+31 
+32     public String getSex() {
+33         return sex;
+34     }
+35 
+36     public void setAge(String age) {
+37         this.age = age;
+38     }
+39 
+40     public void setHome(String home) {
+41         this.home = home;
+42     }
+43     public void setName(String name) {
+44         this.name = name;
+45     }
+46     public void setSex(String sex) {
+47         this.sex = sex;
+48     }
+49 }
+</code></pre><h3 id="3、表达式控制标签——remove标签使用总结"><a href="#3、表达式控制标签——remove标签使用总结" class="headerlink" title="3、表达式控制标签——remove标签使用总结"></a>3、表达式控制标签——remove标签使用总结</h3><h4 id="3-1、标签的功能"><a href="#3-1、标签的功能" class="headerlink" title="3.1、标签的功能"></a>3.1、<c:remove>标签的功能</c:remove></h4><p><c:remove>标签主要用来从指定的JSP范围内移除指定的变量。</c:remove></p>
+<h4 id="3-2、标签的语法"><a href="#3-2、标签的语法" class="headerlink" title="3.2、标签的语法"></a>3.2、<c:remove>标签的语法</c:remove></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;c:remove var=”变量名” [scope=”page|request|session|application”]/&gt;</div></pre></td></tr></table></figure>
+<p>其中var属性是必须的，scope可以以省略。</p>
+<h4 id="3-3、标签属性"><a href="#3-3、标签属性" class="headerlink" title="3.3、标签属性"></a>3.3、<c:remove>标签属性</c:remove></h4><p><img src="http://upload-images.jianshu.io/upload_images/3385496-c28d1999a6bf9ee5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="3-4、标签的使用范例"><a href="#3-4、标签的使用范例" class="headerlink" title="3.4、标签的使用范例"></a>3.4、<c:remove>标签的使用范例</c:remove></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6 &lt;head&gt;
+ 7 &lt;title&gt;JSTL: --表达式控制标签“remove”标签的使用&lt;/title&gt;
+ 8 &lt;/head&gt;
+ 9 
+10 &lt;body&gt;
+11     &lt;ul&gt;
+12         &lt;c:set var=&quot;name&quot; scope=&quot;session&quot;&gt;孤傲苍狼&lt;/c:set&gt;
+13         &lt;c:set var=&quot;age&quot; scope=&quot;session&quot;&gt;25&lt;/c:set&gt;
+14         &lt;li&gt;&lt;c:out value=&quot;${sessionScope.name}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+15         &lt;li&gt;&lt;c:out value=&quot;${sessionScope.age}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+16         &lt;%--使用remove标签移除age变量 --%&gt;
+17         &lt;c:remove var=&quot;age&quot; /&gt;
+18         &lt;li&gt;&lt;c:out value=&quot;${sessionScope.name}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+19         &lt;li&gt;&lt;c:out value=&quot;${sessionScope.age}&quot;&gt;&lt;/c:out&gt;&lt;/li&gt;
+20     &lt;/ul&gt;
+21 &lt;/body&gt;
+22 &lt;/html&gt;
+</code></pre><h3 id="4、表达式控制标签——catch标签使用总结"><a href="#4、表达式控制标签——catch标签使用总结" class="headerlink" title="4、表达式控制标签——catch标签使用总结"></a>4、表达式控制标签——catch标签使用总结</h3><h4 id="4-1、标签的功能"><a href="#4-1、标签的功能" class="headerlink" title="4.1、标签的功能"></a>4.1、<c:catch>标签的功能</c:catch></h4><p><c:catch>标签用于捕获嵌套在标签体中的内容抛出的异常。</c:catch></p>
+<h4 id="4-2、标签的语法"><a href="#4-2、标签的语法" class="headerlink" title="4.2、标签的语法"></a>4.2、<c:catch>标签的语法</c:catch></h4><p>其语法格式如下：</p>
+<pre><code>&lt;c:catch [var=&quot;varName&quot;]&gt;容易产生异常的代码&lt;/c:catch&gt;
+</code></pre><p>var属性用于标识<c:catch>标签捕获的异常对象，它将保存在page这个Web域中。</c:catch></p>
+<h4 id="4-3、标签属性"><a href="#4-3、标签属性" class="headerlink" title="4.3、标签属性"></a>4.3、<c:catch>标签属性</c:catch></h4><p><img src="http://upload-images.jianshu.io/upload_images/3385496-96a395c206042790.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="4-4、标签的使用范例"><a href="#4-4、标签的使用范例" class="headerlink" title="4.4、标签的使用范例"></a>4.4、<c:catch>标签的使用范例</c:catch></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6 &lt;head&gt;
+ 7     &lt;title&gt;JSTL: --表达式控制标签“catch”标签实例&lt;/title&gt;
+ 8 &lt;/head&gt;
+ 9 
+10 &lt;body&gt;
+11     &lt;h4&gt;catch标签实例&lt;/h4&gt;
+12     &lt;hr&gt;
+13     &lt;%--把容易产生异常的代码放在&lt;c:catch&gt;&lt;/c:catch&gt;中，
+14     自定义一个变量errorInfo用于存储异常信息 --%&gt;
+15     &lt;c:catch var=&quot;errorInfo&quot;&gt;
+16         &lt;%--实现了一段异常代码，向一个不存在的JavaBean中插入一个值--%&gt;
+17         &lt;c:set target=&quot;person&quot; property=&quot;hao&quot;&gt;&lt;/c:set&gt;
+18     &lt;/c:catch&gt;
+19     &lt;%--用EL表达式得到errorInfo的值，并使用&lt;c:out&gt;标签输出 --%&gt;
+20     异常：&lt;c:out value=&quot;${errorInfo}&quot; /&gt;&lt;br /&gt;
+21     异常 errorInfo.getMessage：&lt;c:out value=&quot;${errorInfo.message}&quot; /&gt;&lt;br /&gt;
+22     异常 errorInfo.getCause：&lt;c:out value=&quot;${errorInfo.cause}&quot; /&gt;&lt;br /&gt;
+23     异常 errorInfo.getStackTrace：&lt;c:out value=&quot;${errorInfo.stackTrace}&quot; /&gt;
+24 &lt;/body&gt;
+25 &lt;/html&gt;
+</code></pre><h3 id="5、流程控制标签——if标签使用总结"><a href="#5、流程控制标签——if标签使用总结" class="headerlink" title="5、流程控制标签——if标签使用总结"></a>5、流程控制标签——if标签使用总结</h3><h4 id="5-1、标签的功能"><a href="#5-1、标签的功能" class="headerlink" title="5.1、标签的功能"></a>5.1、<c:if>标签的功能</c:if></h4><p><c:if>标签和程序中的if语句作用相同，用来实现条件控制。</c:if></p>
+<h4 id="5-2、标签的语法"><a href="#5-2、标签的语法" class="headerlink" title="5.2、标签的语法"></a>5.2、<c:if>标签的语法</c:if></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">【语法1】：没有标签体内容(body)</div><div class="line">&lt;c:if test=&quot;testCondition&quot; var=&quot;varName&quot; [scope=&quot;&#123;page|request|session|application&#125;&quot;]/&gt;</div><div class="line">【语法2】：有标签体内容</div><div class="line">&lt;c:if test=&quot;testCondition&quot; [var=&quot;varName&quot;] [scope=&quot;&#123;page|request|session|application&#125;&quot;]&gt;</div><div class="line">    　　　　　　标签体内容</div><div class="line">&lt;/c:if&gt;</div></pre></td></tr></table></figure>
+<p>【参数说明】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">（1）test属性用于存放判断的条件，一般使用EL表达式来编写。</div><div class="line"></div><div class="line">（2）var属性用来存放判断的结果，类型为true或false。</div><div class="line"></div><div class="line">（3）scopes属性用来指定var属性存放的范围。</div></pre></td></tr></table></figure>
+<h4 id="5-3、标签的属性"><a href="#5-3、标签的属性" class="headerlink" title="5.3、标签的属性"></a>5.3、<c:if>标签的属性</c:if></h4><p><img src="http://upload-images.jianshu.io/upload_images/3385496-f90ac28b5496a575.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="5-4、标签的使用范例"><a href="#5-4、标签的使用范例" class="headerlink" title="5.4、标签的使用范例"></a>5.4、<c:if>标签的使用范例</c:if></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6 &lt;head&gt;
+ 7     &lt;title&gt;JSTL: --流程控制标签 if标签示例&lt;/title&gt;
+ 8 &lt;/head&gt;
+ 9 
+10 &lt;body&gt;
+11     &lt;h4&gt;if标签示例&lt;/h4&gt;
+12     &lt;hr&gt;
+13     &lt;form action=&quot;JSTL_if_tag.jsp&quot; method=&quot;post&quot;&gt;
+14         &lt;input type=&quot;text&quot; name=&quot;uname&quot; value=&quot;${param.uname}&quot;&gt; 
+15         &lt;input type=&quot;submit&quot; value=&quot;登录&quot;&gt;
+16     &lt;/form&gt;
+17     &lt;%--使用if标签进行判断并把检验后的结果赋给adminchock，存储在默认的page范围中。 --%&gt;
+18     &lt;c:if test=&quot;${param.uname==&apos;admin&apos;}&quot; var=&quot;adminchock&quot;&gt;
+19     &lt;%--可以把adminchock的属性范围设置为session，这样就可以在其他的页面中得到adminchock的值，
+20     使用&lt;c:if text=”${adminchock}”&gt;&lt;c:if&gt;判断，实现不同的权限。 --%&gt;
+21         &lt;c:out value=&quot;管理员欢迎您！&quot;/&gt;
+22     &lt;/c:if&gt;
+23     &lt;%--使用EL表达式得到adminchock的值，如果输入的用户名为admin将显示true。 --%&gt;
+24     ${adminchock}
+25 &lt;/body&gt;
+26 &lt;/html&gt;
+</code></pre><h3 id="6、流程控制标签——choose标签、when标签、otherwise标签配合使用讲解"><a href="#6、流程控制标签——choose标签、when标签、otherwise标签配合使用讲解" class="headerlink" title="6、流程控制标签——choose标签、when标签、otherwise标签配合使用讲解"></a>6、流程控制标签——choose标签、when标签、otherwise标签配合使用讲解</h3><h4 id="6-1、、和标签的功能"><a href="#6-1、、和标签的功能" class="headerlink" title="6.1、、和标签的功能"></a>6.1、<c:choose>、<c:when>和<c:otherwise>标签的功能</c:otherwise></c:when></c:choose></h4><p><c:choose>、<c:when>和<c:otherwise>这3个标签通常情况下是一起使用的，<c:choose>标签作为<c:when>和<c:otherwise>标签的父标签来使用。<br>使用<c:choose>，<c:when>和<c:otherwise>三个标签，可以构造类似 “if-else if-else” 的复杂条件判断结构。</c:otherwise></c:when></c:choose></c:otherwise></c:when></c:choose></c:otherwise></c:when></c:choose></p>
+<h4 id="6-2、语法"><a href="#6-2、语法" class="headerlink" title="6.2、语法"></a>6.2、语法</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;c:choose&gt;</div><div class="line">         &lt;c:when test=&quot;条件1&quot;&gt;</div><div class="line">//业务逻辑1</div><div class="line">         &lt;c:when&gt;</div><div class="line">&lt;c:when test=&quot;条件2&quot;&gt;</div><div class="line">//业务逻辑2</div><div class="line">         &lt;c:when&gt;</div><div class="line">&lt;c:when test=&quot;条件n&quot;&gt;</div><div class="line">//业务逻辑n</div><div class="line">         &lt;c:when&gt;</div><div class="line">         &lt;c:otherwise&gt;</div><div class="line">//业务逻辑</div><div class="line">&lt;/c:otherwise&gt;</div><div class="line">&lt;/c:choose&gt;</div></pre></td></tr></table></figure>
+<h4 id="6-3、使用范例"><a href="#6-3、使用范例" class="headerlink" title="6.3、使用范例"></a>6.3、使用范例</h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6   &lt;head&gt;
+ 7     &lt;title&gt;JSTL: -- choose及其嵌套标签标签示例&lt;/title&gt;
+ 8   &lt;/head&gt;
+ 9   
+10   &lt;body&gt;
+11     &lt;h4&gt;choose及其嵌套标签示例&lt;/h4&gt;
+12     &lt;hr/&gt;
+13     &lt;%--通过set标签设定score的值为85 --%&gt;
+14     &lt;c:set var=&quot;score&quot; value=&quot;85&quot;/&gt;
+15     &lt;c:choose&gt;
+16     &lt;%--使用&lt;c:when&gt;进行条件判断。
+17         如果大于等于90，输出“您的成绩为优秀”；
+18         如果大于等于70小于90，输出“您的成绩为良好”；
+19         大于等于60小于70，输出“您的成绩为及格”；
+20         其他（otherwise）输出“对不起，您没能通过考试”。
+21      --%&gt;
+22         &lt;c:when test=&quot;${score&gt;=90}&quot;&gt;
+23             你的成绩为优秀！
+24         &lt;/c:when&gt;
+25         &lt;c:when test=&quot;${score&gt;70 &amp;&amp; score&lt;90}&quot;&gt;
+26             您的成绩为良好!
+27         &lt;/c:when&gt;
+28         &lt;c:when test=&quot;${score&gt;60 &amp;&amp; score&lt;70}&quot;&gt;
+29             您的成绩为及格
+30         &lt;/c:when&gt;
+31         &lt;c:otherwise&gt;
+32             对不起，您没有通过考试！
+33         &lt;/c:otherwise&gt;
+34     &lt;/c:choose&gt;
+35   &lt;/body&gt;
+36 &lt;/html&gt;
+</code></pre><h3 id="7、循环标签——forEach标签使用总结"><a href="#7、循环标签——forEach标签使用总结" class="headerlink" title="7、循环标签——forEach标签使用总结"></a>7、循环标签——forEach标签使用总结</h3><h4 id="7-1、标签的功能"><a href="#7-1、标签的功能" class="headerlink" title="7.1、标签的功能"></a>7.1、<c:foreach>标签的功能</c:foreach></h4><p>该标签根据循环条件遍历集合（Collection）中的元素。</p>
+<h4 id="7-2、标签的语法"><a href="#7-2、标签的语法" class="headerlink" title="7.2、标签的语法"></a>7.2、<c:foreach>标签的语法</c:foreach></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;c:forEach </div><div class="line">    　　var=”name” </div><div class="line">    　　items=”Collection” </div><div class="line">    　　varStatus=”StatusName” </div><div class="line">    　　begin=”begin” </div><div class="line">    　　end=”end” </div><div class="line">    　　step=”step”&gt;</div><div class="line">    本体内容</div><div class="line">&lt;/c:forEach&gt;</div></pre></td></tr></table></figure>
+<p>【参数解析】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">（1）var设定变量名用于存储从集合中取出元素。</div><div class="line">（2）items指定要遍历的集合。</div><div class="line">（3）varStatus设定变量名，该变量用于存放集合中元素的信息。    </div><div class="line">（4）begin、end用于指定遍历的起始位置和终止位置（可选）。</div><div class="line">（5）step指定循环的步长。</div></pre></td></tr></table></figure>
+<h4 id="7-3、标签属性"><a href="#7-3、标签属性" class="headerlink" title="7.3、标签属性"></a>7.3、<c:foreach>标签属性</c:foreach></h4><p>循环标签属性说明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">属性名称	是否支持EL表达式	属性类型	是否必须	默认值</div><div class="line">var	NO	String	是	无</div><div class="line">items	YES	Arrays	是	无</div><div class="line">		Collection</div><div class="line">		Iterator</div><div class="line">		Enumeration</div><div class="line">		Map</div><div class="line">		String []args</div><div class="line">begin	YES	int	否	0</div><div class="line">end	YES	int	否	集合中最后一个元素</div><div class="line">step	YES	int	否	1</div><div class="line">varStatus	NO	String	否	无</div></pre></td></tr></table></figure>
+<p>其中varStatus有4个状态属性，如下表所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">varStatus的4个状态		</div><div class="line">属性名	类型	说明</div><div class="line">index	int	当前循环的索引值</div><div class="line">count	int	循环的次数</div><div class="line">frist	boolean	是否为第一个位置</div><div class="line">last	boolean	是否为最后一个位置</div></pre></td></tr></table></figure>
+<h4 id="7-4、使用范例"><a href="#7-4、使用范例" class="headerlink" title="7.4、使用范例"></a>7.4、<c:foreach>使用范例</c:foreach></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;%@page import=&quot;java.util.ArrayList&quot;%&gt;
+ 5 &lt;!DOCTYPE HTML&gt;
+ 6 &lt;html&gt;
+ 7   &lt;head&gt;
+ 8     &lt;title&gt;JSTL: -- forEach标签实例&lt;/title&gt;
+ 9   &lt;/head&gt;
+10   
+11   &lt;body&gt;
+12    &lt;h4&gt;&lt;c:out value=&quot;forEach实例&quot;/&gt;&lt;/h4&gt;
+13    &lt;% 
+14            List&lt;String&gt;list = new ArrayList&lt;String&gt;(); 
+15            list.add(0, &quot;贝贝&quot;); 
+16            list.add(1, &quot;晶晶&quot;); 
+17            list.add(2, &quot;欢欢&quot;); 
+18            list.add(3, &quot;莹莹&quot;); 
+19            list.add(4, &quot;妮妮&quot;); 
+20            request.setAttribute(&quot;list&quot;, list); 
+21     %&gt;
+22     &lt;B&gt;&lt;c:out value=&quot;不指定begin和end的迭代：&quot; /&gt;&lt;/B&gt;&lt;br&gt;
+23     &lt;%--不使用begin和end的迭代，从集合的第一个元素开始，遍历到最后一个元素。 --%&gt;
+24     &lt;c:forEach var=&quot;fuwa&quot; items=&quot;${list}&quot;&gt;
+25          &lt;c:out value=&quot;${fuwa}&quot;/&gt;&lt;br/&gt;
+26     &lt;/c:forEach&gt;
+27     
+28     &lt;B&gt;&lt;c:out value=&quot;指定begin和end的迭代：&quot; /&gt;&lt;/B&gt;&lt;br&gt;
+29     &lt;%--指定begin的值为1、end的值为3、step的值为2，
+30         从第二个开始首先得到晶晶，每两个遍历一次，
+31         则下一个显示的结果为莹莹，end为3则遍历结束。 --%&gt;
+32     &lt;c:forEach var=&quot;fuwa&quot; items=&quot;${list}&quot; begin=&quot;1&quot; end=&quot;3&quot; step=&quot;2&quot;&gt;
+33          &lt;c:out value=&quot;${fuwa}&quot;/&gt;&lt;br/&gt;
+34     &lt;/c:forEach&gt;
+35     
+36     &lt;B&gt;&lt;c:out value=&quot;输出整个迭代的信息：&quot; /&gt;&lt;/B&gt;&lt;br&gt;
+37     &lt;%--指定varStatus的属性名为s，并取出存储的状态信息 --%&gt;
+38     &lt;c:forEach var=&quot;fuwa&quot; 
+39                items=&quot;${list}&quot; 
+40                begin=&quot;3&quot; 
+41                end=&quot;4&quot; 
+42                varStatus=&quot;s&quot; 
+43                step=&quot;1&quot;&gt;
+44           &lt;c:out value=&quot;${fuwa}&quot; /&gt;的四种属性：&lt;br&gt;
+45              所在位置，即索引：&lt;c:out value=&quot;${s.index}&quot; /&gt;&lt;br&gt;
+46              总共已迭代的次数：&lt;c:out value=&quot;${s.count}&quot; /&gt;&lt;br&gt;
+47              是否为第一个位置：&lt;c:out value=&quot;${s.first}&quot; /&gt;&lt;br&gt;
+48              是否为最后一个位置：&lt;c:out value=&quot;${s.last}&quot; /&gt;&lt;br&gt;  
+49     &lt;/c:forEach&gt;
+50   &lt;/body&gt;
+51 &lt;/html&gt;
+</code></pre><h3 id="8、循环标签——forTokens标签使用总结"><a href="#8、循环标签——forTokens标签使用总结" class="headerlink" title="8、循环标签——forTokens标签使用总结"></a>8、循环标签——forTokens标签使用总结</h3><h4 id="8-1、标签的功能"><a href="#8-1、标签的功能" class="headerlink" title="8.1、标签的功能"></a>8.1、<c:fortokens>标签的功能</c:fortokens></h4><p>该标签用于浏览字符串，并根据指定的字符将字符串截取。</p>
+<h4 id="8-2、标签的语法"><a href="#8-2、标签的语法" class="headerlink" title="8.2、标签的语法"></a>8.2、<c:fortokens>标签的语法</c:fortokens></h4><p>语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">&lt;c:forTokens items=”strigOfTokens” </div><div class="line">            delims=”delimiters”</div><div class="line">            [var=”name” </div><div class="line">            begin=”begin” </div><div class="line">            end=”end” </div><div class="line">            step=”len” </div><div class="line">            varStatus=”statusName”] &gt;</div><div class="line">    本体内容</div><div class="line">&lt;/c:forTokens&gt;</div></pre></td></tr></table></figure>
+<p>【参数说明】</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">（1）items指定被迭代的字符串。</div><div class="line">（2）delims指定使用的分隔符。</div><div class="line">（3）var指定用来存放遍历到的成员。</div><div class="line">（4）begin指定遍历的开始位置（int型从取值0开始）。</div><div class="line">（5）end指定遍历结束的位置（int型，默认集合中最后一个元素）。</div><div class="line">（6）step遍历的步长（大于0的整型）。</div><div class="line">（7）varStatus存放遍历到的成员的状态信息。</div></pre></td></tr></table></figure>
+<h4 id="8-3、使用范例"><a href="#8-3、使用范例" class="headerlink" title="8.3、使用范例"></a>8.3、<c:fortokens>使用范例</c:fortokens></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6   &lt;head&gt;
+ 7     &lt;title&gt;JSTL: -- forTokens标签实例&lt;/title&gt;
+ 8   &lt;/head&gt;
+ 9   
+10   &lt;body&gt;
+11     &lt;h4&gt;&lt;c:out value=&quot;forToken实例&quot;/&gt;&lt;/h4&gt;
+12     &lt;hr/&gt;
+13     &lt;%--提示：分隔符的作用是根据标识，截取字符串。
+14         如果未设定分隔符或在字符串中没有找到分隔付，将把整个元素作为一个元素截取。
+15         在实际应用中用于在除去某些符号在页面中显示。 --%&gt;
+16     &lt;c:forTokens var=&quot;str&quot; items=&quot;北、京、欢、迎、您&quot; delims=&quot;、&quot;&gt;
+17         &lt;c:out value=&quot;${str}&quot;&gt;&lt;/c:out&gt;&lt;br/&gt;
+18     &lt;/c:forTokens&gt;
+19     &lt;br/&gt;
+20     &lt;c:forTokens items=&quot;123-4567-8854&quot; delims=&quot;-&quot; var=&quot;t&quot;&gt;
+21         &lt;c:out value=&quot;${t}&quot;&gt;&lt;/c:out&gt;&lt;br/&gt;
+22     &lt;/c:forTokens&gt;
+23     &lt;br/&gt;
+24     &lt;c:forTokens items=&quot;1*2*3*4*5*6*7&quot; 
+25                 delims=&quot;*&quot; 
+26                 begin=&quot;1&quot; 
+27                 end=&quot;3&quot; 
+28                 var=&quot;n&quot; 
+29                 varStatus=&quot;s&quot;&gt;
+30                   &lt;c:out value=&quot;${n}&quot; /&gt;的四种属性：&lt;br&gt;
+31                       所在位置，即索引：&lt;c:out value=&quot;${s.index}&quot; /&gt;&lt;br&gt;
+32                       总共已迭代的次数：&lt;c:out value=&quot;${s.count}&quot; /&gt;&lt;br&gt;
+33                       是否为第一个位置：&lt;c:out value=&quot;${s.first}&quot; /&gt;&lt;br&gt;
+34                       是否为最后一个位置：&lt;c:out value=&quot;${s.last}&quot; /&gt;&lt;br&gt;
+35     &lt;/c:forTokens&gt;
+36   &lt;/body&gt;
+37 &lt;/html&gt;
+</code></pre><h3 id="9、URL操作标签——import标签使用讲解"><a href="#9、URL操作标签——import标签使用讲解" class="headerlink" title="9、URL操作标签——import标签使用讲解"></a>9、URL操作标签——import标签使用讲解</h3><h4 id="9-1、标签的功能"><a href="#9-1、标签的功能" class="headerlink" title="9.1、标签的功能"></a>9.1、<c:import>标签的功能</c:import></h4><p>该标签可以把其他静态或动态文件包含到本JSP页面，与<jsp:include>的区别为：<jsp:include>只能包含同一个web应用中的文件。而<c:import>可以包含其他web应用中的文件，甚至是网络上的资源。</c:import></jsp:include></jsp:include></p>
+<h4 id="9-2、标签的语法"><a href="#9-2、标签的语法" class="headerlink" title="9.2、标签的语法"></a>9.2、<c:import>标签的语法</c:import></h4><p>【语法1】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;c:import </div><div class="line">    url=”url” </div><div class="line">    [context=”context”]</div><div class="line">    [value=”value”]</div><div class="line">    [scope=”page|request|session|application”] </div><div class="line">    [charEncoding=”encoding”]/&gt;</div></pre></td></tr></table></figure>
+<p>【语法2】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;c:import </div><div class="line">    url=”url” </div><div class="line">    varReader=”name” </div><div class="line">    [context=”context”]</div><div class="line">    [charEncoding=”encoding”]/&gt;</div></pre></td></tr></table></figure>
+<p>【参数说明】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">（1）URL为资源的路径，当引用的资源不存在时系统会抛出异常，因此该语句应该放在&lt;c:catch&gt;&lt;/c:catch&gt;语句块中捕获。</div><div class="line">（2）引用资源有两种方式：绝对路径和相对路径。</div><div class="line">    使用绝对路径的示例如下：&lt;c:import url=”http://www.baidu.com”&gt;</div><div class="line">    使用相对路径的示例如下：&lt;c:import url=”aa.txt”&gt;，aa.txt放在同一文件目录。</div><div class="line">（3）如果以“/”开头表示应用的根目录下。例如：tomcat应用程序的根目录文件夹为webapps。导入webapps下的文件bb.txt的编写方式为：&lt;c:import url=”/bb.txt”&gt;</div><div class="line">    如果访问webapps管理文件夹中其他web应用就要用context属性。</div><div class="line">（4）context属性用于在访问其他web应用的文件时，指定根目录。例如，访问root下的index.jsp的实现代码为：&lt;c:import url=”/index.jsp” context=”/root”&gt;</div><div class="line">    等同于webapps/root/index.jsp</div><div class="line">（5）var、scope、charEncoding、varReader是可选属性。</div></pre></td></tr></table></figure>
+<h4 id="9-3、标签的使用范例"><a href="#9-3、标签的使用范例" class="headerlink" title="9.3、标签的使用范例"></a>9.3、<c:import>标签的使用范例</c:import></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6   &lt;head&gt;
+ 7     &lt;title&gt;JSTL: -- import标签实例&lt;/title&gt;
+ 8   &lt;/head&gt;
+ 9 
+10   &lt;body&gt;
+11      &lt;h4&gt;&lt;c:out value=&quot;import实例&quot;/&gt;&lt;/h4&gt;
+12      &lt;hr/&gt;
+13      &lt;h4&gt;&lt;c:out value=&quot;绝对路径引用的实例&quot; /&gt;&lt;/h4&gt;
+14      &lt;%--使用绝对路径导入百度首页，
+15          导入时使用&lt;c:catch&gt;&lt;/c:catch&gt;捕获异常。
+16       --%&gt;
+17      &lt;c:catch var=&quot;error1&quot;&gt;
+18          &lt;c:import url=&quot;http://wwww.baidu.com&quot; charEncoding=&quot;utf-8&quot;/&gt;
+19      &lt;/c:catch&gt;
+20          ${error1}
+21      &lt;hr/&gt;
+22      &lt;h4&gt;
+23           &lt;c:out value=&quot;相对路径引用本应用中的文件&quot; /&gt;
+24      &lt;/h4&gt;
+25      &lt;%--使用相对路径导入同一文件夹下的“JSTL的import标签使用说明”文件，
+26          接收的字符编码格式使用charEncoding设置为utf-8。 --%&gt;
+27      &lt;c:catch var=&quot;error2&quot;&gt;
+28          &lt;c:import url=&quot;JSTL的import标签使用说明&quot; charEncoding=&quot;utf-8&quot;/&gt;
+29      &lt;/c:catch&gt;
+30       ${error2}
+31      &lt;hr/&gt;
+32       &lt;h4&gt;&lt;c:out value=&quot;使用字符串输出相对路径引用的实例，并保存在session范围内&quot; /&gt;&lt;/h4&gt;
+33       &lt;%--导入“JSTL的import标签使用说明.txt”，
+34           使用var定义的变量接收要导入的文件，并存储在session中，
+35           如果在其他页面同样也要导入该文件，只须使用&lt;c:out&gt;输出“JSTL的import标签使用说明.txt”的值即可。
+36       --%&gt;
+37       &lt;c:catch var=&quot;error3&quot;&gt;
+38            &lt;c:import 
+39                var=&quot;myurl&quot; 
+40                url=&quot;JSTL的import标签使用说明&quot; 
+41                scope=&quot;session&quot; 
+42                charEncoding=&quot;utf-8&quot;/&gt;
+43            &lt;c:out value=&quot;${myurl}&quot;&gt;&lt;/c:out&gt;
+44            &lt;hr/&gt;
+45         &lt;c:out value=&quot;${myurl}&quot; /&gt;
+46       &lt;/c:catch&gt;
+47            ${error3}
+48   &lt;/body&gt;
+49 &lt;/html&gt;
+</code></pre><h3 id="10、URL操作标签——url标签使用总结"><a href="#10、URL操作标签——url标签使用总结" class="headerlink" title="10、URL操作标签——url标签使用总结"></a>10、URL操作标签——url标签使用总结</h3><h4 id="10-1、标签的功能"><a href="#10-1、标签的功能" class="headerlink" title="10.1、标签的功能"></a>10.1、<c:url>标签的功能</c:url></h4><p><c:url>标签用于在JSP页面中构造一个URL地址，其主要目的是实现URL重写。</c:url></p>
+<h4 id="10-2、标签的语法"><a href="#10-2、标签的语法" class="headerlink" title="10.2、标签的语法"></a>10.2、<c:url>标签的语法</c:url></h4><p>【语法1】：指定一个url不做修改，可以选择把该url存储在JSP不同的范围中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&lt;c:url </div><div class="line">    value=”value” </div><div class="line">    [var=”name”]</div><div class="line">    [scope=”page|request|session|application”]</div><div class="line">    [context=”context”]/&gt;</div></pre></td></tr></table></figure>
+<p>【语法2】：配合 <c:param>标签给url加上指定参数及参数值，可以选择以name存储该url。</c:param></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;c:url </div><div class="line">    value=”value” </div><div class="line">    [var=”name”]</div><div class="line">    [scope=”page|request|session|application”]</div><div class="line">    [context=”context”]&gt;</div><div class="line">    &lt;c:param name=”参数名” value=”值”&gt;</div><div class="line">&lt;/c:url&gt;</div></pre></td></tr></table></figure>
+<h4 id="10-3、标签的主要属性"><a href="#10-3、标签的主要属性" class="headerlink" title="10.3、标签的主要属性"></a>10.3、<c:url>标签的主要属性</c:url></h4><h4 id="10-4、标签使用范例"><a href="#10-4、标签使用范例" class="headerlink" title="10.4、标签使用范例"></a>10.4、<c:url>标签使用范例</c:url></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6 &lt;head&gt;
+ 7     &lt;title&gt;JSTL: -- url标签实例&lt;/title&gt;
+ 8 &lt;/head&gt;
+ 9 
+10 &lt;body&gt;
+11     &lt;c:out value=&quot;url标签使用&quot;&gt;&lt;/c:out&gt;
+12     &lt;h4&gt;使用url标签生成一个动态的url，并把值存入session中.&lt;/h4&gt;
+13     &lt;hr/&gt;
+14     &lt;c:url value=&quot;http://www.baidu.com&quot; var=&quot;url&quot; scope=&quot;session&quot;&gt;
+15     &lt;/c:url&gt;
+16     &lt;a href=&quot;${url}&quot;&gt;百度首页(不带参数)&lt;/a&gt;
+17     &lt;hr/&gt;
+18     &lt;h4&gt;
+19         配合 &lt;c:param&gt;标签给url加上指定参数及参数值，生成一个动态的url然后存储到paramUrl变量中
+20     &lt;/h4&gt;
+21     &lt;c:url value=&quot;http://www.baidu.com&quot; var=&quot;paramUrl&quot;&gt;
+22         &lt;c:param name=&quot;userName&quot; value=&quot;孤傲苍狼&quot;/&gt;
+23         &lt;c:param name=&quot;pwd&quot;&gt;123456&lt;/c:param&gt;
+24     &lt;/c:url&gt;
+25     &lt;a href=&quot;${paramUrl}&quot;&gt;百度首页(带参数)&lt;/a&gt;
+26 &lt;/body&gt;
+27 &lt;/html&gt;
+</code></pre><h3 id="11、URL操作标签——redirect标签使用总结"><a href="#11、URL操作标签——redirect标签使用总结" class="headerlink" title="11、URL操作标签——redirect标签使用总结"></a>11、URL操作标签——redirect标签使用总结</h3><h4 id="11-1、标签的功能"><a href="#11-1、标签的功能" class="headerlink" title="11.1、标签的功能"></a>11.1、<c:redirect>标签的功能</c:redirect></h4><p>该标签用来实现请求的重定向。同时可以配合使用<c:param>标签在url中加入指定的参数。</c:param></p>
+<h4 id="11-2、标签的语法"><a href="#11-2、标签的语法" class="headerlink" title="11.2、标签的语法"></a>11.2、<c:redirect>标签的语法</c:redirect></h4><p>【语法1】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;c:redirect url=”url” [context=”context”]/&gt;</div></pre></td></tr></table></figure>
+<p>【语法2】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;c:redirect url=”url”[context=”context”]&gt;</div><div class="line">    &lt;c:param name=”name1” value=”value1”&gt;</div><div class="line">&lt;/c:redirect&gt;</div></pre></td></tr></table></figure>
+<p>【参数说明】：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">（1）url指定重定向页面的地址，可以是一个string类型的绝对地址或相对地址。</div><div class="line">（2）context用于导入其他web应用中的页面。</div></pre></td></tr></table></figure>
+<h4 id="11-3、标签的属性"><a href="#11-3、标签的属性" class="headerlink" title="11.3、标签的属性"></a>11.3、<c:redirect>标签的属性</c:redirect></h4><h4 id="11-4、标签使用范例"><a href="#11-4、标签使用范例" class="headerlink" title="11.4、标签使用范例"></a>11.4、<c:redirect>标签使用范例</c:redirect></h4><pre><code> 1 &lt;%@ page language=&quot;java&quot; import=&quot;java.util.*&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+ 2 &lt;%--引入JSTL核心标签库 --%&gt;
+ 3 &lt;%@ taglib prefix=&quot;c&quot; uri=&quot;http://java.sun.com/jsp/jstl/core&quot;%&gt;
+ 4 &lt;!DOCTYPE HTML&gt;
+ 5 &lt;html&gt;
+ 6 &lt;head&gt;
+ 7     &lt;title&gt;JSTL: -- redirect标签实例&lt;/title&gt;
+ 8 &lt;/head&gt;
+ 9 
+10 &lt;body&gt;
+11     &lt;c:redirect url=&quot;http://www.baidu.com&quot;&gt;
+12         &lt;%--在重定向时使用&lt;c:param&gt;标签为URL添加了两个参数：uname=GACL和password=123 --%&gt;
+13         &lt;c:param name=&quot;uname&quot;&gt;GACL&lt;/c:param&gt;
+14         &lt;c:param name=&quot;password&quot;&gt;123&lt;/c:param&gt;
+15     &lt;/c:redirect&gt;
+16 &lt;/body&gt;
+17 &lt;/html&gt;
+</code></pre><h3 id="12、标签使用总结"><a href="#12、标签使用总结" class="headerlink" title="12、标签使用总结"></a>12、<c:param>标签使用总结</c:param></h3><p>在JSP页面进行URL的相关操作时，经常要在URL地址后面附加一些参数。<c:param>标签可以嵌套在<c:import>、<c:url>或<c:redirect>标签内，为这些标签所使用的URL地址附加参数。</c:redirect></c:url></c:import></c:param></p>
+<p><c:param>标签在为一个URL地址附加参数时，将自动对参数值进行URL编码，例如，如果传递的参数值为“中国”， 则将其转换为“%d6%d0%b9%fa”后再附加到URL地址后面，这也就是使用<c:param>标签的最大好处。 </c:param></c:param></p>
+<p>示例1：与<c:url>标签嵌套使用</c:url></p>
+<pre><code>1 &lt;c:url value=&quot;http://www.baidu.com&quot; var=&quot;paramUrl&quot;&gt;
+2     &lt;c:param name=&quot;userName&quot; value=&quot;孤傲苍狼&quot;/&gt;
+3     &lt;c:param name=&quot;pwd&quot;&gt;123456&lt;/c:param&gt;
+4 &lt;/c:url&gt;
+5 &lt;a href=&quot;${paramUrl}&quot;&gt;百度首页(带参数)&lt;/a&gt;
+</code></pre><p>示例2：与<c:redirect>标签嵌套使用</c:redirect></p>
+<pre><code>1 &lt;c:redirect url=&quot;http://www.baidu.com&quot;&gt;
+2     &lt;%--在重定向时使用&lt;c:param&gt;标签为URL添加了两个参数：uname=GACL和password=123 --%&gt;
+3     &lt;c:param name=&quot;uname&quot;&gt;GACL&lt;/c:param&gt;
+4     &lt;c:param name=&quot;password&quot;&gt;123&lt;/c:param&gt;
+5 &lt;/c:redirect&gt;
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>大爷！赏点电费钱吧！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/3385496-bf8390384eef349d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/3385496-af50d89c24bef0e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
+          
+            <a href="/tags/jsp/" rel="tag"># jsp</a>
+          
+            <a href="/tags/jstl/" rel="tag"># jstl</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/03/huangyongyu-caoyu/" rel="next" title="黄永玉写给曹禺">
+                <i class="fa fa-chevron-left"></i> 黄永玉写给曹禺
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/04/jsp-jstl-core/"
+           data-title="JSTL核心标签库的使用" data-url="http://www.yanglc.com/2017/01/04/jsp-jstl-core/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/touxiang.jpg"
+               alt="杨重山" />
+          <p class="site-author-name" itemprop="name">杨重山</p>
+          <p class="site-description motion-element" itemprop="description">科学缩短了距离</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ChongshanYang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005052689345712" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jianshu.com/" title="JanShu" target="_blank">JanShu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next" target="_blank">Next</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://fontawesome.io/" title="Font awesome" target="_blank">Font awesome</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iissnan.com/progit/" title="Pro git" target="_blank">Pro git</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.liaoxuefeng.com/" title="Liaoxuefeng" target="_blank">Liaoxuefeng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.runoob.com/" title="runoob" target="_blank">runoob</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://w3schools.bootcss.com/default.html" title="w3schools" target="_blank">w3schools</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://music.163.com/" title="Music" target="_blank">Music</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.acfun.cn/" title="No BB" target="_blank">No BB</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JSTL标签库的分类"><span class="nav-number">1.</span> <span class="nav-text">JSTL标签库的分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心标签库使用说明"><span class="nav-number">2.</span> <span class="nav-text">核心标签库使用说明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、表达式控制标签——out标签使用总结"><span class="nav-number">2.1.</span> <span class="nav-text">1、表达式控制标签——out标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-1、标签的功能"><span class="nav-number">2.1.1.</span> <span class="nav-text">1.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-2、标签的语法"><span class="nav-number">2.1.2.</span> <span class="nav-text">1.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-3、标签的属性"><span class="nav-number">2.1.3.</span> <span class="nav-text">1.3、标签的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#1-4、标签的使用范例"><span class="nav-number">2.1.4.</span> <span class="nav-text">1.4、标签的使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、表达式控制标签——set标签使用总结"><span class="nav-number">2.2.</span> <span class="nav-text">2、表达式控制标签——set标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#2-1、标签的功能"><span class="nav-number">2.2.1.</span> <span class="nav-text">2.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-2、标签的语法"><span class="nav-number">2.2.2.</span> <span class="nav-text">2.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-3、标签的属性"><span class="nav-number">2.2.3.</span> <span class="nav-text">2.3、标签的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-4、标签的使用范例"><span class="nav-number">2.2.4.</span> <span class="nav-text">2.4、标签的使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、表达式控制标签——remove标签使用总结"><span class="nav-number">2.3.</span> <span class="nav-text">3、表达式控制标签——remove标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1、标签的功能"><span class="nav-number">2.3.1.</span> <span class="nav-text">3.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2、标签的语法"><span class="nav-number">2.3.2.</span> <span class="nav-text">3.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3、标签属性"><span class="nav-number">2.3.3.</span> <span class="nav-text">3.3、标签属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4、标签的使用范例"><span class="nav-number">2.3.4.</span> <span class="nav-text">3.4、标签的使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、表达式控制标签——catch标签使用总结"><span class="nav-number">2.4.</span> <span class="nav-text">4、表达式控制标签——catch标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#4-1、标签的功能"><span class="nav-number">2.4.1.</span> <span class="nav-text">4.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-2、标签的语法"><span class="nav-number">2.4.2.</span> <span class="nav-text">4.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-3、标签属性"><span class="nav-number">2.4.3.</span> <span class="nav-text">4.3、标签属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-4、标签的使用范例"><span class="nav-number">2.4.4.</span> <span class="nav-text">4.4、标签的使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、流程控制标签——if标签使用总结"><span class="nav-number">2.5.</span> <span class="nav-text">5、流程控制标签——if标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#5-1、标签的功能"><span class="nav-number">2.5.1.</span> <span class="nav-text">5.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-2、标签的语法"><span class="nav-number">2.5.2.</span> <span class="nav-text">5.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-3、标签的属性"><span class="nav-number">2.5.3.</span> <span class="nav-text">5.3、标签的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-4、标签的使用范例"><span class="nav-number">2.5.4.</span> <span class="nav-text">5.4、标签的使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、流程控制标签——choose标签、when标签、otherwise标签配合使用讲解"><span class="nav-number">2.6.</span> <span class="nav-text">6、流程控制标签——choose标签、when标签、otherwise标签配合使用讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#6-1、、和标签的功能"><span class="nav-number">2.6.1.</span> <span class="nav-text">6.1、、和标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-2、语法"><span class="nav-number">2.6.2.</span> <span class="nav-text">6.2、语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-3、使用范例"><span class="nav-number">2.6.3.</span> <span class="nav-text">6.3、使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、循环标签——forEach标签使用总结"><span class="nav-number">2.7.</span> <span class="nav-text">7、循环标签——forEach标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#7-1、标签的功能"><span class="nav-number">2.7.1.</span> <span class="nav-text">7.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-2、标签的语法"><span class="nav-number">2.7.2.</span> <span class="nav-text">7.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-3、标签属性"><span class="nav-number">2.7.3.</span> <span class="nav-text">7.3、标签属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-4、使用范例"><span class="nav-number">2.7.4.</span> <span class="nav-text">7.4、使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、循环标签——forTokens标签使用总结"><span class="nav-number">2.8.</span> <span class="nav-text">8、循环标签——forTokens标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1、标签的功能"><span class="nav-number">2.8.1.</span> <span class="nav-text">8.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2、标签的语法"><span class="nav-number">2.8.2.</span> <span class="nav-text">8.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3、使用范例"><span class="nav-number">2.8.3.</span> <span class="nav-text">8.3、使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、URL操作标签——import标签使用讲解"><span class="nav-number">2.9.</span> <span class="nav-text">9、URL操作标签——import标签使用讲解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#9-1、标签的功能"><span class="nav-number">2.9.1.</span> <span class="nav-text">9.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-2、标签的语法"><span class="nav-number">2.9.2.</span> <span class="nav-text">9.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-3、标签的使用范例"><span class="nav-number">2.9.3.</span> <span class="nav-text">9.3、标签的使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10、URL操作标签——url标签使用总结"><span class="nav-number">2.10.</span> <span class="nav-text">10、URL操作标签——url标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-1、标签的功能"><span class="nav-number">2.10.1.</span> <span class="nav-text">10.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-2、标签的语法"><span class="nav-number">2.10.2.</span> <span class="nav-text">10.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-3、标签的主要属性"><span class="nav-number">2.10.3.</span> <span class="nav-text">10.3、标签的主要属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-4、标签使用范例"><span class="nav-number">2.10.4.</span> <span class="nav-text">10.4、标签使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11、URL操作标签——redirect标签使用总结"><span class="nav-number">2.11.</span> <span class="nav-text">11、URL操作标签——redirect标签使用总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#11-1、标签的功能"><span class="nav-number">2.11.1.</span> <span class="nav-text">11.1、标签的功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-2、标签的语法"><span class="nav-number">2.11.2.</span> <span class="nav-text">11.2、标签的语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-3、标签的属性"><span class="nav-number">2.11.3.</span> <span class="nav-text">11.3、标签的属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-4、标签使用范例"><span class="nav-number">2.11.4.</span> <span class="nav-text">11.4、标签使用范例</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#12、标签使用总结"><span class="nav-number">2.12.</span> <span class="nav-text">12、标签使用总结</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨重山</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"iissnan-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
