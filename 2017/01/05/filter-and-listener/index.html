@@ -1,0 +1,1352 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="j2ee,servlet," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon00.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="Servlet过滤器是 Servlet 程序的一种特殊用法，主要用来完成一些通用的操作，如编码的过滤、判断用户的登录状态。过滤器使得Servlet开发者能够在客户端请求到达 Servlet资源之前被截获，在处理之后再发送给被请求的Servlet资源，并且还可以截获响应，修改之后再发送给用户。
+而Servlet监听器可以  监听客户端发出的请求、服务器端的操作，通过监听器，可以自动激发一些操作，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Servlet过滤器和监听器">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/05/filter-and-listener/index.html">
+<meta property="og:site_name" content="Sully">
+<meta property="og:description" content="Servlet过滤器是 Servlet 程序的一种特殊用法，主要用来完成一些通用的操作，如编码的过滤、判断用户的登录状态。过滤器使得Servlet开发者能够在客户端请求到达 Servlet资源之前被截获，在处理之后再发送给被请求的Servlet资源，并且还可以截获响应，修改之后再发送给用户。
+而Servlet监听器可以  监听客户端发出的请求、服务器端的操作，通过监听器，可以自动激发一些操作，">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-416e228d547bf1c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-66c82deeddfc15fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-01-05T12:21:04.795Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Servlet过滤器和监听器">
+<meta name="twitter:description" content="Servlet过滤器是 Servlet 程序的一种特殊用法，主要用来完成一些通用的操作，如编码的过滤、判断用户的登录状态。过滤器使得Servlet开发者能够在客户端请求到达 Servlet资源之前被截获，在处理之后再发送给被请求的Servlet资源，并且还可以截获响应，修改之后再发送给用户。
+而Servlet监听器可以  监听客户端发出的请求、服务器端的操作，通过监听器，可以自动激发一些操作，">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3385496-416e228d547bf1c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6370579524316300000',
+      author: '奥雷里亚诺将军'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/05/filter-and-listener/"/>
+
+
+
+
+
+  <title> Servlet过滤器和监听器 | Sully </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Sully</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">凡人皆有一死，凡人皆需侍奉</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/05/filter-and-listener/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="杨重山">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/touxiang.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Sully">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Sully" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Servlet过滤器和监听器
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-05T20:20:11+08:00">
+                2017-01-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/05/filter-and-listener/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/05/filter-and-listener/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-416e228d547bf1c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>Servlet过滤器是 Servlet 程序的一种特殊用法，主要用来完成一些通用的操作，如编码的过滤、判断用户的登录状态。过滤器使得Servlet开发者能够在客户端请求到达 Servlet资源之前被截获，在处理之后再发送给被请求的Servlet资源，并且还可以截获响应，修改之后再发送给用户。</p>
+<p>而Servlet监听器可以  监听客户端发出的请求、服务器端的操作，通过监听器，可以自动激发一些操作，如监听在线人数。</p>
+<hr>
+<a id="more"></a>
+<h2 id="Servlet过滤器"><a href="#Servlet过滤器" class="headerlink" title="Servlet过滤器"></a>Servlet过滤器</h2><p>Servlet过滤器是在Java Servlet 2.3 规范中定义的，它是一种可以插入的Web组件，它能够对Servlet 容器的接收到的客户端请求和向客户端发出的响应对象进行截获，过滤器支持对Servlet程序和JSP页面的基本请求处理功能，如日志、性能、安全、会话  处理、XSLT转换等。</p>
+<p>Servlet过滤器本身不产生请求和响应，它只提供过滤作用，Servlet过滤器能够在Servlet程序(JSP页面)被调用之前检查  request对象，修改请求头和请求内容，在Servlet程序(JSP页面)被调用之后，检查response对象，修改响应头和响应内容。</p>
+<h3 id="Servlet过滤器的特点"><a href="#Servlet过滤器的特点" class="headerlink" title="Servlet过滤器的特点"></a>Servlet过滤器的特点</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1.Servlet过滤器可以检查和修改request和response对象。 </div><div class="line"></div><div class="line">2.Servlet过滤器可以被指定与特定的URL关联，只有当客户请求访问该特定的URL时，才会触发过滤器。</div><div class="line"></div><div class="line">3.Servlet过滤器可以被串联成串，形成过滤链，协同修改请求和响应。</div></pre></td></tr></table></figure>
+<h3 id="Servlet过滤器的作用："><a href="#Servlet过滤器的作用：" class="headerlink" title="Servlet过滤器的作用："></a>Servlet过滤器的作用：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">1.查询请求并作出相应的行动。</div><div class="line"></div><div class="line">2.阻塞请求--响应对，使其不能进一步传递。</div><div class="line"></div><div class="line">3.修改请求头和内容，用户可以提供自定义的请求。</div><div class="line"></div><div class="line">4.修改响应头和内容，用户可以通过提供定制的响应版本实现。</div><div class="line"></div><div class="line">5.与外部资源进行交互。</div></pre></td></tr></table></figure>
+<h3 id="Servlet过滤器的体系结构"><a href="#Servlet过滤器的体系结构" class="headerlink" title="Servlet过滤器的体系结构"></a>Servlet过滤器的体系结构</h3><p>Servlet过滤器用于拦截传入的请求和传出的响应，并监视、修改或以某种方式处理 正在通过的数据流。Servlet过滤器是自包含、模块化的组件，可以将它们添加到请求/响应过滤链中，或者在不影响应用程序中其它Web组件的情况下删 除它们。Servlet过滤器只在改动请求和响应的运行时处理，因而不应该将它们之间嵌入到Web应用程序框架，除非是通过Servlet API中良好定义的标准接口来实现。</p>
+<p>Web资源可以配置成为没有过滤器与之关联(默认情况)、与单个过滤器关联(典型情况)，甚至是与一个过滤器链关联。其功能与Servlet一 样，主要是接收请求和响应对象，然后过滤器会检查请求对象，并决定是将该请求转发给链中的下一个过滤器，还是终止该请求并直接向客户端发会一个响应，如果  请求被转发了，它将被传递给过滤链中的下一个过滤器，或者Servlet程序(JSP页面)，在这个请求通过过滤器链并被服务器处理后，一个响应将以相反 的顺序通过该过滤链发送回去，这样就给每个Servlet过滤器提供了根据需要处理响应对象的机会。</p>
+<p>当过滤器在Servlet 2.3规范中首次引入时，只能过滤客户端和客户端所访问的指定Web资源之间的内容(请求/响应)，如果该Web资源将请求转发给其它Web资源时，那就  不能向幕后委托的任何请求应用过滤器。Servlet 2.4 规范消除了这个限制，Servlet过滤器现在可以应用于J2EE Web环境中存在请求和响应的任何地方。可见，Servlet过滤器可以应用在客户端和Servlet程序之间、Servlet程序和Servlet程序 之间、Servlet程序和JSP页面之间、JSP页面和JSP页面之间，具有强大的能力和灵活性。</p>
+<h4 id="Servlet过滤器对请求的过滤"><a href="#Servlet过滤器对请求的过滤" class="headerlink" title="Servlet过滤器对请求的过滤"></a>Servlet过滤器对请求的过滤</h4><pre><code>Servlet过滤器对请求的过滤过程如下：
+
+1.Servlet容器创建一个Servlet过滤器实例。
+2.Servlet过滤器实例调用init()方法得到初始化参数。
+3.Servlet过滤器实例调用doFilter()方法，根据初始化参数的值判断该请求是否合法，如果该请求不合法，则阻塞该请求，如果是合法请求，则调用chain.doFilter(request,response)方法将该请求向后转发。
+</code></pre><h4 id="Servlet过滤器对响应的过滤"><a href="#Servlet过滤器对响应的过滤" class="headerlink" title="Servlet过滤器对响应的过滤"></a>Servlet过滤器对响应的过滤</h4><p>Servlet过滤器对响应的过滤过程如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1.过滤器截获客户端的请求。</div><div class="line">2.重新封装ServletResponse，在封装后的ServletResponse中提供客户端自定义的输出流。</div><div class="line">3.将请求向后转发。</div><div class="line">4.Web组件产生响应。</div><div class="line">5.过滤器从被封装的ServletResponse中获取客户自定义的输出流。</div><div class="line">6.将响应内容通过客户自定义的输出流写入缓冲流。</div><div class="line">7.在缓冲流中修改响应内容后清空缓冲流，输出响应内容。</div></pre></td></tr></table></figure>
+<h3 id="Servlet过滤器的发布"><a href="#Servlet过滤器的发布" class="headerlink" title="Servlet过滤器的发布"></a>Servlet过滤器的发布</h3><p>Seevlet过滤器设计完毕之后，必须对该过滤器进行发布(配置)， 发布一个Servlet过滤器时，必须在项目的web.xml文件中加入<filter>元素和<filter- mapping="">元素，<filter>元素用来定义一个过滤器，该元素的属性有：</filter></filter-></filter></p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter-name</td>
+<td>指定过滤器的名字</td>
+</tr>
+<tr>
+<td>filter-class</td>
+<td>指定过滤器类</td>
+</tr>
+<tr>
+<td>init-param</td>
+<td>指定过滤器的初始化参数</td>
+</tr>
+</tbody>
+</table>
+<p><filter-mapping>元素用于将过滤器与URL关联，其属性有：</filter-mapping></p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter-name</td>
+<td>指定过滤器的名字</td>
+</tr>
+<tr>
+<td>url-pattern</td>
+<td>指定与过滤器关联的URL</td>
+</tr>
+</tbody>
+</table>
+<h3 id="实现一个Servlet过滤器"><a href="#实现一个Servlet过滤器" class="headerlink" title="实现一个Servlet过滤器"></a>实现一个Servlet过滤器</h3><h4 id="Servlet过滤器接口的构成"><a href="#Servlet过滤器接口的构成" class="headerlink" title="Servlet过滤器接口的构成"></a>Servlet过滤器接口的构成</h4><p>所有的Servlet过滤器都必须实现javax.servlet.filter接口，该接口中定义了3个过滤器必须实现的方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1.void  init(FilterConfig)：过滤器的初始化方法，Servlet容器在创建过滤器实例时调用这个方法，在这个方法中可以读出在web.xml文件中为该过滤器配置的初始化参数。</div><div class="line"></div><div class="line">2.void  doFilter(ServletRequest,ServletResponse,FilterChain)：用于完成实际的过滤操作，当客户请求访问与过滤器相关联的URL时，Servlet容器将先调用过滤器的这个方法，FilterChain参数用于访问后续过滤器。</div><div class="line"></div><div class="line">3.void  destroy()：过滤器在被取消前执行这个方法，释放过滤器申请的资源。</div></pre></td></tr></table></figure>
+<h4 id="Servlet过滤器的创建步骤"><a href="#Servlet过滤器的创建步骤" class="headerlink" title="Servlet过滤器的创建步骤"></a>Servlet过滤器的创建步骤</h4><p>创建一个Servlet过滤器需要下面的步骤：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">1.创建一个实现了javax.servlet.Filter接口的类。</div><div class="line"></div><div class="line">2.重写init(FilterConfig)方法，读入为过滤器配置的初始化参数，申请过滤器需要的资源。</div><div class="line"></div><div class="line">3.重写方法doFilter(ServletRequest,ServletResponse,FilterChain)，完成过滤操作，可以  从ServletRequest参数中得到全部的请求信息，从ServletResponse参数中得到全部的响应信息。</div><div class="line"></div><div class="line">4.在doFilter()方法的最后，使用FilterChain参数的doFilter()方法将请求和响应后传。</div><div class="line"></div><div class="line">5.对响应的Servlet程序和JSP页面注册过滤器，在部署描述文件(web.xml)中使用&lt;filter-apping&gt;和&lt;filter&gt;元素对过滤器进行配置。</div></pre></td></tr></table></figure>
+<h4 id="编写过滤器类"><a href="#编写过滤器类" class="headerlink" title="编写过滤器类"></a>编写过滤器类</h4><p>在过滤器中，需要使用3个简单的接口，它们是：分别是Filter、FilterChain、FilterConfig，全部包含在javax.servlet包中。从编程的角度看，过滤器类要实现Filter接口，然后使用实现了FilterChain和FilterConfig接口的对象来工作，FilterChain对象负责将请求和响应后传，FilterConfig对象负责为过滤器读初始化参数。</p>
+<p>为了与过滤器的三步模式(创建、工作、撤消)保持一致，过滤器必须重写Filter接口中的三个方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">init()：在容器实例化过滤器市时被调用，主要为过滤器做初始化，该方法有一个FilterConfig类型的形参。</div><div class="line"></div><div class="line">doFilter()：这个方法用来完成真正的过滤操作，它有3个形式参数：ServletRequest参数包含请求信息，ServletResponse参数包含响应信息，FilterChain参数用来将请求和响应向后传递。</div><div class="line"></div><div class="line">destroy()：过滤器被撤消时调用这个方法，释放过滤器所 占有的资源。</div></pre></td></tr></table></figure>
+<p>在下面的例子中实现了一个简单的Servlet过滤器(SessionFilter.Java)，它实现的功能是判断客户是否成功登录，如果成功登录，转向正确页面，否则返回一个错误页面，提示客户应该进行登录。该过滤器代码如下：</p>
+<pre><code>//includeList:数组，受保护的资源。
+//logonList：数组，登录页面。
+package ch13;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+public class SessionFilter implements Filter{
+    String  logonStrings,includeStrings,redirectPath,disabletestfilter;
+    String[]  logonList,includeList;
+
+    private boolean  isContains(String containers,String[] regx) {
+        boolean  result=false;
+        for(int  i=0;i&lt;regx.length;i++) {
+            if  (containers.indexOf(regx[i])!=-1)
+                return  true;
+        }
+        return  result;
+    }
+
+    public FilterConfig config;
+    private void  setFilterConfig(FilterConfig config) {
+        this.config=config;
+    }
+
+    private FilterConfig  getFilterConfig(){
+        return  config;
+    }
+
+    //必须重写
+    public void init(FilterConfig filterConfig) throws ServletException{
+        this.config=filterConfig;
+        logonStrings=config.getInitParameter(&quot;logonStrings&quot;);
+         includeStrings=config.getInitParameter(&quot;includeStrings&quot;);
+         redirectPath=config.getInitParameter(&quot;redirectPath&quot;);
+         disabletestfilter=config.getInitParameter(&quot;disabletestfilter&quot;);
+        logonList=logonStrings.split(&quot;;&quot;);//分割为数组
+         includeList=includeStrings.split(&quot;;&quot;);//分割为数组
+    }
+    //必须重写
+    public void  doFilter(ServletRequest request,ServletResponse response,FilterChain 
+                                chain)  throws ServletException, IOException {
+        HttpServletRequest  httpreq=(HttpServletRequest)request;
+        HttpServletResponse  httpres=(HttpServletResponse)response;
+        HttpServletResponseWrapper  wrapper=new HttpServletResponseWrapper(
+        (HttpServletResponse)response);
+        if  (disabletestfilter.toUpperCase().equals(&quot;Y&quot;)){
+            chain.doFilter(request,response);//如果不过滤
+            return;
+        }
+        Object  user=httpreq.getSession().getAttribute(&quot;userinfo&quot;);
+        if  (user==null){//该用户没有登录
+            if  (!isContains(httpreq.getRequestURI(),includeList)){
+                chain.doFilter(request,response);
+                return;//访问的是不受保护的页面，可以
+            }
+            if  (isContains(httpreq.getRequestURI(),logonList)){
+                chain.doFilter(request,response);
+                return;  //访问的是登录页面，可以
+            }
+            wrapper.sendRedirect(redirectPath);  //转向登页面 
+        }else  {//该用户已经登录
+            chain.doFilter(request,response);
+        }
+    }
+    //必须重写
+    public void destroy() {
+        config=null;
+    }
+}
+</code></pre><p>在上面的这个Servlet过滤器程序中，根据用户session对象中有无userinfo这个属性来确定该用户是否已经登录。</p>
+<h4 id="配置部署过滤器"><a href="#配置部署过滤器" class="headerlink" title="配置部署过滤器"></a>配置部署过滤器</h4><p>在WEB-INF/web.xml文件中用以下代码配置过滤器：</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;SessionFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;ch13.SessionFilter&lt;/filter-class&gt;  
+    &lt;init-param&gt;
+        &lt;param-name&gt;logonStrings&lt;/param-name&gt;
+        &lt;param-value&gt;Login.jsp&lt;/param-value&gt;  
+    &lt;/init-param&gt; 
+    &lt;init-param&gt;
+        &lt;param-name&gt;includeStrings&lt;/param-name&gt;
+        &lt;param-value&gt;.jsp;.html;.htm&lt;/param-value&gt; 
+    &lt;/init-param&gt; 
+    &lt;init-param&gt;
+        &lt;param-name&gt;redirectPath&lt;/param-name&gt;
+        &lt;param-value&gt;./Login.jsp&lt;/param-value&gt;  
+    &lt;/init-param&gt; 
+    &lt;init-param&gt;
+        &lt;param-name&gt;disabletestfilter&lt;/param-name&gt;
+        &lt;param-value&gt;n&lt;/param-value&gt;  
+    &lt;/init-param&gt; 
+&lt;/filter&gt; 
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;SessionFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>在上面的配置中，参数logonStrings指定可以访问的登录页面，参数includeStrings指定受保护的资源的后缀，参数redirectPath表示没有登录时转向的登录页面，参数disabletestfilter表示过滤器是否有效。而 /* 表示过滤器与所有的URL都关联(对所有的访问请求都进行过滤)。在浏览器中访问任意的资源时，都要通过这个过滤器的过滤。</p>
+<h3 id="过滤器的应用案例"><a href="#过滤器的应用案例" class="headerlink" title="过滤器的应用案例."></a>过滤器的应用案例.</h3><h4 id="版权过滤器的应用案例"><a href="#版权过滤器的应用案例" class="headerlink" title="版权过滤器的应用案例"></a>版权过滤器的应用案例</h4><p>在一个Web应用中的所有页面的下面添加上版权信息，通常的做法是采用&lt;%@ include&gt;指令或<c:import> 标签，使用过滤器也是一个好办法。</c:import></p>
+<p>编写过滤器类CopyrightFilter.java</p>
+<pre><code>package ch13;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+public class CopyrightFilter implements Filter{
+    private String date;
+    public FilterConfig config;
+    //必须重写
+    public void init(FilterConfig filterConfig) throws ServletException{
+        this.config=filterConfig;
+        date=config.getInitParameter(&quot;date&quot;);
+    }
+    //必须重写
+    public void doFilter(ServletRequest request,ServletResponse response,FilterChain 
+                                        chain)  throws ServletException, IOException {
+        chain.doFilter(request,response);
+        PrintWriter  out=response.getWriter();
+        out.print(&quot;&lt;br&gt;&lt;center&gt;&lt;font  size=&apos;3&apos; color=&apos;red&apos;&gt;版权所有：yanglc
+                                                        &lt;/center&gt;&lt;/font&gt;&quot;);
+        if  (date!=null) 
+            out.print(&quot;&lt;br&gt;&lt;center&gt;&lt;font  color=&apos;blue&apos;&gt;&quot;+date+&quot;&lt;/center&gt;&lt;/font&gt;&quot;);
+        out.flush();
+    }
+    //必须重写
+    public void destroy() {
+        config=null;
+    }
+}
+</code></pre><p>在这个过滤器中，在doFilter()方法的最后，通过response对象得到一个输出流out，然后通过输出流向客户端输出版权信息，这样，每个页面的最后都会出现过滤器添加的版权信息。</p>
+<p>修改web.xml，配置该过滤器</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;CopyrightFilter&lt;/filter-name&gt;
+        &lt;filter-class&gt;ch13.CopyrightFilter&lt;/filter-class&gt;  
+    &lt;init-param&gt;
+        &lt;param-name&gt;date&lt;/param-name&gt;
+        &lt;param-value&gt;2010-9&lt;/param-value&gt;  
+    &lt;/init-param&gt; 
+&lt;/filter&gt; 
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;CopyrightFilter&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>测试</p>
+<p>在浏览器中任意访问一个页面，都可以在看到在页面的下部出现过滤器添加的版权信息。</p>
+<h4 id="禁止未授权的IP访问站点过滤器的应用案例"><a href="#禁止未授权的IP访问站点过滤器的应用案例" class="headerlink" title="禁止未授权的IP访问站点过滤器的应用案例"></a>禁止未授权的IP访问站点过滤器的应用案例</h4><p>使用过滤器禁止未授权的IP访问站点是过滤器常见的应用，本例演示了如何利用过滤器实现禁止未授权的IP访问站点。</p>
+<p>编写过滤器类FilterIP.java</p>
+<pre><code>package ch13;
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+public class FilterIP implements Filter{
+    private String  filterIP,error;
+    public FilterConfig config;
+    //必须重写
+    public void init(FilterConfig filterConfig) throws  ServletException{
+        this.config=filterConfig;
+        filterIP=config.getInitParameter(&quot;FilterIP&quot;);
+        if  (filterIP==null) filterIP=&quot;&quot;;
+        error=config.getInitParameter(&quot;ERROR&quot;);
+        if  (error==null) error=&quot;error.jsp&quot;;
+    }
+    //必须重写
+    public void doFilter(ServletRequest request,ServletResponse response,FilterChain 
+                                        chain)  throws ServletException, IOException {
+        RequestDispatcher  dispatcher=request.getRequestDispatcher(&quot;ErrorInfo.jsp&quot;);
+        String remoteIP=request.getRemoteAddr();//得到客户的IP地址
+        if  (remoteIP.equals(filterIP)) {
+            dispatcher.forward(request,response);
+            return;
+        }  else
+            chain.doFilter(request,response);
+    }
+    //必须重写
+    public void destroy() {
+        config=null;
+    }
+}
+</code></pre><p>在这个过滤器中，在doFilter()方法内，通过request对象得到客户端的IP地址，如果客户端的IP是被禁止的IP，则使用request对象将请求转发给一个出错页面。</p>
+<p>修改web.xml，配置过滤器</p>
+<pre><code>&lt;filter&gt;
+    &lt;filter-name&gt;FilterIP&lt;/filter-name&gt;
+        &lt;filter-class&gt;ch13.FilterIP&lt;/filter-class&gt;  
+    &lt;init-param&gt;
+        &lt;param-name&gt;FilterIP&lt;/param-name&gt;
+        &lt;param-value&gt;192.168.1.1&lt;/param-value&gt;  
+    &lt;/init-param&gt; 
+    &lt;init-param&gt;
+        &lt;param-name&gt;ERROR&lt;/param-name&gt;
+        &lt;param-value&gt;error.jsp&lt;/param-value&gt;  
+    &lt;/init-param&gt;
+&lt;/filter&gt; 
+&lt;filter-mapping&gt;
+    &lt;filter-name&gt;FilterIP&lt;/filter-name&gt;
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+&lt;/filter-mapping&gt;
+</code></pre><p>对来自192.168.1.1的客户的所有请求(/*)都进行过滤，转移到error.jsp页面。</p>
+<p>编写出错页面error.jsp</p>
+<pre><code>&lt;%@  page contentType=&quot;text/html;charset=gb2312&quot; %&gt;
+</code></pre><p>网站不允许IP地址为192.168.1.1的计算机访问。</p>
+<p>在IP地址为  192.168.1.1 的计算机上访问网站的任何一个资源，都会转移到error.jsp页面。</p>
+<h4 id="过滤页面内容-响应内容"><a href="#过滤页面内容-响应内容" class="headerlink" title="过滤页面内容(响应内容)"></a>过滤页面内容(响应内容)</h4><p>本过滤器使用HttpServletResponseWrapper类  来实现页面内容的过滤，它的原理是让Web资源先将页面内容(响应内容)写入到HttpServletResponseWrapper对象中，然后再在过  滤器中处理HttpServletResponseWrapper对象中的页面内容(响应内容)，最后再将处理好的页面内容(响应内容)发送给客户。</p>
+<p>编写HttpServletResponseWrapper类的子类.java</p>
+<pre><code>package ch13;
+import java.io.ByteArrayOutputStream; 
+import java.io.OutputStreamWriter; 
+import java.io.IOException; 
+import java.io.PrintWriter; 
+import java.io.UnsupportedEncodingException; 
+import javax.servlet.http.HttpServletResponse; 
+import javax.servlet.http.HttpServletResponseWrapper;
+import javax.servlet.ServletOutputStream;
+public class WrapperResponse extends  HttpServletResponseWrapper { 
+    public static final int  OT_NONE = 0, OT_WRITER = 1, OT_STREAM = 2; 
+    private int outputType =  OT_NONE; 
+    private ServletOutputStream  output = null; 
+    private PrintWriter writer =  null; 
+    private ByteArrayOutputStream  buffer = null; 
+
+    //构造函数 
+    public  WrapperResponse(HttpServletResponse resp) throws IOException { 
+        super(resp);  
+        buffer  = new ByteArrayOutputStream(); 
+    } 
+
+    //得到字符输出流
+    public PrintWriter getWriter() throws IOException { 
+        if  (outputType == OT_STREAM) 
+            throw  new IllegalStateException(); //已经用了OutputStream流
+        else  if (outputType == OT_WRITER) 
+            return  writer; 
+        else  { 
+            outputType  = OT_WRITER; 
+            writer  = new PrintWriter(new  OutputStreamWriter(buffer, getCharacterEncoding())); 
+            return  writer; 
+        } 
+    }
+
+    //得到字节输出流
+    public ServletOutputStream getOutputStream() throws IOException { 
+        if  (outputType == OT_WRITER) 
+            throw  new IllegalStateException(); //已经用了Writer流
+        else  if (outputType == OT_STREAM) 
+            return  output; 
+        else  { 
+            outputType  = OT_STREAM; 
+            output  = new WrappedOutputStream(buffer); 
+            return  output; 
+        } 
+    } 
+
+    //刷新输出内容
+    public void flushBuffer() throws IOException { 
+        if  (outputType == OT_WRITER) 
+            writer.flush();  
+        if  (outputType == OT_STREAM) 
+            output.flush();  
+    } 
+
+    //输出缓冲区复位
+    public void reset() { 
+        outputType  = OT_NONE; 
+        buffer.reset();  
+    } 
+    public String  getResponseData() throws IOException { 
+        flushBuffer();  
+        return  new String(buffer.toByteArray()); 
+    } 
+
+    //内部类，将数据写入自己的定义的缓冲区
+    class WrappedOutputStream extends ServletOutputStream { 
+            private  ByteArrayOutputStream buffer; 
+            public  WrappedOutputStream(ByteArrayOutputStream buffer) { 
+                this.buffer  = buffer; 
+            }  
+            public  void write(int b) throws IOException { 
+                buffer.write(b);  
+            }  
+            public  byte[] toByteArray() { 
+                return  buffer.toByteArray(); 
+            }  
+    } 
+} 
+</code></pre><p>在这个类中，一定要重写response对象的关于输出流（outputStream、writer）操作的方法：getOutputStream()、getWriter()、flushBuffer()、reset()。</p>
+<p>编写过滤器GavinFilter.java</p>
+<pre><code>package ch13;
+ import java.io.IOException; 
+ import javax.servlet.*; 
+ import javax.servlet.http.HttpServletRequest; 
+ import javax.servlet.http.HttpServletResponse; 
+ public class GavinFilter implements Filter { 
+     private String  oldword=&quot;%&quot; , newword=&quot;百分号&quot;; 
+     public void destroy(){}
+     public void  doFilter(ServletRequest request, ServletResponse response, FilterChain
+                                             chain)  throws IOException, ServletException { 
+         HttpServletResponse  oldresponse = (HttpServletResponse)response; 
+         WrapperResponse  wrapperResponse = new WrapperResponse(oldresponse); 
+         chain.doFilter(request,  wrapperResponse); //让服务器将响应内容写到Wrapper中
+         String  html = wrapperResponse.getResponseData(); //取出响应内容
+         oldresponse.getWriter().print(html.replaceAll(oldword,  newword)); //替换页面中的文字，然后发送给客户
+     } 
+     public void init(FilterConfig config) throws ServletException {
+         oldword=config.getInitParameter(&quot;oldword&quot;);
+         newword=config.getInitParameter(&quot;newword&quot;);
+     } 
+ }
+</code></pre><p>该过滤器将页面内容(响应内容)中的字符 % 替换为百分号三个汉字，由此可见，实现了对响应内容的过滤。 </p>
+<p>对该过滤器的配置</p>
+<pre><code>&lt;filter&gt; 
+    &lt;filter-name&gt;gavinFilter&lt;/filter-name&gt;  
+    &lt;filter-class&gt;ch13.GavinFilter&lt;/filter-class&gt;  
+    &lt;init-param&gt; 
+        &lt;param-name&gt;oldword&lt;/param-name&gt;  
+        &lt;param-value&gt;%&lt;/param-value&gt; 
+    &lt;/init-param&gt; 
+    &lt;init-param&gt; 
+        &lt;param-name&gt;newword&lt;/param-name&gt;  
+        &lt;param-value&gt;百分号&lt;/param-value&gt; 
+    &lt;/init-param&gt; 
+&lt;/filter&gt;
+&lt;filter-mapping&gt; 
+    &lt;filter-name&gt;gavinFilter&lt;/filter-name&gt;  
+    &lt;url-pattern&gt;/*&lt;/url-pattern&gt;  
+&lt;/filter-mapping&gt; 
+</code></pre><h2 id="Servlet监听器"><a href="#Servlet监听器" class="headerlink" title="Servlet监听器"></a>Servlet监听器</h2><p>Servlet监听器也叫做 listener，通过它可以监听Web应用的上下文(环境)信息、Servlet请求信息、Servlet会话信息，并自动根据不同情况，在后台调用相  应的处理程序。通过监听器，可以自动激发一些操作，比如监听在线人数，当增加一个HttpSession时就激发 sessionCreated(HttpSessionEvent)方法，这样就可以给在线人数加1。</p>
+<h3 id="监听器的原理"><a href="#监听器的原理" class="headerlink" title="监听器的原理"></a>监听器的原理</h3><p>Servlet监听器是Web应用开发的一个重要组成部分，Servlet监听器是在Servlet2.3规范中和Servlet过滤器一起引入的。在 Servlet2.4 规范中对其进行了比较大的改进。主要就是用来对Web应用进行监督和控制，极大地增强了Web应用的事件处理能力。</p>
+<p>Servlet监听器的功能比较类似于Java中的GUI程序的监听器，可以监听由于Web应用中的状态改变而引起的Servlet容器产生的相应事件，然后接收并处理这些事件。</p>
+<h3 id="监听器的类型"><a href="#监听器的类型" class="headerlink" title="监听器的类型"></a>监听器的类型</h3><p>在Servlet 2.4 规范中，根据监听对象的类型和范围，将监听器分为3类：ServletRequest监听器(请求监听器)、HttpSession监听器(会话监听器)、ServletContext监听器(上下文监听器)，其中请求监听器(ServletRequest监听器)是  Servlet 2.4 规范中新增加的监听器，可以用来监听客户的端请求，在Servlet 2.4 </p>
+<p>规范中包含了8个监听器接口和6个监听器事件类，具体的监听器接口和事件如下表：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-66c82deeddfc15fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="被监听对象ServletContext"><a href="#被监听对象ServletContext" class="headerlink" title="被监听对象ServletContext"></a>被监听对象ServletContext</h4><p>对ServletContext对象(JSP页面中称为application对象)实现监听涉及2个接口：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">(1)ServletContextListener接口：用于监听ServletContext对象的创建和删除：接口中定义的回调方法有：</div><div class="line"></div><div class="line">  当创建一个ServletContext对象时，激发  contextInitialzed(ServletContextEvent)方法。</div><div class="line">  当撤消一个ServletContext对象时，激发  contextDestroyed(ServletContextEvent)方法。</div><div class="line"></div><div class="line">(2)ServletContextAttributeListener接口：用于监听ServletContext对象的属性操作。接口中定义的回调方法有：</div><div class="line"></div><div class="line">  增加属性时，激发 attributeAdded(ServletContextAttributeEvent)</div><div class="line">  删除属性时，激发 attributeRemoved(ServletContextAttributeEvent) </div><div class="line">  修改属性时，激发 attributeReplaced(ServletContextAttributeEvent)</div></pre></td></tr></table></figure></p>
+<h4 id="被监听对象HttpSession"><a href="#被监听对象HttpSession" class="headerlink" title="被监听对象HttpSession"></a>被监听对象HttpSession</h4><p>对HttpSession对象(session)实现监听涉及4个接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"></div><div class="line">(1)HttpSessionListener接口：这个接口监听Http会话的创建和撤消，并在某个session对象建立和销毁之前调用某个方法。接口中定义的回调方法有：</div><div class="line"></div><div class="line">创建一个session对象时，激发  sessionCreated(HttpSessionEvent)</div><div class="line">删除一个session对象时，激发 sessionDestroyed(HttpSessionEvent)</div><div class="line"></div><div class="line">(2)HttpSessionActivationListener接口：监听Http会话的active和passivate状态。接口中定义的回调方法有：</div><div class="line"></div><div class="line">session对象被保存到磁盘时，激发 sessionWillPassivate(HttpSessionEvent)</div><div class="line">session对象被调入内存时，激发 sessionDidActivate(HttpSessionEvent)</div><div class="line"></div><div class="line">Activate与Passivate是用于置换session对象的动作，当Web服务器因为资源利用或负载平衡等原因要将内存中的 session对象暂时储存至硬盘或其它储存器时(通过对象序列化)，所作的动作称之为Passivate，而硬盘或储存器上的session对象重新加 载到JVM中时所采的动作称之为Activate。sessionDidActivate()方法与 sessionWillPassivate()方法分别于Activeate后与Passivate前被调用。 </div><div class="line"></div><div class="line">(3)HttpSessionAttributeListener接口：监听Http会话中属性的设置信息。接口中定义的回调方法有：</div><div class="line"></div><div class="line">向某个session对象中增加新属性时，激发  attributeAdded(HttpSessionBindingEvent)</div><div class="line">删除某个session对象中的属性时，激发 attributeRemoved(HttpSessionBindingEvent)</div><div class="line">修改某个session对象中的属性时，激发 attributeReplaced(HttpSessionBindingEvent)</div><div class="line"></div><div class="line">使用HttpSessionBindingEvent事件类对象的getSession()方法可以得到这个session对象，使用 HttpSessionBindingEvent对象的getName()方法得到属性的名字，使用getValue()方法得到属性的值。</div><div class="line"></div><div class="line">若有属性加入到某个会话（HttpSession）对象，则会调用attributeAdded()，同理在替换属性与移除属性时，会分别调用attributeReplaced()、attributeRemoved()。</div><div class="line"></div><div class="line">(4)HttpSessionBindingListener接口：这是唯一一个不需要在web.xml中进行配置的监听器接口，监听Http会话中属性的变化情况。接口中定义的回调方法有：</div><div class="line"></div><div class="line">属性被加入到session中时，激发属性的 valueBound(HttpSessionBindingEvent)</div><div class="line">属性被从session中删除时，激发属性的 valueUnbound(HttpSessionBindingEvent)</div><div class="line"></div><div class="line">使用HttpSessionBindingEvent事件类对象的getSession()方法可以得到这个session对象，使用 HttpSessionBindingEvent对象的getName()方法得到属性的名字，使用getValue()方法得到属性的值。</div></pre></td></tr></table></figure>
+<p>如果一个对象object实现了HttpSessionBindingListener接口时，当把object对象保存到session中时， 就会自动调用object对象的valueBound()方法，如果对象object被从session（HttpSession）移除时，则会调用 object对象的valueUnbound()方法。使用这个接口，可以让一个对象自己知道它自己是被保存到了session中，还是从session 中被删除了。     </p>
+<h4 id="被监听对象ServletRequest"><a href="#被监听对象ServletRequest" class="headerlink" title="被监听对象ServletRequest"></a>被监听对象ServletRequest</h4><p>对ServletRequest对象(request)实现监听涉及2个接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">(1)ServletRequestListener接口：监听请求的创建和撤消，该接口用来监听请求到达和结束，因此可以在请求达到前和请求结束前执行一些用户行为。  接口中定义的回调方法有： </div><div class="line"></div><div class="line">请求对象初始化时，激发 requestInitialized(ServletRequestEvent)</div><div class="line">请求对象被撤消时，激发  requestDestroyed(ServletRequestEvent)</div><div class="line"></div><div class="line">在request（HttpServletRequest）对象建立或被消灭时，会分别调用requestInitialized()和requestDestroyed()方法。</div><div class="line"></div><div class="line">(2)ServletRequestAttributeListener接口：监听请求中(request对象中)的属性变化。接口中定义的回调方法有：</div><div class="line"></div><div class="line">向某个request对象中增加属性时被调用attributeAdded(ServletRequestAttributeEvent)方法。</div><div class="line">从某个request对象中删除属性时被调用attributeRemoved(ServletRequestAttributeEvent)方法。</div><div class="line">修改某个request中的属性时被调用attributeReplaced(ServletRequestAttributeEvent)方法。</div><div class="line"></div><div class="line">使用ServletRequestEvent类的getServletRequest()方法可以得到这个被监听的请求对象，使用  ServletRequestAttributeEvent类的getName()方法可以得到属性名，getValue()方法可以得到属性的值。</div><div class="line">若有属性加入到某个request对象中时则会调用attributeAdded()，同理在替换属性与删除属性时，会分别调用attributeReplaced()、 attributeRemoved()。</div></pre></td></tr></table></figure>
+<p>当Web应用程序启动后，在处理任何请求之前，调用contextInitialzed()方法和getInitParamter()方法，返回  在配置文件中为定义的环境初始化信息。不同的组件，如Servlet、JSP、监听器和过滤器等，通过ServletRequest、 HttpSession 和 ServletContext达到数据共享，这些类都提供了下面的一组方法，可以使用这组方法来设置、获取、删除属性：</p>
+<pre><code>public void  setAttribute(&quot;属性名&quot;,属性值);
+public Object  getAttribute(&quot;属性名&quot;);
+public void  removeAttribute(&quot;属性名&quot;);
+</code></pre><h3 id="监听器管理共享数据库连接"><a href="#监听器管理共享数据库连接" class="headerlink" title="监听器管理共享数据库连接"></a>监听器管理共享数据库连接</h3><p>在web.xml中，使用<listener>来配置监听器，语法是：</listener></p>
+<pre><code>&lt;listener&gt;
+  &lt;listener-class&gt;包名.类名&lt;/listener-class&gt;
+&lt;/listener&gt;
+</code></pre><p>比如：创建一个ServletContext对象监听器，在一个Web项目一启动就创建一个与数据库的连接，保存在application对象中，这个连接一直保存到Web项目关闭时为止。程序代码如下：</p>
+<pre><code>package ch13;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import java.sql.*;
+//import ch7.db.*; 
+public final class MyConnectionManager implements ServletContextListener {
+  Connection con=null;
+  public void  contextInitialized(ServletContextEvent e) {//重写接口定义的方法，项目启动是调用该方法
+      ConnectDB db=new ConnectDB();
+      con=db.getConnection();  //使用对象db创建数据库连接
+      e.getServletContext().setAttribute(&quot;con&quot;,con);//与数据库的连接保存入application对象中
+  }
+  public void contextDestroyed(ServletContextEvent  e) {//重写接口定义的方法，项目关闭时调用该方法
+      try {
+          con.close();
+      }
+      catch(Exception  e1){}
+  }
+}
+</code></pre><p>在web.xml文件对这个ServletContext类型的监听器进行配置：</p>
+<pre><code>&lt;listener&gt;
+  &lt;listener-class&gt;ch13.MyConnectionManager&lt;/listener-class&gt;
+&lt;/listener&gt; 
+</code></pre><p>这个监听器能保证每新创建一个ServletContext对象时(一个Web项目只有一个 ServletContext对象)，该Web项目都会有一个可以使用的数据库连接，并且这个数据库连接会在该ServletContext对象关闭(结 束)的时候随之关闭。</p>
+<p>测试页面testcon.jsp：</p>
+<pre><code>&lt;%@ page contentType=&quot;text/html&quot; pageEncoding=&quot;GB18030&quot;%&gt;
+&lt;br&gt;&lt;%= &quot;得到的数据库连接：&quot;+application.getAttribute(&quot;con&quot;) %&gt;
+&lt;br&gt;&lt;h1&gt;请注意安装数据库的驱动程序&lt;/h1&gt;
+</code></pre><h3 id="监听器的应用案例"><a href="#监听器的应用案例" class="headerlink" title="监听器的应用案例"></a>监听器的应用案例</h3><h4 id="在线用户数量监听器"><a href="#在线用户数量监听器" class="headerlink" title="在线用户数量监听器"></a>在线用户数量监听器</h4><p>下面是一个在线用户数量监听器，这个监听器可以实时统计在线人数，在 ServletContext初始化和撤消时，在服务器控制台打印出对应信息，当ServletContext对象里的属性增加、修改、删除时，在服务器  控制台打印相应的信息。要完成上面的监听功能，需要使用3个接口：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">HttpSessionListener：监督HttpSession对象的创建和撤消，统计人数。</div><div class="line">ServletContextListener：监督ServletContext对象的创建和撤消。</div><div class="line">ServletContextAttributeListener：监督ServletContext的属性变化。</div></pre></td></tr></table></figure>
+<p>监听器程序代码OnLineCountListener.java</p>
+<pre><code>package ch13;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public final class OnLineCountListener implements  HttpSessionListener,
+                          ServletContextAttributeListener,  ServletContextListener {
+  private int count;
+  private ServletContext  context=null;
+
+  //构造函数 
+  public OnLineCountListener()  {
+      count=0;//人数
+  }
+
+  //重写HttpSessionListener接口中的2个方法,完成对session对象创建和撤消的监视
+  public void  sessionCreated(HttpSessionEvent se) {//创建了一个session对象
+      count++;//人数加1
+      setContext(se);
+  }
+  public void  sessionDestroyed(HttpSessionEvent se){//撤消了一个session对象
+      count--;//人数减1
+      setContext(se);
+  }
+
+  private void  setContext(HttpSessionEvent se){
+      se.getSession().getServletContext().setAttribute(&quot;onLine&quot;,new  Integer(count));
+  }
+
+  //重写ServletContextAttributeListener接口中的3个方法
+  public void  attributeAdded(ServletContextAttributeEvent event) {//添加了属性
+      log(&quot;attributeAdded(&quot;+event.getName()+&quot;,&quot;+event.getValue()+&quot;)&quot;);
+  }
+  public void  attributeRemoved(ServletContextAttributeEvent event) {//删除了属性
+      log(&quot;attributeRemove(&quot;+event.getName()+&quot;,&quot;+event.getValue()+&quot;)&quot;);
+  }
+  public void attributeReplaced(ServletContextAttributeEvent  event) {//替换了原有的属性
+      log(&quot;attributeReplaced(&quot;+event.getName()+&quot;,&quot;+event.getValue()+&quot;)&quot;);
+  }
+
+  //重写ServletContextListener接口中的2个方法
+  public void  contextDestroyed(ServletContextEvent event) {//Web项目关闭
+      log(&quot;contextDestroyed()&quot;);
+      context=null;
+  }
+  public void  contextInitialized(ServletContextEvent event) {//Web项目启动
+      this.context=event.getServletContext();
+      log(&quot;contextInitialized()&quot;);
+  }
+
+  //显示信息
+  private void log(String  message){
+      System.out.println(&quot;ContextListener:&quot;+message);
+  }
+}
+</code></pre><p>在OnLineCountListener类中，用count保存目前在线人数，每增加一个session对象，人数加1，每撤消一个session对象，人数减1。人数保存在ServletContext对象中，使得任何页面都可以使用。</p>
+<p>在web.xml文件中配置监听器</p>
+<pre><code>&lt;listener&gt;
+  &lt;listener-class&gt;ch13.OnLineCountListener&lt;/listener-class&gt;
+&lt;/listener&gt; 
+</code></pre><p>编写测试页面(2个) listener.jsp——&gt;exit.jsp</p>
+<p>listener.jsp页面内容 </p>
+<pre><code>&lt;%@ page  contentType=&quot;text/html;charset=gb2312&quot; %&gt;
+目前在线人数：&lt;font  color=&quot;red&quot;&gt;&lt;%=application.getAttribute(&quot;onLine&quot;)%&gt;&lt;/font&gt;&lt;br&gt;
+退出会话:
+&lt;form action=&quot;exit.jsp&quot;  method=&quot;post&quot;&gt;
+&lt;input type=&quot;submit&quot;  value=&quot;exit&quot;&gt;
+&lt;/form&gt; 
+</code></pre><p>exit.jsp页面内容</p>
+<pre><code>&lt;%@ page  contentType=&quot;text/html;charset=gb2312&quot; %&gt;
+你已经退出会话&lt;%  session.invalidate(); %&gt; 
+</code></pre><p>可以单独启动5个浏览器窗口，每个窗口代表一个客户，因此在线人数是5。 </p>
+<h4 id="HttpSessionBindingListener-接口的使用"><a href="#HttpSessionBindingListener-接口的使用" class="headerlink" title="HttpSessionBindingListener 接口的使用"></a>HttpSessionBindingListener 接口的使用</h4><p>设计一个学生对象Student，当将该学生对象存入 session中时，他的年龄增加10岁，当将这个学生对象从session中删除时，他的年龄减少5岁。</p>
+<p>学生类Student.java</p>
+<pre><code>package ch13;
+import javax.servlet.*;
+import javax.servlet.http.*;
+public class Student implements  HttpSessionBindingListener {
+  private int age=30;
+  public void valueBound(HttpSessionBindingEvent  arg0) {//存入session时自动调用
+      age+=10;
+  }
+  public void  valueUnbound(HttpSessionBindingEvent arg0) {//从session中删除时自动调用
+      age-=5;
+  }
+  public int getAge() {return  age;}
+} 
+</code></pre><p>测试页面bind.jsp</p>
+<pre><code>&lt;%@ page  contentType=&quot;text/html;charset=gb2312&quot;  import=&quot;ch13.Student&quot;%&gt;
+&lt;%
+  Student student=new  Student();
+  out.println(&quot;学生年龄：&quot;+student.getAge()+&quot;&lt;br&gt;&quot;); 
+  session.setAttribute(&quot;st&quot;,student);
+  out.println(&quot;存入session后，该学生年龄：&quot;+student.getAge()+&quot;&lt;br&gt;&quot;);
+  session.removeAttribute(&quot;st&quot;);  
+  out.println(&quot;从session删除，该学生年龄：&quot;+student.getAge()+&quot;&lt;br&gt;&quot;);  
+%&gt;
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>大爷！赏点电费钱吧！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/3385496-bf8390384eef349d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/3385496-af50d89c24bef0e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
+          
+            <a href="/tags/servlet/" rel="tag"># servlet</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/05/servletet-lifecycle/" rel="next" title="servlet生命周期及实现原理">
+                <i class="fa fa-chevron-left"></i> servlet生命周期及实现原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/05/filter-and-listener/"
+           data-title="Servlet过滤器和监听器" data-url="http://www.yanglc.com/2017/01/05/filter-and-listener/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/touxiang.jpg"
+               alt="杨重山" />
+          <p class="site-author-name" itemprop="name">杨重山</p>
+          <p class="site-description motion-element" itemprop="description">科学缩短了距离</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ChongshanYang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005052689345712" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jianshu.com/" title="JanShu" target="_blank">JanShu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next" target="_blank">Next</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://fontawesome.io/" title="Font awesome" target="_blank">Font awesome</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iissnan.com/progit/" title="Pro git" target="_blank">Pro git</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.liaoxuefeng.com/" title="Liaoxuefeng" target="_blank">Liaoxuefeng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.runoob.com/" title="runoob" target="_blank">runoob</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://w3schools.bootcss.com/default.html" title="w3schools" target="_blank">w3schools</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://music.163.com/" title="Music" target="_blank">Music</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.acfun.cn/" title="No BB" target="_blank">No BB</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet过滤器"><span class="nav-number">1.</span> <span class="nav-text">Servlet过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet过滤器的特点"><span class="nav-number">1.1.</span> <span class="nav-text">Servlet过滤器的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet过滤器的作用："><span class="nav-number">1.2.</span> <span class="nav-text">Servlet过滤器的作用：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet过滤器的体系结构"><span class="nav-number">1.3.</span> <span class="nav-text">Servlet过滤器的体系结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet过滤器对请求的过滤"><span class="nav-number">1.3.1.</span> <span class="nav-text">Servlet过滤器对请求的过滤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet过滤器对响应的过滤"><span class="nav-number">1.3.2.</span> <span class="nav-text">Servlet过滤器对响应的过滤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet过滤器的发布"><span class="nav-number">1.4.</span> <span class="nav-text">Servlet过滤器的发布</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现一个Servlet过滤器"><span class="nav-number">1.5.</span> <span class="nav-text">实现一个Servlet过滤器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet过滤器接口的构成"><span class="nav-number">1.5.1.</span> <span class="nav-text">Servlet过滤器接口的构成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet过滤器的创建步骤"><span class="nav-number">1.5.2.</span> <span class="nav-text">Servlet过滤器的创建步骤</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#编写过滤器类"><span class="nav-number">1.5.3.</span> <span class="nav-text">编写过滤器类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#配置部署过滤器"><span class="nav-number">1.5.4.</span> <span class="nav-text">配置部署过滤器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#过滤器的应用案例"><span class="nav-number">1.6.</span> <span class="nav-text">过滤器的应用案例.</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#版权过滤器的应用案例"><span class="nav-number">1.6.1.</span> <span class="nav-text">版权过滤器的应用案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#禁止未授权的IP访问站点过滤器的应用案例"><span class="nav-number">1.6.2.</span> <span class="nav-text">禁止未授权的IP访问站点过滤器的应用案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#过滤页面内容-响应内容"><span class="nav-number">1.6.3.</span> <span class="nav-text">过滤页面内容(响应内容)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Servlet监听器"><span class="nav-number">2.</span> <span class="nav-text">Servlet监听器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监听器的原理"><span class="nav-number">2.1.</span> <span class="nav-text">监听器的原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听器的类型"><span class="nav-number">2.2.</span> <span class="nav-text">监听器的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#被监听对象ServletContext"><span class="nav-number">2.2.1.</span> <span class="nav-text">被监听对象ServletContext</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#被监听对象HttpSession"><span class="nav-number">2.2.2.</span> <span class="nav-text">被监听对象HttpSession</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#被监听对象ServletRequest"><span class="nav-number">2.2.3.</span> <span class="nav-text">被监听对象ServletRequest</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听器管理共享数据库连接"><span class="nav-number">2.3.</span> <span class="nav-text">监听器管理共享数据库连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#监听器的应用案例"><span class="nav-number">2.4.</span> <span class="nav-text">监听器的应用案例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#在线用户数量监听器"><span class="nav-number">2.4.1.</span> <span class="nav-text">在线用户数量监听器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HttpSessionBindingListener-接口的使用"><span class="nav-number">2.4.2.</span> <span class="nav-text">HttpSessionBindingListener 接口的使用</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨重山</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"iissnan-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
