@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="人生,朋友,大师," />
+  <meta name="keywords" content="j2ee,servlet," />
 
 
 
@@ -96,24 +96,22 @@
 
 
 
-<meta name="description" content="今天下了班，边吃饭边在那些视频网站上找东西看，看了一些跨年晚会，净是些歌舞，很流行，很青春。但这些东西却也是看的太多，感觉有些枯燥乏味了。好在我还是找到了一些不一样的东西——《见字如面》，这个节目难得的很合我的口味。上个世纪八十年代著名画家黄永玉大师作为朋友写给曹禺大师的那封信，读来，真真是叫人如沐春风。
-
-你心不在戏里，你失去伟大的灵通宝玉，你为势位所误！从一个海洋萎缩为一条小溪流，你泥溷在">
+<meta name="description" content="Servlet生命周期分为三个阶段：123451，初始化阶段，调用init()方法2，响应客户请求阶段，调用service()方法3，终止阶段，调用destroy()方法
+Servlet初始化阶段：在下列时刻Servlet容器装载Servlet：1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的之间添加如下代码：
+&amp;lt;loadon-startup&amp;gt">
 <meta property="og:type" content="article">
-<meta property="og:title" content="黄永玉写给曹禺">
-<meta property="og:url" content="http://www.yanglc.com/2017/01/03/huangyongyu-caoyu/index.html">
+<meta property="og:title" content="servlet生命周期及实现原理">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/05/servletet-lifecycle/index.html">
 <meta property="og:site_name" content="Sully">
-<meta property="og:description" content="今天下了班，边吃饭边在那些视频网站上找东西看，看了一些跨年晚会，净是些歌舞，很流行，很青春。但这些东西却也是看的太多，感觉有些枯燥乏味了。好在我还是找到了一些不一样的东西——《见字如面》，这个节目难得的很合我的口味。上个世纪八十年代著名画家黄永玉大师作为朋友写给曹禺大师的那封信，读来，真真是叫人如沐春风。
-
-你心不在戏里，你失去伟大的灵通宝玉，你为势位所误！从一个海洋萎缩为一条小溪流，你泥溷在">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-0d101995e2619318.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-01-03T14:20:03.706Z">
+<meta property="og:description" content="Servlet生命周期分为三个阶段：123451，初始化阶段，调用init()方法2，响应客户请求阶段，调用service()方法3，终止阶段，调用destroy()方法
+Servlet初始化阶段：在下列时刻Servlet容器装载Servlet：1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的之间添加如下代码：
+&amp;lt;loadon-startup&amp;gt">
+<meta property="og:updated_time" content="2017-01-05T06:04:10.628Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="黄永玉写给曹禺">
-<meta name="twitter:description" content="今天下了班，边吃饭边在那些视频网站上找东西看，看了一些跨年晚会，净是些歌舞，很流行，很青春。但这些东西却也是看的太多，感觉有些枯燥乏味了。好在我还是找到了一些不一样的东西——《见字如面》，这个节目难得的很合我的口味。上个世纪八十年代著名画家黄永玉大师作为朋友写给曹禺大师的那封信，读来，真真是叫人如沐春风。
-
-你心不在戏里，你失去伟大的灵通宝玉，你为势位所误！从一个海洋萎缩为一条小溪流，你泥溷在">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3385496-0d101995e2619318.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:title" content="servlet生命周期及实现原理">
+<meta name="twitter:description" content="Servlet生命周期分为三个阶段：123451，初始化阶段，调用init()方法2，响应客户请求阶段，调用service()方法3，终止阶段，调用destroy()方法
+Servlet初始化阶段：在下列时刻Servlet容器装载Servlet：1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的之间添加如下代码：
+&amp;lt;loadon-startup&amp;gt">
 
 
 
@@ -141,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://www.yanglc.com/2017/01/03/huangyongyu-caoyu/"/>
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/05/servletet-lifecycle/"/>
 
 
 
 
 
-  <title> 黄永玉写给曹禺 | Sully </title>
+  <title> servlet生命周期及实现原理 | Sully </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -290,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/03/huangyongyu-caoyu/">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/05/servletet-lifecycle/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="杨重山">
@@ -314,7 +312,7 @@
             
             
               
-                黄永玉写给曹禺
+                servlet生命周期及实现原理
               
             
           </h1>
@@ -329,8 +327,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-03T21:37:52+08:00">
-                2017-01-03
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-05T14:02:21+08:00">
+                2017-01-05
               </time>
             
 
@@ -352,8 +350,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/人生/" itemprop="url" rel="index">
-                    <span itemprop="name">人生</span>
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
                   </a>
                 </span>
 
@@ -370,8 +368,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/03/huangyongyu-caoyu/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/03/huangyongyu-caoyu/" itemprop="commentCount"></span>
+                <a href="/2017/01/05/servletet-lifecycle/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/05/servletet-lifecycle/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -397,25 +395,57 @@
       
 
       
-        <p><img src="http://upload-images.jianshu.io/upload_images/3385496-0d101995e2619318.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<hr>
-<p>今天下了班，边吃饭边在那些视频网站上找东西看，看了一些跨年晚会，净是些歌舞，很流行，很青春。但这些东西却也是看的太多，感觉有些枯燥乏味了。<br>好在我还是找到了一些不一样的东西——《见字如面》，这个节目难得的很合我的口味。<br>上个世纪八十年代著名画家黄永玉大师作为朋友写给曹禺大师的那封信，读来，真真是叫人如沐春风。</p>
-<blockquote>
-<p>你心不在戏里，你失去伟大的灵通宝玉，你为势位所误！从一个海洋萎缩为一条小溪流，你泥溷在不情愿的艺术创作中，像晚上喝了浓茶清醒于混沌之中。命题不巩固，不缜密，演绎、分析得也不透彻。过去数不尽的精妙的休止符、节拍、冷热、快慢的安排，那一箩一筐的隽语都消失了。谁也说不好。总是“高！”“好！”这些称颂虽迷惑不了你，但混乱了你，作践了你。写到这里，不禁想起莎翁《马克白》中的一句话：“醒来啊马克白，把沉睡赶走！”</p>
-</blockquote>
-<p>愿我在往后的日子里，亦有好友如斯，亦有批评如斯。<br>愿人间往后的日子里，亦有大师如斯，亦有瑰宝如斯。</p>
-<hr>
-<a id="more"></a>
-<p>家宝公：</p>
-<p>来信收到。我们从故乡回京刚十天，过一周左右又得去香港两个月，约莫６月间才能转得来。事情倒不俗，只可惜空耗了时光。</p>
-<p> 奉上拙诗一首，是类乎劳改的那三年的第一年写的。诗刊朋友向我要近作，而目下毫无诗意抒发，将信将疑从匣中取出这首给他看，却说好。人受称赞总是高兴。但这诗不是好，是公开的私事满足了人的好奇心而已。不过我老婆是衷心快意的，等于手臂上刺着牢不可破的对她的忠贞，让所有的朋友了解我当了36年的俘虏的确是心甘情愿。歌颂老婆的诗我大概可以出一个厚厚的集子了，只可惜世界上还没有这么一个经得起肉麻的出版社。说老实话，真正地道的情诗、情书、情话，怎么能见得人？伟大的鲁迅特精熟此道，说是“两地书”，买的人图希奇，打开看来却都是正儿八经，缺乏爱情的香馥之感。全世界若认真出点这种东西，且规定人人必读的话，公安局当会省掉许多麻烦，人到底太少接触纯真的感情了。</p>
-<p> 曹公曹公！你的书法照麻衣神相看，气势雄强，间架缜密，且肯定是个长寿的老头，所以你还应该工作。工作，这两个字几十年来被污染成为低级的习俗。在你的生涯中，工作是充满实实在在的光耀，别去理那些琐碎人情、小敲小打吧！在你，应该：“全或无”；应该：“良工不示人以朴”。像伯纳·萧，像伏尔泰那样，到老还那么精确，那么不饶点滴，不饶自己。</p>
-<p> 在纽约，我在阿瑟·米勒家住过几天，他刚写一个新戏：《美国时间》，我跟他上拍练场去看他边拍边改剧本，那种活跃，那种严肃，简直像鸡汤那么养人。他和他老婆，一位了不起的摄影家，轮流开车走很远的公路回到家里，然后一起在他们的森林中伐木，斫成劈柴，米勒开拖拉机把我们跟劈柴一起拉回来。两三吨的柴啊！我们坐在米勒自己做的木凳饭桌边吃饭。我觉得他全身心的细胞都在活跃，因此，他的戏不管成败，都充满生命力。你说怪不怪；那时我想到你，挂念你，如果写成台词，那就是：“我们也有个曹禺！”但我的潜台词却是你多么需要他那点草莽精神。你是我的极尊敬的前辈，所以我对你要严！我不喜欢你解放后的戏。一个也不喜欢。你心不在戏里，你失去伟大的灵通宝玉，你为势位所误！从一个海洋萎缩为一条小溪流，你泥溷在不情愿的艺术创作中，像晚上喝了浓茶清醒于混沌之中。命题不巩固，不缜密，演绎、分析得也不透彻。过去数不尽的精妙的休止符、节拍、冷热、快慢的安排，那一箩一筐的隽语都消失了。谁也说不好。总是“高！”“好！”这些称颂虽迷惑不了你，但混乱了你，作践了你。写到这里，不禁想起莎翁《马克白》中的一句话：“醒来啊马克白，把沉睡赶走！”</p>
-<p> 你知道，我爱祖国，所以爱你。你是我那一时代现实极了的高山，我不对你说老实话，就不配你给予我的友谊。如果能使你再写出20个剧本需要出点力气的话，你差遣就是！艾侣霞有两句诗，诗曰：“心在树上，你摘就是！”信，快写完了，回头一看，好像在毁谤你，有点不安了。放两天，想想看该不该寄上给你。</p>
-<p>祝你和夫人一切都好！</p>
-<p>晚黄永玉谨上<br>                                                                                                                              3月2日</p>
-<p>   我还想到，有一天为你的新作设计舞台。永玉又及</p>
-<p> 我还想贡献给你一些杂七杂八的故事，看能不能弄出点什么来！永玉又及</p>
+        <h3 id="Servlet生命周期分为三个阶段："><a href="#Servlet生命周期分为三个阶段：" class="headerlink" title="Servlet生命周期分为三个阶段："></a>Servlet生命周期分为三个阶段：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1，初始化阶段，调用init()方法</div><div class="line"></div><div class="line">2，响应客户请求阶段，调用service()方法</div><div class="line"></div><div class="line">3，终止阶段，调用destroy()方法</div></pre></td></tr></table></figure>
+<h4 id="Servlet初始化阶段："><a href="#Servlet初始化阶段：" class="headerlink" title="Servlet初始化阶段："></a>Servlet初始化阶段：</h4><h5 id="在下列时刻Servlet容器装载Servlet："><a href="#在下列时刻Servlet容器装载Servlet：" class="headerlink" title="在下列时刻Servlet容器装载Servlet："></a>在下列时刻Servlet容器装载Servlet：</h5><p>1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的<servlet></servlet>之间添加如下代码：</p>
+<pre><code>&lt;loadon-startup&gt;1&lt;/loadon-startup&gt; 
+</code></pre><p>2，在Servlet容器启动后，客户首次向Servlet发送请求</p>
+<p>3，Servlet类文件被更新后，重新装载Servlet<br>Servlet被装载后，Servlet容器创建一个Servlet实例并且调用Servlet的init()方法进行初始化。在Servlet的整个生命周期内，init()方法只被调用一次。</p>
+<h4 id="Servlet工作原理："><a href="#Servlet工作原理：" class="headerlink" title="Servlet工作原理："></a>Servlet工作原理：</h4><h5 id="Servlet接收和响应客户请求的过程："><a href="#Servlet接收和响应客户请求的过程：" class="headerlink" title="Servlet接收和响应客户请求的过程："></a>Servlet接收和响应客户请求的过程：</h5><p>首先客户发送一个请求，Servlet是调用service()方法对请求进行响应的，通过源代码可见，service()方法中对请求的方式进行了匹配，选择调用doGet,doPost等这些方法，然后再进入对应的方法中调用逻辑层的方法，实现对客户的响应。在Servlet接口和GenericServlet中是没有doGet,doPost等等这些方法的，HttpServlet中定义了这些方法，但是都是返回error信息，所以，我们每次定义一个Servlet的时候，都必须实现doGet或doPost等这些方法。</p>
+<p>每一个自定义的Servlet都必须实现Servlet的接口，==Servlet接口中定义了五个方法，其中比较重要的三个方法涉及到Servlet的生命周期，分别是上文提到的init(),service(),destroy()方法。== GenericServlet是一个通用的，不特定于任何协议的Servlet,它实现了Servlet接口。而HttpServlet继承于GenericServlet，因此HttpServlet也实现了Servlet接口。所以我们定义Servlet的时候只需要继承HttpServlet即可。</p>
+<p>Servlet接口和GenericServlet是不特定于任何协议的，而HttpServlet是特定于HTTP协议的类，所以HttpServlet中实现了service()方法，并将请求ServletRequest,ServletResponse强转为HttpRequest和HttpResponse。</p>
+<pre><code>public void service(ServletRequest req,ServletResponse res) 
+  throws ServletException,IOException
+{
+      HttpRequest request;
+      HttpResponse response;
+
+     try
+     {
+         req = (HttpRequest)request;
+         res = (HttpResponse)response;
+      }catch(ClassCastException e)
+      {
+         throw new ServletException(&quot;non-HTTP request response&quot;); 
+      }
+      service(request,response);
+}
+代码的最后调用了HTTPServlet自己的service(request,response)方法，然后根据请求去调用对应的doXXX方法，因为HttpServlet中的doXXX方法都是返回错误信息，
+
+protected void doGet(HttpServletRequest res,HttpServletResponse resp)
+  throws ServletException,IOException
+{
+   String protocol = req.getProtocol();
+   String msg = IStrings.getString(&quot;http.method_get_not_supported&quot;);
+   if(protocol.equals(&quot;1.1&quot;))
+   {
+      resp.sendError(HttpServletResponse.SC.METHOD.NOT.ALLOWED,msg);
+    }
+   esle
+    {
+      resp.sendError(HttpServletResponse.SC_BAD_REQUEST,msg);
+    }
+}
+</code></pre><p>所以需要我们在自定义的Servlet中override这些方法！</p>
+<h4 id="Servlet响应请求阶段："><a href="#Servlet响应请求阶段：" class="headerlink" title="Servlet响应请求阶段："></a>Servlet响应请求阶段：</h4><p>对于用户到达Servlet的请求，Servlet容器会创建特定于这个请求的ServletRequest对象和ServletResponse对象，然后调用Servlet的service方法。service方法从ServletRequest对象获得客户请求信息，处理该请求，并通过ServletResponse对象向客户返回响应信息。</p>
+<p>对于Tomcat来说，它会将传递过来的参数放在一个Hashtable中，该Hashtable的定义是：</p>
+<pre><code>private Hashtable&lt;String String[]&gt; paramHashStringArray = new Hashtable&lt;String String[]&gt;();
+</code></pre><p>这是一个String–&gt;String[]的键值映射。<br> ==HashMap线程不安全的，Hashtable线程安全。==</p>
+<h4 id="Servlet终止阶段："><a href="#Servlet终止阶段：" class="headerlink" title="Servlet终止阶段："></a>Servlet终止阶段：</h4><p>当WEB应用被终止，或Servlet容器终止运行，或Servlet容器重新装载Servlet新实例时，Servlet容器会先调用Servlet的destroy()方法，在destroy()方法中可以释放掉Servlet所占用的资源。</p>
+<h4 id="Servlet何时被创建："><a href="#Servlet何时被创建：" class="headerlink" title="Servlet何时被创建："></a>Servlet何时被创建：</h4><p>1，默认情况下，当WEB客户第一次请求访问某个Servlet的时候，WEB容器将创建这个Servlet的实例。</p>
+<p>2，当web.xml文件中如果<servlet>元素中指定了<load-on-startup>子元素时，Servlet容器在启动web服务器时，将按照顺序创建并初始化Servlet对象。</load-on-startup></servlet></p>
+<p>注意：在web.xml文件中，某些Servlet只有<serlvet>元素，没有<servlet-mapping>元素，这样我们无法通过url的方式访问这些Servlet，这种Servlet通常会在<servlet>元素中配置一个<load-on-startup>子元素，让容器在启动的时候自动加载这些Servlet并调用init()方法，完成一些全局性的初始化工作。</load-on-startup></servlet></servlet-mapping></serlvet></p>
+<h5 id="Web应用何时被启动："><a href="#Web应用何时被启动：" class="headerlink" title="Web应用何时被启动："></a>Web应用何时被启动：</h5><p>1，当Servlet容器启动的时候，所有的Web应用都会被启动</p>
+<p>2，控制器启动web应用</p>
 
       
     </div>
@@ -460,11 +490,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/人生/" rel="tag"># 人生</a>
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
           
-            <a href="/tags/朋友/" rel="tag"># 朋友</a>
-          
-            <a href="/tags/大师/" rel="tag"># 大师</a>
+            <a href="/tags/servlet/" rel="tag"># servlet</a>
           
         </div>
       
@@ -473,8 +501,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/02/oracle-procedure/" rel="next" title="oracle存储过程和函数">
-                <i class="fa fa-chevron-left"></i> oracle存储过程和函数
+              <a href="/2017/01/04/jsp-jstl-core/" rel="next" title="JSTL核心标签库的使用">
+                <i class="fa fa-chevron-left"></i> JSTL核心标签库的使用
               </a>
             
           </div>
@@ -482,10 +510,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/04/jsp-jstl-core/" rel="prev" title="JSTL核心标签库的使用">
-                JSTL核心标签库的使用 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -514,8 +538,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/03/huangyongyu-caoyu/"
-           data-title="黄永玉写给曹禺" data-url="http://www.yanglc.com/2017/01/03/huangyongyu-caoyu/">
+      <div class="ds-thread" data-thread-key="2017/01/05/servletet-lifecycle/"
+           data-title="servlet生命周期及实现原理" data-url="http://www.yanglc.com/2017/01/05/servletet-lifecycle/">
       </div>
     
   </div>
@@ -539,8 +563,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/touxiang.jpg"
@@ -662,6 +695,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Servlet生命周期分为三个阶段："><span class="nav-number">1.</span> <span class="nav-text">Servlet生命周期分为三个阶段：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet初始化阶段："><span class="nav-number">1.1.</span> <span class="nav-text">Servlet初始化阶段：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#在下列时刻Servlet容器装载Servlet："><span class="nav-number">1.1.1.</span> <span class="nav-text">在下列时刻Servlet容器装载Servlet：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet工作原理："><span class="nav-number">1.2.</span> <span class="nav-text">Servlet工作原理：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Servlet接收和响应客户请求的过程："><span class="nav-number">1.2.1.</span> <span class="nav-text">Servlet接收和响应客户请求的过程：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet响应请求阶段："><span class="nav-number">1.3.</span> <span class="nav-text">Servlet响应请求阶段：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet终止阶段："><span class="nav-number">1.4.</span> <span class="nav-text">Servlet终止阶段：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Servlet何时被创建："><span class="nav-number">1.5.</span> <span class="nav-text">Servlet何时被创建：</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Web应用何时被启动："><span class="nav-number">1.5.1.</span> <span class="nav-text">Web应用何时被启动：</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
