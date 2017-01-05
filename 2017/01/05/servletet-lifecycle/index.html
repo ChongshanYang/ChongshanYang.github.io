@@ -96,22 +96,24 @@
 
 
 
-<meta name="description" content="Servlet生命周期分为三个阶段：123451，初始化阶段，调用init()方法2，响应客户请求阶段，调用service()方法3，终止阶段，调用destroy()方法
-Servlet初始化阶段：在下列时刻Servlet容器装载Servlet：1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的之间添加如下代码：
-&amp;lt;loadon-startup&amp;gt">
+<meta name="description" content="Servlet 生命周期：Servlet 加载—&amp;gt;实例化—&amp;gt;服务—&amp;gt;销毁。
+1234init（）：在Servlet的生命周期中，仅执行一次init()方法。它是在服务器装入Servlet时执行的，负责初始化Servlet对象。可以配置服务器，以在启动服务器或客户机首次访问Servlet时装入Servlet。无论有多少客户机访问Servlet，都不会重复执行init（）。
+123">
 <meta property="og:type" content="article">
 <meta property="og:title" content="servlet生命周期及实现原理">
 <meta property="og:url" content="http://www.yanglc.com/2017/01/05/servletet-lifecycle/index.html">
 <meta property="og:site_name" content="Sully">
-<meta property="og:description" content="Servlet生命周期分为三个阶段：123451，初始化阶段，调用init()方法2，响应客户请求阶段，调用service()方法3，终止阶段，调用destroy()方法
-Servlet初始化阶段：在下列时刻Servlet容器装载Servlet：1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的之间添加如下代码：
-&amp;lt;loadon-startup&amp;gt">
-<meta property="og:updated_time" content="2017-01-05T06:04:10.628Z">
+<meta property="og:description" content="Servlet 生命周期：Servlet 加载—&amp;gt;实例化—&amp;gt;服务—&amp;gt;销毁。
+1234init（）：在Servlet的生命周期中，仅执行一次init()方法。它是在服务器装入Servlet时执行的，负责初始化Servlet对象。可以配置服务器，以在启动服务器或客户机首次访问Servlet时装入Servlet。无论有多少客户机访问Servlet，都不会重复执行init（）。
+123">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-cb82f9f1f209a6f8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-01-05T06:49:07.134Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="servlet生命周期及实现原理">
-<meta name="twitter:description" content="Servlet生命周期分为三个阶段：123451，初始化阶段，调用init()方法2，响应客户请求阶段，调用service()方法3，终止阶段，调用destroy()方法
-Servlet初始化阶段：在下列时刻Servlet容器装载Servlet：1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的之间添加如下代码：
-&amp;lt;loadon-startup&amp;gt">
+<meta name="twitter:description" content="Servlet 生命周期：Servlet 加载—&amp;gt;实例化—&amp;gt;服务—&amp;gt;销毁。
+1234init（）：在Servlet的生命周期中，仅执行一次init()方法。它是在服务器装入Servlet时执行的，负责初始化Servlet对象。可以配置服务器，以在启动服务器或客户机首次访问Servlet时装入Servlet。无论有多少客户机访问Servlet，都不会重复执行init（）。
+123">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3385496-cb82f9f1f209a6f8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -395,7 +397,14 @@ Servlet初始化阶段：在下列时刻Servlet容器装载Servlet：1，Servlet
       
 
       
-        <h3 id="Servlet生命周期分为三个阶段："><a href="#Servlet生命周期分为三个阶段：" class="headerlink" title="Servlet生命周期分为三个阶段："></a>Servlet生命周期分为三个阶段：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1，初始化阶段，调用init()方法</div><div class="line"></div><div class="line">2，响应客户请求阶段，调用service()方法</div><div class="line"></div><div class="line">3，终止阶段，调用destroy()方法</div></pre></td></tr></table></figure>
+        <hr>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-cb82f9f1f209a6f8.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""><br>Servlet 生命周期：Servlet 加载—&gt;实例化—&gt;服务—&gt;销毁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">init（）：在Servlet的生命周期中，仅执行一次init()方法。</div><div class="line">它是在服务器装入Servlet时执行的，负责初始化Servlet对象。</div><div class="line">可以配置服务器，以在启动服务器或客户机首次访问Servlet时装入Servlet。</div><div class="line">无论有多少客户机访问Servlet，都不会重复执行init（）。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">service（）：它是Servlet的核心，负责响应客户的请求。</div><div class="line">每当一个客户请求一个HttpServlet对象，该对象的Service()方法就要调用，而且传递给这个方法</div><div class="line">一个“请求”（ServletRequest）对象和一个“响应”（ServletResponse）对象作为参数。</div><div class="line">在HttpServlet中已存在Service()方法。默认的服务功能是调用与HTTP请求的方法相应的do功能。</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">destroy（）： 仅执行一次，在服务器端停止且卸载Servlet时执行该方法。</div><div class="line">当Servlet对象退出生命周期时，负责释放占用的资源。</div><div class="line">一个Servlet在运行service()方法时可能会产生其他的线程，因此需要确认在调用destroy()方法时，这些线程已经终止或完成。</div></pre></td></tr></table></figure>
+<hr>
+<a id="more"></a>
+<h3 id="Servlet生命周期分为三个阶段："><a href="#Servlet生命周期分为三个阶段：" class="headerlink" title="Servlet生命周期分为三个阶段："></a>Servlet生命周期分为三个阶段：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1，初始化阶段，调用init()方法</div><div class="line"></div><div class="line">2，响应客户请求阶段，调用service()方法</div><div class="line"></div><div class="line">3，终止阶段，调用destroy()方法</div></pre></td></tr></table></figure>
 <h4 id="Servlet初始化阶段："><a href="#Servlet初始化阶段：" class="headerlink" title="Servlet初始化阶段："></a>Servlet初始化阶段：</h4><h5 id="在下列时刻Servlet容器装载Servlet："><a href="#在下列时刻Servlet容器装载Servlet：" class="headerlink" title="在下列时刻Servlet容器装载Servlet："></a>在下列时刻Servlet容器装载Servlet：</h5><p>1，Servlet容器启动时自动装载某些Servlet，实现它只需要在web.XML文件中的<servlet></servlet>之间添加如下代码：</p>
 <pre><code>&lt;loadon-startup&gt;1&lt;/loadon-startup&gt; 
 </code></pre><p>2，在Servlet容器启动后，客户首次向Servlet发送请求</p>
