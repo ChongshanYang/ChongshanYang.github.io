@@ -1,0 +1,1087 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="java,Junit," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon00.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Junit4使用实例">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/10/Junit/index.html">
+<meta property="og:site_name" content="Sully">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-6d76b23b7a46b491.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-01-10T14:11:50.079Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Junit4使用实例">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3385496-6d76b23b7a46b491.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6370579524316300000',
+      author: '奥雷里亚诺将军'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/10/Junit/"/>
+
+
+
+
+
+  <title> Junit4使用实例 | Sully </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Sully</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">凡人皆有一死，凡人皆需侍奉</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/10/Junit/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="杨重山">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/touxiang.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Sully">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Sully" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Junit4使用实例
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-10T22:10:05+08:00">
+                2017-01-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index">
+                    <span itemprop="name">java</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/10/Junit/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/10/Junit/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-6d76b23b7a46b491.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<hr>
+<a id="more"></a>
+<h2 id="一、开胃示例"><a href="#一、开胃示例" class="headerlink" title="一、开胃示例　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>一、开胃示例　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>被测试类——获取学生数据：</p>
+<pre><code>/**
+ * 学生信息实体
+ */
+public class EStudent{
+  String name;
+   int age;
+   // 一堆getter、setter
+
+   /**
+    * 注意：自定义类时要重写equals方法，否则默认equals方法会使用==方式来比较对象的内存地址是否相同，而不是内容是否相同。
+    */
+   @Override
+   public boolean equals(Object obj){
+     if (obj == null || obl.getClass() != this.getClass()) return false;
+
+     EStudent other = (EStudent)obj;
+     if (!this.getName().equals(other.getName())
+              || this.getAge() != other.getAge()) return false;
+     return true;
+   }
+}
+
+/**
+  * 学生数据操作接口
+  */
+public interface StudentDao{
+  public EStudent getStudent(int id);
+}
+
+/**
+ * 真实的数据操作类
+ */
+public class StudentDaoImpl 
+  implements StudentDao{
+
+  public EStudent getStudent(int id){
+       EStudent ret = new EStudent();
+       ret.setName(&quot;fsjohnhuang&quot;);
+       ret.setAge(18);
+
+       return ret;
+  }
+}
+
+/**
+ * 模拟的数据操作类
+ */
+public class MockStudentDaoImpl 
+  implements StudentDao{
+
+  public EStudent getStudent(int id){
+       EStudent ret = new EStudent();
+       ret.setName(&quot;fsjohnhuang&quot;);
+       ret.setAge(18);
+
+       return ret;
+  }
+}
+</code></pre><p>测试用例：</p>
+<pre><code>/**
+ * 由于下面采用参数化测试，因此将测试运行器更换为Parameterized
+ */
+@RunWith(Parameterized.class)
+public class TestStudentDao{
+  static StudentDao dao, mockDao;
+
+  /**
+   * 执行测试类中所有测试前执行一次
+   * 用于前提条件的初始化
+   */
+  @BeforeClass
+  public static void init(){
+      dao = new StudentDaoImpl();
+      mockDao = new MockStudentDaoImpl();
+  }
+
+  /**
+   * 接收测试用数据
+   */
+  int id;
+  public TestStudentDao(int id){
+    this.id = id;
+  }
+
+  /**
+   * 测试用例
+   */
+  @Test
+  public void testGetStudent(){
+    assertEquals(&quot;获取学生信息&quot;, mockDao.getStudent(id), dao.getStudent(id));
+  }
+
+  /**
+   * 测试用数据提供方法
+   */
+  @Parameters
+  public Collection dataFeed(){
+    return Arrays.asList(new Object[][]{{1},{2},{3}});
+  }
+}
+</code></pre><h2 id="二、固件测试"><a href="#二、固件测试" class="headerlink" title="二、固件测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>二、固件测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  就是每个测试方法执行前和后都执行的方法，用于自动初始化和回收资源等工作。通过 @Before 注解标注测试方法执行前调用的固件测试，通过 @After 注解标注测试方法执行后调用的固件测试。</p>
+<p>  父类的固件测试会在子类的固件测试前被调用。</p>
+<p>  另外可通过注解 @BeforeClass 和 @AfterClass 标注某些static方法为测试开始前和结束后被调用，用于自动初始化和回收资源等工作。注意通过注解 @BeforeClass 和 @AfterClass 标注的方法一次测试过程仅被调用一次而已。</p>
+<p>  示例如下：</p>
+<pre><code>public class MyUT{
+  int i, j;
+  @BeforeClass public void static init(){
+    System.out.println(&quot;init&quot;);
+    i = 0;
+    j = 0;
+  }
+
+  @Before public void invokeBefore(){
+    System.out.println(&quot;invokeBefore&quot; + ++i);
+  }
+
+  @Test public void testMyMethod1(){
+    System.out.println(&quot;testMyMethod1&quot;);
+  }
+
+  @Test public void testMyMethod2(){
+    System.out.println(&quot;testMyMethod2&quot;);
+  }
+
+  @After public void invokeAfter(){
+    System.out.println(&quot;invokeAfter&quot; + ++j);
+  }
+
+  @AfterClass public void static destroy(){
+    System.out.println(&quot;destroy&quot;);
+    i = 0;
+    j = 0;
+  }
+}
+
+// 输出结果
+init
+invokeBefore1
+testMyMethod1
+invokeAfter1
+invokeBefore2
+testMyMethod2
+invokeAfter2
+destroy
+</code></pre><h2 id="三、忽略测试用例"><a href="#三、忽略测试用例" class="headerlink" title="三、忽略测试用例　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>三、忽略测试用例　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  通过注解 @Ignore() 可以标注不参与测试的测试方法。当然也可以通过去除注解 @Test 来达到这个目的，但去除注解 @Test 会令到eclipse的JUnit View中无法显示该测试方法。</p>
+<h2 id="四、异常测试"><a href="#四、异常测试" class="headerlink" title="四、异常测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>四、异常测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  通过注解 @Test(expected=Class类型) 来标注期待测试方法执行时抛出哪种异常对象，若测试方法不抛出异常或异常对象与期待的异常对象不相同则测试失败。</p>
+<pre><code>@Test(expected=ArithmeticException.class) 
+public void calc(){
+  int i = 1/0;
+}
+</code></pre><h2 id="五、超时测试"><a href="#五、超时测试" class="headerlink" title="五、超时测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>五、超时测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  通过注解 @Test(timeout=毫秒数) 来标注期待执行测试方法的最大耗时，若超时则测试失败。</p>
+<pre><code>@Test(timeout=1000) 
+public void wait(){
+  while(true){}
+}
+</code></pre><h2 id="六、测试运行器"><a href="#六、测试运行器" class="headerlink" title="六、测试运行器　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>六、测试运行器　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  用于执行JUnit中所有的测试方法。JUnit为单元测试提供默认的测试运行器，但我们可以自定义，自定义的测试运行器必须继承 org.junit.runner.Runner 。然后通过类注解 @RunWith(CustomTestRunner.class) 来指定该测试的测试运行器。</p>
+<p>常用的内置测试运行器：</p>
+<pre><code>  1.  org.junit.runners.Suite ，套件测试时使用。
+
+2.  org.junit.runners.Parameterized ，参数化测试时使用。
+</code></pre><h2 id="七、参数化测试"><a href="#七、参数化测试" class="headerlink" title="七、参数化测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>七、参数化测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  就是第一节中的测试类型，用于模拟以不同的参数组合来对方法进行多次测试。若不使用参数化测试，该测试方法有N个不同的参数组合，则需要写N个测试方法来测试。</p>
+<pre><code>// 需要使用Parameterized测试运行器才可以
+@RunWith(Parameterized.class)
+public class MyUT{
+  // 成员变量，用于存放测试用数据和测试期望值
+  int orig;
+  int expected;
+  public MyUT(int orig, int expected){
+    this.orig = orig;
+    this.expected = expected;
+  }
+
+  @Test public void testMyMethod(){
+      assertEquals(expected, orig + 1);
+  }
+
+  /**
+   * 测试数据和测试期望值的提供方法
+   * 必须用注解@Parameters标注
+   * 必须返回Collection类型数据
+   */
+  @Parameters public Collection dataFeed(){
+    return Arrays.asList(new Object[][]{
+      {1, 2},
+      {2, 3},
+      {3, 4}
+    });
+  }
+}
+</code></pre><h2 id="八、套件测试"><a href="#八、套件测试" class="headerlink" title="八、套件测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>八、套件测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  JUnit4去除JUnit3中套件测试注解，而是通过另一形式提供套件测试。</p>
+<p>套件测试就是按业务逻辑将测试类进行分组，并以组为单位执行单元测试。</p>
+<pre><code>// 测试类1
+public class MyUT1{
+  @Test public void testMyMehthod1(){
+    assertEquals(1,1);
+  }
+}
+// 测试类2
+public class MyUT2{
+  @Test public void testMyMehthod2(){
+    assertEquals(2,2);
+  }
+}
+// 套件测试类
+@RunWith(Suite.class)
+@SuiteClass({MyUT1.class, MyUT2.class})
+public class SuiteTest{
+  // 必须有一个public，无参数的构造函数。使用默认的构造函数也可以
+  public SuiteTest(){}
+}
+</code></pre><h2 id="九、JUnit4-4的-assertThat断言"><a href="#九、JUnit4-4的-assertThat断言" class="headerlink" title="九、JUnit4.4的 assertThat断言 　　　　　　　　　　　　　　　　　　　　　　"></a>九、JUnit4.4的 assertThat断言 　　　　　　　　　　　　　　　　　　　　　　</h2><p>  JUnit4.4内置Hamcrest测试组件的部分内容，而 assertThat断言 就是配置Hamcrest测试组件的匹配符来实现所有测试工作。由于Hamcrest的匹配符贴近自然语言，因此意思表达更明确。（JUnit4.4前的版本则需要引入hamcrest-core.jar和hamcrest-library.jar了）。</p>
+<pre><code>/* assertThat语法
+ * assertThat(T actual, Matcher&lt;T&gt; matcher);
+ * assertThat(String reason, T actual, Matcher&lt;T&gt; matcher);
+ * 入参actual为实际值，入参matcher为期待值的匹配符
+ */
+
+//测试变量是否大于指定值
+assertThat(1, greaterThan(50));
+//测试变量是否小于指定值
+assertThat(1, lessThan(100));
+//测试变量是否大于等于指定值
+assertThat(1, greaterThanOrEqualTo(50));
+//测试变量是否小于等于指定值
+assertThat(1, lessThanOrEqualTo(100));
+
+//测试所有条件必须成立
+assertThat(1, allOf(greaterThan(50),lessThan(100)));
+//测试只要有一个条件成立
+assertThat(1, anyOf(greaterThanOrEqualTo(50), lessThanOrEqualTo(100)));
+//测试无论什么条件成立(还没明白这个到底是什么意思)
+assertThat(1, anything());
+//测试变量值等于指定值
+assertThat(1, is(100));
+//测试变量不等于指定值
+assertThat(1, not(50));
+
+/**字符串**/
+String url = &quot;http://www.taobao.com&quot;;
+//测试变量是否包含指定字符
+assertThat(url, containsString(&quot;taobao&quot;));
+//测试变量是否已指定字符串开头
+assertThat(url, startsWith(&quot;http://&quot;));
+//测试变量是否以指定字符串结尾
+assertThat(url, endsWith(&quot;.com&quot;));
+//测试变量是否等于指定字符串
+assertThat(url, equalTo(&quot;http://www.taobao.com&quot;));
+//测试变量再忽略大小写的情况下是否等于指定字符串
+assertThat(url, equalToIgnoringCase(&quot;http://www.taobao.com&quot;));
+//测试变量再忽略头尾任意空格的情况下是否等于指定字符串
+assertThat(url, equalToIgnoringWhiteSpace(&quot;http://www.taobao.com&quot;));
+
+/**集合**/
+List&lt;User&gt; user = new ArrayList&lt;User&gt;();
+user.add(test1);
+user.add(test2);
+
+//测试集合中是否还有指定元素
+assertThat(user, hasItem(test1));
+assertThat(user, hasItem(test2));
+
+/**Map匹配**/
+Map&lt;String,User&gt; userMap = new HashMap&lt;String,User&gt;();
+userMap.put(test1.getUsername(), test1);
+userMap.put(test2.getUsername(), test2);
+
+//测试map中是否还有指定键值对
+assertThat(userMap, hasEntry(test1.getUsername(), test1));
+//测试map中是否还有指定键
+assertThat(userMap, hasKey(test2.getUsername()));
+//测试map中是否还有指定值
+assertThat(userMap, hasValue(test2));
+</code></pre><h2 id="十、-assumeThat假设断言"><a href="#十、-assumeThat假设断言" class="headerlink" title="十、 assumeThat假设断言 　　　　　　　　　　　　　　　　　　　　　　　　　　　"></a>十、 assumeThat假设断言 　　　　　　　　　　　　　　　　　　　　　　　　　　　</h2><p>  位于 org.junit.Assume类 下，同样是属于Hamcrest组件的。用于假设当条件成立时才会执行后续的代码，条件不成立时是不会影响测试结果。</p>
+<pre><code>assumeThat(1, is(0));
+System.out.println(&quot;I&apos;m here&quot;); // 这句不会被执
+</code></pre>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>大爷！赏点电费钱吧！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/3385496-bf8390384eef349d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/3385496-af50d89c24bef0e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/Junit/" rel="tag"># Junit</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/08/Decorator-filter/" rel="next" title="servlet过滤器filter使用装饰器模式增强response和request对象">
+                <i class="fa fa-chevron-left"></i> servlet过滤器filter使用装饰器模式增强response和request对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/10/Junit/"
+           data-title="Junit4使用实例" data-url="http://www.yanglc.com/2017/01/10/Junit/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/touxiang.jpg"
+               alt="杨重山" />
+          <p class="site-author-name" itemprop="name">杨重山</p>
+          <p class="site-description motion-element" itemprop="description">科学缩短了距离</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ChongshanYang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005052689345712" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jianshu.com/" title="JanShu" target="_blank">JanShu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next" target="_blank">Next</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://fontawesome.io/" title="Font awesome" target="_blank">Font awesome</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iissnan.com/progit/" title="Pro git" target="_blank">Pro git</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.liaoxuefeng.com/" title="Liaoxuefeng" target="_blank">Liaoxuefeng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.runoob.com/" title="runoob" target="_blank">runoob</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://w3schools.bootcss.com/default.html" title="w3schools" target="_blank">w3schools</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://music.163.com/" title="Music" target="_blank">Music</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.acfun.cn/" title="No BB" target="_blank">No BB</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、开胃示例"><span class="nav-number">1.</span> <span class="nav-text">一、开胃示例　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、固件测试"><span class="nav-number">2.</span> <span class="nav-text">二、固件测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、忽略测试用例"><span class="nav-number">3.</span> <span class="nav-text">三、忽略测试用例　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、异常测试"><span class="nav-number">4.</span> <span class="nav-text">四、异常测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、超时测试"><span class="nav-number">5.</span> <span class="nav-text">五、超时测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六、测试运行器"><span class="nav-number">6.</span> <span class="nav-text">六、测试运行器　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七、参数化测试"><span class="nav-number">7.</span> <span class="nav-text">七、参数化测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八、套件测试"><span class="nav-number">8.</span> <span class="nav-text">八、套件测试　　　　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#九、JUnit4-4的-assertThat断言"><span class="nav-number">9.</span> <span class="nav-text">九、JUnit4.4的 assertThat断言 　　　　　　　　　　　　　　　　　　　　　　</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十、-assumeThat假设断言"><span class="nav-number">10.</span> <span class="nav-text">十、 assumeThat假设断言 　　　　　　　　　　　　　　　　　　　　　　　　　　　</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨重山</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"iissnan-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
