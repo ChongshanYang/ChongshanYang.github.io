@@ -103,7 +103,7 @@
 <meta property="og:site_name" content="Sully">
 <meta property="og:description" content="在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-e1c7ee558639b4f1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-01-11T13:01:44.405Z">
+<meta property="og:updated_time" content="2017-01-11T13:05:04.919Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="servlet中session的原理和使用">
 <meta name="twitter:description" content="在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。">
@@ -395,11 +395,211 @@
 <p><img src="http://upload-images.jianshu.io/upload_images/3385496-e1c7ee558639b4f1.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
 <p>在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。</p>
 <hr>
-<a id="more"></a>　<br><br>## 一、Session简单介绍<br>　　<br>　　在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。<br>　　<br><br>　<br>## 二、Session和Cookie的主要区别<br><br>Cookie是把用户的数据写给用户的浏览器。<br>Session技术把用户的数据写到用户独占的session中。<br>Session对象由服务器创建，开发人员可以调用request对象的getSession方法得到session对象。<br><br>## 三、session实现原理<br>### 3.1、服务器是如何实现一个session为一个用户浏览器服务的？<br><br> 　　<br> 　　服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。<br><br>可以用如下的代码证明：<br><br><br><br><br>第一次访问时，服务器会创建一个新的sesion，并且把session的Id以cookie的形式发送给客户端浏览器，点击刷新按钮，再次请求服务器，此时就可以看到浏览器再请求服务器时，会把存储到cookie中的session的Id一起传递到服务器端了<br><br>request.getSession()方法内部新创建了Session之后一定是做了如下的处理:<br><br>    //获取session的Id<br>    String sessionId = session.getId();<br>    //将session的Id存储到名字为JSESSIONID的cookie中<br>    Cookie cookie = new Cookie(“JSESSIONID”, sessionId);<br>    //设置cookie的有效路径<br>    cookie.setPath(request.getContextPath());<br>    response.addCookie(cookie);<br><br>## 四、浏览器禁用Cookie后的session处理<br><br>### 4.1、解决方案：URL重写<br><br>response.encodeRedirectURL(java.lang.String url) 用于对sendRedirect方法后的url地址进行重写。<br>response.encodeURL(java.lang.String url)用于对表单action和超链接的url地址进行重写<br><br>### 4.2、范例：禁用Cookie后servlet共享Session中的数据<br><br>IndexServlet:<br><br>    package xdp.gacl.session;<br>    import java.io.IOException;<br>    import java.io.PrintWriter;<br>    import java.util.LinkedHashMap;<br>    import java.util.Map;<br>    import java.util.Set;<br>    import javax.servlet.ServletException;<br>    import javax.servlet.http.HttpServlet;<br>    import javax.servlet.http.HttpServletRequest;<br>    import javax.servlet.http.HttpServletResponse;<br><br>    //首页：列出所有书<br>    public class IndexServlet extends HttpServlet {<br><br>        public void doGet(HttpServletRequest request, HttpServletResponse response)<br>                throws ServletException, IOException {<br><br>            response.setContentType(“text/html;charset=UTF-8”);<br>            PrintWriter out = response.getWriter();<br>            //创建Session<br>            request.getSession();<br>            out.write(“本网站有如下书：<br>“);<br>            Set<map.entry<string,book>&gt; set = DB.getAll().entrySet();<br>            for(Map.Entry<string,book> me : set){<br>                Book book = me.getValue();<br>                String url =request.getContextPath()+ “/servlet/BuyServlet?id=” + book.getId();<br>                //response. encodeURL(java.lang.String url)用于对表单action和超链接的url地址进行重写<br>                url = response.encodeURL(url);//将超链接的url地址进行重写<br>                out.println(book.getName()  + “   <a href=""+url+"">购买</a><br>“);<br>            }<br>        }<br><br>        public void doPost(HttpServletRequest request, HttpServletResponse response)<br>                throws ServletException, IOException {<br>            doGet(request, response);<br>        }<br>    }<br><br><br>    /<em>*
-     </em> @author gacl<br>     <em> 模拟数据库
-     </em>/<br>    class DB{<br>        private static Map<string,book> map = new LinkedHashMap<string,book>();<br>        static{<br>            map.put(“1”, new Book(“1”,”javaweb开发”));<br>            map.put(“2”, new Book(“2”,”spring开发”));<br>            map.put(“3”, new Book(“3”,”hibernate开发”));<br>            map.put(“4”, new Book(“4”,”struts开发”));<br>            map.put(“5”, new Book(“5”,”ajax开发”));<br>        }<br><br>        public static Map<string,book> getAll(){<br>            return map;<br>        }<br>    }<br><br>    class Book{<br><br>        private String id;<br>        private String name;<br><br>        public Book() {<br>            super();<br>        }<br>        public Book(String id, String name) {<br>            super();<br>            this.id = id;<br>            this.name = name;<br>        }<br>        public String getId() {<br>            return id;<br>        }<br>        public void setId(String id) {<br>            this.id = id;<br>        }<br>        public String getName() {<br>            return name;<br>        }<br>        public void setName(String name) {<br>            this.name = name;<br>        }<br>    }<br><br>BuyServlet:<br><br>    package xdp.gacl.session;<br><br>    import java.io.IOException;<br>    import java.util.ArrayList;<br>    import java.util.List;<br>    import javax.servlet.ServletException;<br>    import javax.servlet.http.HttpServlet;<br>    import javax.servlet.http.HttpServletRequest;<br>    import javax.servlet.http.HttpServletResponse;<br>    import javax.servlet.http.HttpSession;<br><br>    public class BuyServlet extends HttpServlet {<br><br>        public void doGet(HttpServletRequest request, HttpServletResponse response)<br>                throws ServletException, IOException {<br>            String id = request.getParameter(“id”);<br>            Book book = DB.getAll().get(id);  //得到用户想买的书<br>            HttpSession session = request.getSession();<br>            List<book> list = (List) session.getAttribute(“list”);  //得到用户用于保存所有书的容器<br>            if(list==null){<br>                list = new ArrayList<book>();<br>                session.setAttribute(“list”, list);<br>            }<br>            list.add(book);<br>            //response. encodeRedirectURL(java.lang.String url)用于对sendRedirect方法后的url地址进行重写<br>            String url = response.encodeRedirectURL(request.getContextPath()+”/servlet/ListCartServlet”);<br>            System.out.println(url);<br>            response.sendRedirect(url);<br>        }<br><br>        public void doPost(HttpServletRequest request, HttpServletResponse response)<br>                throws ServletException, IOException {<br>            doGet(request, response);<br>        }<br><br>    }<br><br>ListCartServlet：<br><br>    package xdp.gacl.session;<br><br>    import java.io.IOException;<br>    import java.io.PrintWriter;<br>    import java.util.List;<br>    import javax.servlet.ServletException;<br>    import javax.servlet.http.HttpServlet;<br>    import javax.servlet.http.HttpServletRequest;<br>    import javax.servlet.http.HttpServletResponse;<br>    import javax.servlet.http.HttpSession;<br><br>    public class ListCartServlet extends HttpServlet {<br><br>        public void doGet(HttpServletRequest request, HttpServletResponse response)<br>                throws ServletException, IOException {<br>            response.setContentType(“text/html;charset=UTF-8”);<br>            PrintWriter out = response.getWriter();<br>            HttpSession session = request.getSession();<br>            List<book> list = (List) session.getAttribute(“list”);<br>            if(list==null || list.size()==0){<br>                out.write(“对不起，您还没有购买任何商品!!”);<br>                return;<br>            }<br><br>            //显示用户买过的商品<br>            out.write(“您买过如下商品:<br>“);<br>            for(Book book : list){<br>                out.write(book.getName() + “<br>“);<br>            }<br>        }<br><br>        public void doPost(HttpServletRequest request, HttpServletResponse response)<br>                throws ServletException, IOException {<br>            doGet(request, response);<br>        }<br>    }<br><br>当浏览器禁用了cookie后，就可以用URL重写这种解决方案解决Session数据共享问题。而且response. encodeRedirectURL(java.lang.String url) 和response. encodeURL(java.lang.String url)是两个非常智能的方法，当检测到浏览器没有禁用cookie时，那么就不进行URL重写了。<br><br>## 五、session对象的创建和销毁时机<br>### 5.1、session对象的创建时机<br><br>　　在程序中第一次调用request.getSession()方法时就会创建一个新的Session，可以用isNew()方法来判断Session是不是新创建的<br><br>范例：创建session<br><br>    //使用request对象的getSession()获取session，如果session不存在则创建一个<br>    HttpSession session = request.getSession();<br>    //获取session的Id<br>    String sessionId = session.getId();<br>    //判断session是不是新创建的<br>    if (session.isNew()) {<br>        response.getWriter().print(“session创建成功，session的id是：”+sessionId);<br>    }else {<br>        response.getWriter().print(“服务器已经存在session，session的id是：”+sessionId);<br>    }<br><br>### 5.2、session对象的销毁时机<br><br>　　session对象默认30分钟没有使用，则服务器会自动销毁session，在web.xml文件中可以手工配置session的失效时间，例如：<br>　　<br><br>    &lt;?xml version=”1.0” encoding=”UTF-8”?&gt;<br>    <web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://java.sun.com/xml/ns/javaee 
-        http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"><br>      <display-name></display-name><br><br>      <welcome-file-list><br>        <welcome-file>index.jsp</welcome-file><br>      </welcome-file-list><br><br>      <!-- 设置Session的有效时间:以分钟为单位-->
-<pre><code>    &lt;session-config&gt;
+<a id="more"></a>
+<h2 id="一、Session简单介绍"><a href="#一、Session简单介绍" class="headerlink" title="一、Session简单介绍"></a>一、Session简单介绍</h2><p>　　<br>　　在WEB开发中，服务器可以为每个用户浏览器创建一个会话对象（session对象），注意：一个浏览器独占一个session对象(默认情况下)。因此，在需要保存用户数据时，服务器程序可以把用户数据写到用户浏览器独占的session中，当用户使用浏览器访问其它程序时，其它程序可以从用户的session中取出该用户的数据，为用户服务。
+　　</p>
+<p>　</p>
+<h2 id="二、Session和Cookie的主要区别"><a href="#二、Session和Cookie的主要区别" class="headerlink" title="二、Session和Cookie的主要区别"></a>二、Session和Cookie的主要区别</h2><p>Cookie是把用户的数据写给用户的浏览器。<br>Session技术把用户的数据写到用户独占的session中。<br>Session对象由服务器创建，开发人员可以调用request对象的getSession方法得到session对象。</p>
+<h2 id="三、session实现原理"><a href="#三、session实现原理" class="headerlink" title="三、session实现原理"></a>三、session实现原理</h2><h3 id="3-1、服务器是如何实现一个session为一个用户浏览器服务的？"><a href="#3-1、服务器是如何实现一个session为一个用户浏览器服务的？" class="headerlink" title="3.1、服务器是如何实现一个session为一个用户浏览器服务的？"></a>3.1、服务器是如何实现一个session为一个用户浏览器服务的？</h3><p> 　　<br> 　　服务器创建session出来后，会把session的id号，以cookie的形式回写给客户机，这样，只要客户机的浏览器不关，再去访问服务器时，都会带着session的id号去，服务器发现客户机浏览器带session id过来了，就会使用内存中与之对应的session为之服务。</p>
+<p>可以用如下的代码证明：</p>
+<p>第一次访问时，服务器会创建一个新的sesion，并且把session的Id以cookie的形式发送给客户端浏览器，点击刷新按钮，再次请求服务器，此时就可以看到浏览器再请求服务器时，会把存储到cookie中的session的Id一起传递到服务器端了</p>
+<p>request.getSession()方法内部新创建了Session之后一定是做了如下的处理:</p>
+<pre><code>//获取session的Id
+String sessionId = session.getId();
+//将session的Id存储到名字为JSESSIONID的cookie中
+Cookie cookie = new Cookie(&quot;JSESSIONID&quot;, sessionId);
+//设置cookie的有效路径
+cookie.setPath(request.getContextPath());
+response.addCookie(cookie);
+</code></pre><h2 id="四、浏览器禁用Cookie后的session处理"><a href="#四、浏览器禁用Cookie后的session处理" class="headerlink" title="四、浏览器禁用Cookie后的session处理"></a>四、浏览器禁用Cookie后的session处理</h2><h3 id="4-1、解决方案：URL重写"><a href="#4-1、解决方案：URL重写" class="headerlink" title="4.1、解决方案：URL重写"></a>4.1、解决方案：URL重写</h3><p>response.encodeRedirectURL(java.lang.String url) 用于对sendRedirect方法后的url地址进行重写。<br>response.encodeURL(java.lang.String url)用于对表单action和超链接的url地址进行重写</p>
+<h3 id="4-2、范例：禁用Cookie后servlet共享Session中的数据"><a href="#4-2、范例：禁用Cookie后servlet共享Session中的数据" class="headerlink" title="4.2、范例：禁用Cookie后servlet共享Session中的数据"></a>4.2、范例：禁用Cookie后servlet共享Session中的数据</h3><p>IndexServlet:</p>
+<pre><code>package xdp.gacl.session;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Set;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+//首页：列出所有书
+public class IndexServlet extends HttpServlet {
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+        PrintWriter out = response.getWriter();
+        //创建Session
+        request.getSession();
+        out.write(&quot;本网站有如下书：&lt;br/&gt;&quot;);
+        Set&lt;Map.Entry&lt;String,Book&gt;&gt; set = DB.getAll().entrySet();
+        for(Map.Entry&lt;String,Book&gt; me : set){
+            Book book = me.getValue();
+            String url =request.getContextPath()+ &quot;/servlet/BuyServlet?id=&quot; + book.getId();
+            //response. encodeURL(java.lang.String url)用于对表单action和超链接的url地址进行重写
+            url = response.encodeURL(url);//将超链接的url地址进行重写
+            out.println(book.getName()  + &quot;   &lt;a href=&apos;&quot;+url+&quot;&apos;&gt;购买&lt;/a&gt;&lt;br/&gt;&quot;);
+        }
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+}
+
+
+/**
+ * @author gacl
+ * 模拟数据库
+ */
+class DB{
+    private static Map&lt;String,Book&gt; map = new LinkedHashMap&lt;String,Book&gt;();
+    static{
+        map.put(&quot;1&quot;, new Book(&quot;1&quot;,&quot;javaweb开发&quot;));
+        map.put(&quot;2&quot;, new Book(&quot;2&quot;,&quot;spring开发&quot;));
+        map.put(&quot;3&quot;, new Book(&quot;3&quot;,&quot;hibernate开发&quot;));
+        map.put(&quot;4&quot;, new Book(&quot;4&quot;,&quot;struts开发&quot;));
+        map.put(&quot;5&quot;, new Book(&quot;5&quot;,&quot;ajax开发&quot;));
+    }
+
+    public static Map&lt;String,Book&gt; getAll(){
+        return map;
+    }
+}
+
+class Book{
+
+    private String id;
+    private String name;
+
+    public Book() {
+        super();
+    }
+    public Book(String id, String name) {
+        super();
+        this.id = id;
+        this.name = name;
+    }
+    public String getId() {
+        return id;
+    }
+    public void setId(String id) {
+        this.id = id;
+    }
+    public String getName() {
+        return name;
+    }
+    public void setName(String name) {
+        this.name = name;
+    }
+}
+</code></pre><p>BuyServlet:</p>
+<pre><code>package xdp.gacl.session;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class BuyServlet extends HttpServlet {
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String id = request.getParameter(&quot;id&quot;);
+        Book book = DB.getAll().get(id);  //得到用户想买的书
+        HttpSession session = request.getSession();
+        List&lt;Book&gt; list = (List) session.getAttribute(&quot;list&quot;);  //得到用户用于保存所有书的容器
+        if(list==null){
+            list = new ArrayList&lt;Book&gt;();
+            session.setAttribute(&quot;list&quot;, list);
+        }
+        list.add(book);
+        //response. encodeRedirectURL(java.lang.String url)用于对sendRedirect方法后的url地址进行重写
+        String url = response.encodeRedirectURL(request.getContextPath()+&quot;/servlet/ListCartServlet&quot;);
+        System.out.println(url);
+        response.sendRedirect(url);
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+
+}   
+</code></pre><p>ListCartServlet：</p>
+<pre><code>package xdp.gacl.session;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+public class ListCartServlet extends HttpServlet {
+
+    public void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        response.setContentType(&quot;text/html;charset=UTF-8&quot;);
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession();
+        List&lt;Book&gt; list = (List) session.getAttribute(&quot;list&quot;);
+        if(list==null || list.size()==0){
+            out.write(&quot;对不起，您还没有购买任何商品!!&quot;);
+            return;
+        }
+
+        //显示用户买过的商品
+        out.write(&quot;您买过如下商品:&lt;br&gt;&quot;);
+        for(Book book : list){
+            out.write(book.getName() + &quot;&lt;br/&gt;&quot;);
+        }
+    }
+
+    public void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        doGet(request, response);
+    }
+}
+</code></pre><p>当浏览器禁用了cookie后，就可以用URL重写这种解决方案解决Session数据共享问题。而且response. encodeRedirectURL(java.lang.String url) 和response. encodeURL(java.lang.String url)是两个非常智能的方法，当检测到浏览器没有禁用cookie时，那么就不进行URL重写了。</p>
+<h2 id="五、session对象的创建和销毁时机"><a href="#五、session对象的创建和销毁时机" class="headerlink" title="五、session对象的创建和销毁时机"></a>五、session对象的创建和销毁时机</h2><h3 id="5-1、session对象的创建时机"><a href="#5-1、session对象的创建时机" class="headerlink" title="5.1、session对象的创建时机"></a>5.1、session对象的创建时机</h3><p>　　在程序中第一次调用request.getSession()方法时就会创建一个新的Session，可以用isNew()方法来判断Session是不是新创建的</p>
+<p>范例：创建session</p>
+<pre><code>//使用request对象的getSession()获取session，如果session不存在则创建一个
+HttpSession session = request.getSession();
+//获取session的Id
+String sessionId = session.getId();
+//判断session是不是新创建的
+if (session.isNew()) {
+    response.getWriter().print(&quot;session创建成功，session的id是：&quot;+sessionId);
+}else {
+    response.getWriter().print(&quot;服务器已经存在session，session的id是：&quot;+sessionId);
+}
+</code></pre><h3 id="5-2、session对象的销毁时机"><a href="#5-2、session对象的销毁时机" class="headerlink" title="5.2、session对象的销毁时机"></a>5.2、session对象的销毁时机</h3><p>　　session对象默认30分钟没有使用，则服务器会自动销毁session，在web.xml文件中可以手工配置session的失效时间，例如：
+　　</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+&lt;web-app version=&quot;2.5&quot; 
+    xmlns=&quot;http://java.sun.com/xml/ns/javaee&quot; 
+    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; 
+    xsi:schemaLocation=&quot;http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd&quot;&gt;
+  &lt;display-name&gt;&lt;/display-name&gt;
+
+  &lt;welcome-file-list&gt;
+    &lt;welcome-file&gt;index.jsp&lt;/welcome-file&gt;
+  &lt;/welcome-file-list&gt;
+
+  &lt;!-- 设置Session的有效时间:以分钟为单位--&gt;
+    &lt;session-config&gt;
         &lt;session-timeout&gt;15&lt;/session-timeout&gt;
     &lt;/session-config&gt;
 
@@ -408,7 +608,7 @@
 <pre><code>HttpSession session = request.getSession();
 //手工调用session.invalidate方法，摧毁session
 session.invalidate();
-</code></pre></web-app></book></book></book></string,book></string,book></string,book></string,book></map.entry<string,book>
+</code></pre>
       
     </div>
 
@@ -673,7 +873,7 @@ session.invalidate();
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3手动销毁session"><span class="nav-number">1.</span> <span class="nav-text">5.3手动销毁session</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、Session简单介绍"><span class="nav-number">1.</span> <span class="nav-text">一、Session简单介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、Session和Cookie的主要区别"><span class="nav-number">2.</span> <span class="nav-text">二、Session和Cookie的主要区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、session实现原理"><span class="nav-number">3.</span> <span class="nav-text">三、session实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-1、服务器是如何实现一个session为一个用户浏览器服务的？"><span class="nav-number">3.1.</span> <span class="nav-text">3.1、服务器是如何实现一个session为一个用户浏览器服务的？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、浏览器禁用Cookie后的session处理"><span class="nav-number">4.</span> <span class="nav-text">四、浏览器禁用Cookie后的session处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#4-1、解决方案：URL重写"><span class="nav-number">4.1.</span> <span class="nav-text">4.1、解决方案：URL重写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-2、范例：禁用Cookie后servlet共享Session中的数据"><span class="nav-number">4.2.</span> <span class="nav-text">4.2、范例：禁用Cookie后servlet共享Session中的数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、session对象的创建和销毁时机"><span class="nav-number">5.</span> <span class="nav-text">五、session对象的创建和销毁时机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#5-1、session对象的创建时机"><span class="nav-number">5.1.</span> <span class="nav-text">5.1、session对象的创建时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-2、session对象的销毁时机"><span class="nav-number">5.2.</span> <span class="nav-text">5.2、session对象的销毁时机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-3手动销毁session"><span class="nav-number">5.3.</span> <span class="nav-text">5.3手动销毁session</span></a></li></ol></li></ol></div>
             
 
           </div>
