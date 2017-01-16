@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,数据结构,List容器," />
+  <meta name="keywords" content="java,String," />
 
 
 
@@ -96,19 +96,16 @@
 
 
 
-<meta name="description" content="ava中的LinkedList 是采用双向循环列表实现的。
-利用LinkedList 可以实现栈（stack）、队列（queue）、双向队列（double-ended queue）">
+<meta name="description" content="String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且大量浪费有限的内存空间,StringBuffer是可变类，和线程安全的字符串操作类，任何对它指向的字符串的操作都不会产生新的对象,StringBuffer和StringBuilder类功能基本相似，但它是线程安全的，因为同步的原因性能上会比StringBuilder稍差">
 <meta property="og:type" content="article">
-<meta property="og:title" content="基于LinkedList实现栈和队列">
-<meta property="og:url" content="http://www.yanglc.com/2017/01/15/stack-and-queue/index.html">
+<meta property="og:title" content="String、StringBuilder、StringBuffer">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/16/String-StringBuilder-StringBuffer/index.html">
 <meta property="og:site_name" content="Sully">
-<meta property="og:description" content="ava中的LinkedList 是采用双向循环列表实现的。
-利用LinkedList 可以实现栈（stack）、队列（queue）、双向队列（double-ended queue）">
-<meta property="og:updated_time" content="2017-01-15T09:03:45.846Z">
+<meta property="og:description" content="String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且大量浪费有限的内存空间,StringBuffer是可变类，和线程安全的字符串操作类，任何对它指向的字符串的操作都不会产生新的对象,StringBuffer和StringBuilder类功能基本相似，但它是线程安全的，因为同步的原因性能上会比StringBuilder稍差">
+<meta property="og:updated_time" content="2017-01-16T06:10:05.026Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="基于LinkedList实现栈和队列">
-<meta name="twitter:description" content="ava中的LinkedList 是采用双向循环列表实现的。
-利用LinkedList 可以实现栈（stack）、队列（queue）、双向队列（double-ended queue）">
+<meta name="twitter:title" content="String、StringBuilder、StringBuffer">
+<meta name="twitter:description" content="String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且大量浪费有限的内存空间,StringBuffer是可变类，和线程安全的字符串操作类，任何对它指向的字符串的操作都不会产生新的对象,StringBuffer和StringBuilder类功能基本相似，但它是线程安全的，因为同步的原因性能上会比StringBuilder稍差">
 
 
 
@@ -136,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://www.yanglc.com/2017/01/15/stack-and-queue/"/>
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/16/String-StringBuilder-StringBuffer/"/>
 
 
 
 
 
-  <title> 基于LinkedList实现栈和队列 | Sully </title>
+  <title> String、StringBuilder、StringBuffer | Sully </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -285,7 +282,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/15/stack-and-queue/">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/16/String-StringBuilder-StringBuffer/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="杨重山">
@@ -309,7 +306,7 @@
             
             
               
-                基于LinkedList实现栈和队列
+                String、StringBuilder、StringBuffer
               
             
           </h1>
@@ -324,8 +321,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-15T17:02:16+08:00">
-                2017-01-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-16T14:08:40+08:00">
+                2017-01-16
               </time>
             
 
@@ -365,8 +362,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/15/stack-and-queue/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/15/stack-and-queue/" itemprop="commentCount"></span>
+                <a href="/2017/01/16/String-StringBuilder-StringBuffer/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/16/String-StringBuilder-StringBuffer/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -393,138 +390,87 @@
 
       
         <hr>
-<p>ava中的LinkedList 是采用双向循环列表实现的。</p>
-<p>利用LinkedList 可以实现栈（stack）、队列（queue）、双向队列（double-ended queue）</p>
+<p>String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且大量浪费有限的内存空间,StringBuffer是可变类，和线程安全的字符串操作类，任何对它指向的字符串的操作都不会产生新的对象,StringBuffer和StringBuilder类功能基本相似，但它是线程安全的，因为同步的原因性能上会比StringBuilder稍差</p>
 <hr>
 <a id="more"></a>
-<p><strong>1.提供一组栈的接口，其底层关联到一个LinkedList（双端队列）实例。由于只暴露部分基于栈实现的接口，所以可以提供安全的栈实现。</strong></p>
-<pre><code>import java.util.LinkedList;
+<h2 id="1-String-类"><a href="#1-String-类" class="headerlink" title="1. String 类"></a>1. String 类</h2><p>　　String的值是不可变的，这就导致每次对String的操作都会生成新的String对象，不仅效率低下，而且大量浪费有限的内存空间。 
+　　</p>
+<pre><code>String a = &quot;a&quot;; //假设a指向地址0x0001 
+a = &quot;b&quot;;//重新赋值后a指向地址0x0002，但0x0001地址中保存的&quot;a&quot;依旧存在，但已经不再是a所指向的,a 已经指向了其它地址。 
+</code></pre><p><strong>因此String的操作都是改变赋值地址而不是改变值操作。</strong></p>
+<h2 id="2-StringBuffer类"><a href="#2-StringBuffer类" class="headerlink" title="2. StringBuffer类"></a>2. StringBuffer类</h2><p>StringBuffer是可变类，和线程安全的字符串操作类，任何对它指向的字符串的操作都不会产生新的对象。 <strong>每个StringBuffer对象都有一定的缓冲区容量，当字符串大小没有超过容量时，不会分配新的容量，当字符串大小超过容量时，会自动增加容量。</strong></p>
+<pre><code>StringBuffer buf=new StringBuffer(); //分配长16字节的字符缓冲区 
+StringBuffer buf=new StringBuffer(512); //分配长512字节的字符缓冲区 
+StringBuffer buf=new StringBuffer(&quot;this is a test&quot;)//在缓冲区中存放了字符串，并在后面预留了16字节的空缓冲区。 
+</code></pre><h2 id="3-StringBuilder类"><a href="#3-StringBuilder类" class="headerlink" title="3.StringBuilder类"></a>3.StringBuilder类</h2><p>　　StringBuffer和StringBuilder类功能基本相似，主要区别在于StringBuffer类的方法是多线程、安全的，而StringBuilder不是线程安全的，相比而言，StringBuilder类会略微快一点。对于经常要改变值的字符串应该使用StringBuffer和StringBuilder类。 </p>
+<h2 id="4-线程安全"><a href="#4-线程安全" class="headerlink" title="4.线程安全"></a>4.线程安全</h2><p>StringBuffer 线程安全<br>StringBuilder 线程不安全 </p>
+<h2 id="5-速度"><a href="#5-速度" class="headerlink" title="5.速度"></a>5.速度</h2><p>一般情况下,速度从快到慢:StringBuilder&gt;StringBuffer&gt;String,这种比较是相对的，不是绝对的。 </p>
+<h2 id="6-总结"><a href="#6-总结" class="headerlink" title="6.总结"></a>6.总结</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">（1）.如果要操作少量的数据用 = String </div><div class="line">（2）.单线程操作字符串缓冲区 下操作大量数据 = StringBuilder </div><div class="line">（3）.多线程操作字符串缓冲区 下操作大量数据 = StringBuffer</div></pre></td></tr></table></figure>
+<pre><code>public class TestCharacter { 
+    final static int time = 50000; //循环次数 
 
-/**
- * 用LinkedList实现栈
- * 
- * 队列和栈区别：队列先进先出，栈先进后出。
- * 
- */
-public class Stack&lt;T&gt; {
-    private LinkedList&lt;T&gt; storage = new LinkedList&lt;T&gt;();
+    public TestCharacter(){ 
 
-    /** 入栈 */
-    public void push(T v) {
-        storage.addFirst(v);
-    }
+    } 
+    public void test(String s){ 
+        long begin = System.currentTimeMillis(); 
+        for(int i=0; i&lt;time; i++){ 
+            s += “add”; 
+        } 
+        long over = System.currentTimeMillis(); 
+        System.out.println(“操作”+s.getClass().getName()+”类型使用的时间为：”+(over-begin)+”毫秒”); 
+    } 
 
-    /** 出栈，但不删除 */
-    public T peek() {
-        return storage.getFirst();
-    }
+    public void test(StringBuffer s){ 
+        long begin = System.currentTimeMillis(); 
+        for(int i=0; i&lt;time; i++){ 
+            s.append(“add”); 
+        } 
+        long over = System.currentTimeMillis(); 
+        System.out.println(“操作”+s.getClass().getCanonicalName()+”类型使用的时间为：”+(over-begin)+”毫秒”); 
+    } 
 
-    /** 出栈，删除 */
-    public T pop() {
-        return storage.removeFirst();
-    }
+    public void test(StringBuilder s){ 
+        long begin = System.currentTimeMillis(); 
+        for(int i=0; i&lt;time; i++){ 
+            s.append(“add”); 
+        } 
+        long over = System.currentTimeMillis(); 
+        System.out.println(“操作”+s.getClass().getName()+”类型使用的时间为：”+(over-begin)+”毫秒”); 
+    } 
 
-    /** 栈是否为空 */
-    public boolean empty() {
-        return storage.isEmpty();
-    }
+    /*对 String 直接进行字符串拼接的测试*/ 
+    public void test2(){ 
+        String s2 = “abcd”; 
+        long begin = System.currentTimeMillis(); 
+        for(int i=0; i&lt;time; i++){ 
+            String s = s2 + s2 +s2; 
+        } 
+        long over = System.currentTimeMillis(); 
+        System.out.println(“操作字符串对象引用相加类型使用的时间为：”+(over-begin)+”毫秒”); 
+    } 
 
-    /** 打印栈元素 */
-    public String toString() {
-        return storage.toString();
-    }
+    public void test3(){ 
+        long begin = System.currentTimeMillis(); 
+        for(int i=0; i&lt;time; i++){ 
+            String s =”abcd” + “abcd” + “abcd”; 
+        } 
+        long over = System.currentTimeMillis(); 
+        System.out.println(“操作字符串相加使用的时间为：”+(over-begin)+”毫秒”); 
+    } 
 
-    public static void main(String[] args) {
-        Stack stack=new Stack&lt;String&gt;();
-        stack.push(&quot;a&quot;);
-        stack.push(&quot;b&quot;);
-        stack.push(&quot;c&quot;);
-        //[c, b, a]
-        System.out.println(stack.toString());
-        //c--[c, b, a]
-        Object obj=stack.peek();
-        System.out.println(obj+&quot;--&quot;+stack.toString());
-        obj=stack.pop();
-        //c--[b, a]
-        System.out.println(obj+&quot;--&quot;+stack.toString());
-        //false
-        System.out.println(stack.empty());
-    }
-}
-</code></pre><p><strong>2.使用java.util.Queue接口,其底层关联到一个LinkedList（双端队列）实例。由于只暴露部分基于队列实现的接口，所以可以提供安全的队列实现。</strong></p>
-<pre><code>import java.util.LinkedList;
-import java.util.Queue;
-
-/**   
- *  用LinkedList实现队列
- *  
- *  队列和栈区别：队列先进先出，栈先进后出。
- *
- */
-public class MyQueue&lt;T&gt; {
-    private Queue&lt;T&gt; storage = new LinkedList&lt;T&gt;();
-
-    /** 将指定的元素插入队尾 */
-    public void offer(T v) {
-        storage.offer(v);
-    }
-
-    /** 检索，但是不移除队列的头，如果此队列为空，则返回 null */
-    public T peek() {
-        return storage.peek();
-    }
-
-    /** 检索，但是不移除此队列的头 */
-    /** 此方法与 peek 方法的惟一不同是，如果此队列为空，它会抛出一个异常 */
-    public T element() {
-        return storage.element();
-    }
-
-    /** 检索并移除此队列的头，如果队列为空，则返回 null */
-    public T poll() {
-        return storage.poll();
-    }
-
-    /** 检索并移除此队列的头 */
-    /** 此方法与 poll 方法的不同在于，如果此队列为空，它会抛出一个异常 */
-    public T remove() {
-        return storage.remove();
-    }
-
-    /** 队列是否为空 */
-    public boolean empty() {
-        return storage.isEmpty();
-    }
-
-    /** 打印队列元素 */
-    public String toString() {
-        return storage.toString();
-    }
-
-    public static void main(String[] args) {
-        MyQueue stack=new MyQueue&lt;String&gt;();
-        stack.offer(&quot;a&quot;);
-        stack.offer(&quot;b&quot;);
-        stack.offer(&quot;c&quot;);
-        //[a, b, c]
-        System.out.println(stack.toString());
-
-        Object obj=stack.peek();
-        // a--[a, b, c]
-        System.out.println(obj+&quot;--&quot;+stack.toString());
-        obj=stack.element();
-        // a--[a, b, c]
-        System.out.println(obj+&quot;--&quot;+stack.toString());
-        obj=stack.poll();
-        //a--[b, c]
-        System.out.println(obj+&quot;--&quot;+stack.toString());
-        obj=stack.remove();
-        //b--[c]
-        System.out.println(obj+&quot;--&quot;+stack.toString());
-        //false
-        System.out.println(stack.empty());
-    }
-}
+    public static void main(String[] args){ 
+        String s1 = “abcd”; 
+        StringBuffer st1 = new StringBuffer(“abcd”); 
+        StringBuilder st2 = new StringBuilder(“abcd”); 
+        TestCharacter tc = new TestCharacter(); 
+        tc.test(s1); 
+        tc.test(st1); 
+        tc.test(st2); 
+        tc.test2(); 
+        tc.test3(); 
+    } 
+} 
 </code></pre>
       
     </div>
@@ -571,9 +517,7 @@ public class MyQueue&lt;T&gt; {
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
-          
-            <a href="/tags/List容器/" rel="tag"># List容器</a>
+            <a href="/tags/String/" rel="tag"># String</a>
           
         </div>
       
@@ -582,8 +526,8 @@ public class MyQueue&lt;T&gt; {
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/14/innerclass/" rel="next" title="内部类简述">
-                <i class="fa fa-chevron-left"></i> 内部类简述
+              <a href="/2017/01/15/duotai-init/" rel="next" title="使用多态的情况下初始化全过程">
+                <i class="fa fa-chevron-left"></i> 使用多态的情况下初始化全过程
               </a>
             
           </div>
@@ -591,10 +535,6 @@ public class MyQueue&lt;T&gt; {
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/15/duotai-init/" rel="prev" title="使用多态的情况下初始化全过程">
-                使用多态的情况下初始化全过程 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -623,8 +563,8 @@ public class MyQueue&lt;T&gt; {
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/15/stack-and-queue/"
-           data-title="基于LinkedList实现栈和队列" data-url="http://www.yanglc.com/2017/01/15/stack-and-queue/">
+      <div class="ds-thread" data-thread-key="2017/01/16/String-StringBuilder-StringBuffer/"
+           data-title="String、StringBuilder、StringBuffer" data-url="http://www.yanglc.com/2017/01/16/String-StringBuilder-StringBuffer/">
       </div>
     
   </div>
@@ -648,8 +588,17 @@ public class MyQueue&lt;T&gt; {
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/touxiang.jpg"
@@ -771,6 +720,22 @@ public class MyQueue&lt;T&gt; {
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-String-类"><span class="nav-number">1.</span> <span class="nav-text">1. String 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-StringBuffer类"><span class="nav-number">2.</span> <span class="nav-text">2. StringBuffer类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-StringBuilder类"><span class="nav-number">3.</span> <span class="nav-text">3.StringBuilder类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-线程安全"><span class="nav-number">4.</span> <span class="nav-text">4.线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-速度"><span class="nav-number">5.</span> <span class="nav-text">5.速度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-总结"><span class="nav-number">6.</span> <span class="nav-text">6.总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
