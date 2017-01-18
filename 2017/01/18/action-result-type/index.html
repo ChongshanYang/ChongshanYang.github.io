@@ -1,0 +1,1128 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="j2ee,Struts2,action," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon00.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="一个result代表了一个可能的输出。当Action类的方法执行完成时，它返回一个字符串类型的结果码，框架根据这个结果码选择对应的result，向用户输出。
+在com.opensymphony.xwork2.Action接口中定义了一组标准的结果代码，可供开发人员使用，当然了只有我们的action继承ActionSupport这个类才可以使用下面的结果代码，如下所示：
+public interfa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="action_result_type">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/18/action-result-type/index.html">
+<meta property="og:site_name" content="Sully">
+<meta property="og:description" content="一个result代表了一个可能的输出。当Action类的方法执行完成时，它返回一个字符串类型的结果码，框架根据这个结果码选择对应的result，向用户输出。
+在com.opensymphony.xwork2.Action接口中定义了一组标准的结果代码，可供开发人员使用，当然了只有我们的action继承ActionSupport这个类才可以使用下面的结果代码，如下所示：
+public interfa">
+<meta property="og:updated_time" content="2017-01-18T04:17:27.707Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="action_result_type">
+<meta name="twitter:description" content="一个result代表了一个可能的输出。当Action类的方法执行完成时，它返回一个字符串类型的结果码，框架根据这个结果码选择对应的result，向用户输出。
+在com.opensymphony.xwork2.Action接口中定义了一组标准的结果代码，可供开发人员使用，当然了只有我们的action继承ActionSupport这个类才可以使用下面的结果代码，如下所示：
+public interfa">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6370579524316300000',
+      author: '奥雷里亚诺将军'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/18/action-result-type/"/>
+
+
+
+
+
+  <title> action_result_type | Sully </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Sully</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">凡人皆有一死，凡人皆需侍奉</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/18/action-result-type/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="杨重山">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/touxiang.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Sully">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Sully" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                action_result_type
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-18T12:15:30+08:00">
+                2017-01-18
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/01/18/action-result-type/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/18/action-result-type/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一个result代表了一个可能的输出。当Action类的方法执行完成时，它返回一个字符串类型的结果码，框架根据这个结果码选择对应的result，向用户输出。</p>
+<p>在com.opensymphony.xwork2.Action接口中定义了一组标准的结果代码，可供开发人员使用，当然了只有我们的action继承ActionSupport这个类才可以使用下面的结果代码，如下所示：</p>
+<pre><code>public interface Action
+{
+    public static final String SUCCESS = “success”;
+    public static final String NONE = “none”;
+    public static final String ERROR = “error”;
+    public static final String INPUT = “input”;
+    public static final String LOGIN = “login”;
+}
+</code></pre><p>其中Struts2应用在运行过程中若发现addFieldError()中有信息或者类型转换失败或着输入校验失败等情况那么它会自动跳转到name为input的<result>，然后转到INPUT所对应的页面：</result></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">若JSP页面中表单是用普通&lt;form&gt;编写的，发生错误而返回该页面时，则原数据将消失</div><div class="line"></div><div class="line">若JSP页面中表单是用&lt;s:form/&gt;编写的，发生错误而返回该页面时，则原数据仍存在</div><div class="line"></div><div class="line">若没有提供name值为input的&lt;result/&gt;，那么发生错误时，将直接在浏览器中提示404错误</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>除了这些预定义的结果码外，开发人员也可以定义其它的结果码来满足自身应用程序的需要。</p>
+<p>Result配置由两部分组成：一部分是result映射，另一部分是result类型。</p>
+<h2 id="一、配置-result映射"><a href="#一、配置-result映射" class="headerlink" title="一、配置 result映射"></a>一、配置 result映射</h2><p>在result映射的配置中，在指定实际资源的位置时，可以使用绝对路径，也可以使用相对路径。绝对路径以斜杠(/)开头，相对于当前的Web应用程序的上下文路径;相对路径不以斜杠(/)开头，相对于当前执行的action的路径，也就是namespace指定的路径。</p>
+<p>例如：</p>
+<pre><code>&lt;package name=&quot;default&quot; extends=&quot;struts-default&quot; namespace=&quot;/admin&quot;&gt;
+    &lt;action name=&quot;login&quot; class=&quot;com.ibm.LoginAction&quot;&gt;
+            &lt;result&gt;success.jsp&lt;/result&gt;
+            &lt;result name=&quot;error&quot;&gt;/error.jsp&lt;/result&gt;
+    &lt;/action&gt;
+&lt;/package&gt;
+</code></pre><p>如果当前Web应用程序的上下文路径是/Shop,那么请求/Shop/admin/login.action,执行成功后，转向的页面路径为：/Shop/admin/success.jsp;执行失败后，转向的页面路径为/Shop/error.jsp</p>
+<h2 id="二、result结果类型详解"><a href="#二、result结果类型详解" class="headerlink" title="二、result结果类型详解"></a>二、result结果类型详解</h2><p>type 所有类型 ：（在struts2-core.jar/struts-default.xml中可以找到）</p>
+<table>
+<thead>
+<tr>
+<th>Type 类型值</th>
+<th>作用说明</th>
+<th>对应类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>chain</td>
+<td>用来处理Action 链</td>
+<td>com.opensymphony.xwork2.ActionChainResult</td>
+</tr>
+<tr>
+<td>dispatcher（默认值）</td>
+<td>用来转向页面，通常处理 JSP</td>
+<td>org.apache.struts2.dispatcher.ServletDispatcherResult</td>
+</tr>
+<tr>
+<td>redirect</td>
+<td>重定向到一个URL</td>
+<td>org.apache.struts2.dispatcher.ServletRedirectResult</td>
+</tr>
+<tr>
+<td>redirectAction</td>
+<td>重定向到一个 Action</td>
+<td>org.apache.struts2.dispatcher.ServletActionRedirectResult</td>
+</tr>
+<tr>
+<td>plainText</td>
+<td>显示源文件内容，如文件源码</td>
+<td>org.apache.struts2.dispatcher.PlainTextResult</td>
+</tr>
+<tr>
+<td>freemarker</td>
+<td>处理 FreeMarker 模板</td>
+<td>org.apache.struts2.views.freemarker.FreemarkerResult</td>
+</tr>
+<tr>
+<td>httpheader</td>
+<td>控制特殊 http 行为的结果类型</td>
+<td>org.apache.struts2.dispatcher.HttpHeaderResult</td>
+</tr>
+<tr>
+<td>stream</td>
+<td>向浏览器发送 InputSream 对象，通常用来处理文件下载，还可用于返回 AJAX 数据。</td>
+<td>org.apache.struts2.dispatcher.StreamResult</td>
+</tr>
+<tr>
+<td>velocity</td>
+<td>处理 Velocity 模板</td>
+<td>org.apache.struts2.dispatcher.VelocityResult</td>
+</tr>
+<tr>
+<td>xslt</td>
+<td>处理 XML/XLST 模板</td>
+<td>org.apache.struts2.views.xslt.XSLTResult</td>
+</tr>
+</tbody>
+</table>
+<h3 id="1、dispatcher结果类型"><a href="#1、dispatcher结果类型" class="headerlink" title="1、dispatcher结果类型"></a>1、dispatcher结果类型</h3><p><strong>Struts2在后台使用Servlet API的RequestDispatcher来转发请求，因此在用户的整个请求/响应过程中，目标Servlet/JSP接收到的request/response对象，与最初的Servlet/JSP相同。</strong></p>
+<p>Dispatcher结果类型的实现是org.apache.struts2.dispatcher.ServletDispatcherResult,该类的二个属性(property):location和parse，这两个属性可以通过struts.xml配置文件中的result元素的param子元素来设置。param元素的name属性指定结果类型实现类的属性名,param元素的内容是属性的值。例如:</p>
+<pre><code>&lt;result name=“success”  type=“dispatcher”&gt;
+    &lt;param name=“location” &gt;/success.jsp&lt;/param&gt;
+    &lt;param name=“parse” &gt;true&lt;/param&gt;
+&lt;/result&gt;
+</code></pre><p>说明：</p>
+<p>A、<strong>location参数用于指定action执行完毕后要转向的目标资源，parse属性是一个布尔类型的值，如果为true，则解析location参数中的OGNL表达式；如果为false,则不解析。parse属性的默认值就是true.</strong></p>
+<p>location参数是默认的参数，在所有的Result实现类中，都定义了一个字符串类型的DEFAULT_PARAM静态常量，专门用于指定默认的参数名。 </p>
+<p>DEFAULT_PARAM常量的定义：public static final String</p>
+<p>DEFAULT_PARAM=“location”;</p>
+<p>B、在设置location参数时，可以在参数值中使用OGNL表达式。</p>
+<pre><code>&lt;action name=“viewNews” class=“com.ibm.ViewNewsAction”
+    &lt;result name=“success”  type=“dispatcher”&gt;
+        &lt;!--如果参数是中文：请参看最底部例子--&gt;
+        &lt;param name=“location” &gt;/viewNews.jsp?id=${id}&lt;/param&gt;
+        &lt;param name=“parse” &gt;true&lt;/param&gt;
+    &lt;/result&gt;
+&lt;/action&gt;
+</code></pre><p>考虑到默认值的使用（dispatcher和location都是默认值），上述可以简化为：</p>
+<pre><code>&lt;action name=“viewNews” class=“com.ibm.ViewNewsAction”&gt;
+    &lt;result name=“success” &gt;viewNews.jsp?id=${id}&lt;/result&gt;
+&lt;/action&gt;
+</code></pre><h3 id="2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）"><a href="#2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）" class="headerlink" title="2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）"></a>2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）</h3><p>Redirect结果类型在后台使用HttpServletResponse的sendRedirect方法将请求重定向到指定的URL，它的实现类是org.apache.struts2.dispatcher.ServletRedirectResult.该类同样有二个属性(property):location和parse，<strong>在使用redirect结果类型的场景中，用户要完成一次与服务器之间的交互，浏览器需要完成两次请求，因此第一次请求中的数据在第二次请求中是不可用的，这意味在目标资源中是不能访问action实例、action错误以及错误等。</strong></p>
+<p>如果有某些数据需要在目标资源中访问：</p>
+<p>i、一种方式是将数据保存到Session中</p>
+<p>ii、另一种方式是通过请求参数来传递数据</p>
+<p>示例（1）、</p>
+<pre><code>&lt;result name=&quot;success&quot; type=&quot;redirect&quot;&gt;  
+    &lt;param name=&quot;location&quot;&gt;foo.jsp&lt;/param&gt;
+    &lt;param name=&quot;parse&quot;&gt;false&lt;/param&gt;&lt;!--不解析OGNL--&gt;
+&lt;/result&gt;
+</code></pre><p>示例（2）、</p>
+<pre><code>&lt;package name=&quot;passingRequestParameters&quot;extends=&quot;struts-default&quot;namespace=&quot;/passingRequestParameters&quot;&gt;  
+&lt;-- Passparameters (reportType, width and height)，重定向到Url并且传参 ，如果参数是中文：请参看最底部例子--&gt;  
+&lt;!--  
+ The redirect-action url generated will be : 
+/genReport/generateReport.jsp?reportType=pie&amp;width=100&amp;height=100  
+--&gt;  
+
+   &lt;actionname=&quot;gatherReportInfo&quot; class=&quot;...&quot;&gt;  
+
+      &lt;resultname=&quot;showReportResult&quot; type=&quot;redirect&quot;&gt;  
+
+         &lt;param name=&quot;location&quot;&gt;generateReport.jsp&lt;/param&gt;  
+
+         &lt;param name=&quot;namespace&quot;&gt;/genReport&lt;/param&gt;  
+
+         &lt;param name=&quot;reportType&quot;&gt;pie&lt;/param&gt;  
+
+         &lt;param name=&quot;width&quot;&gt;100&lt;/param&gt; 
+
+         &lt;param name=&quot;height&quot;&gt;100&lt;/param&gt; 
+
+     &lt;/result&gt;  
+
+  &lt;/action&gt;  
+
+&lt;/package&gt; 
+</code></pre><h3 id="3、redirectAction结果类型（重定向到一个Action）"><a href="#3、redirectAction结果类型（重定向到一个Action）" class="headerlink" title="3、redirectAction结果类型（重定向到一个Action）"></a>3、redirectAction结果类型（重定向到一个Action）</h3><p>常用于防止表单重复提交，比方说在增加完用户之后要显示列表<br> redirectAction结果类型的实现类是org.apache.struts2.dispatcher.ServletActionRedirectResult,该类是ServletRedirectResult的子类，因此我们也就可以判断出<strong>redirectAction结果类型和redirect结果类型的后台工作原理是一样的，即都是利用HttpServletResponse的sendRedirect方法将请求重定向到指定的URL。</strong></p>
+<p>示例、</p>
+<pre><code>&lt;package name=&quot;public&quot;extends=&quot;struts-default&quot;&gt;  
+    &lt;action name=&quot;login&quot;class=&quot;...&quot;&gt;  
+        &lt;!--Redirect to another namespace 重定向到不同命名空间下的    action --&gt; 
+        &lt;result type=&quot;redirectAction&quot;&gt;  
+           &lt;param name=&quot;actionName&quot;&gt;dashboard&lt;/param&gt; 
+           &lt;param name=&quot;namespace&quot;&gt;/secure&lt;/param&gt; 
+        &lt;/result&gt; 
+    &lt;/action&gt; 
+&lt;/package&gt; 
+
+
+
+&lt;package name=&quot;secure&quot;extends=&quot;struts-default&quot; namespace=&quot;/secure&quot;&gt;  
+&lt;-- Redirectto an action in the same namespace，重定向到同一命名空间下的action --&gt;
+
+    &lt;action name=&quot;dashboard&quot; class=&quot;...&quot;&gt;  
+        &lt;result&gt;dashboard.jsp&lt;/result&gt; 
+        &lt;result name=&quot;error&quot;type=&quot;redirectAction&quot;&gt;error&lt;/result&gt; 
+    &lt;/action&gt; 
+
+    &lt;action name=&quot;error&quot; class=&quot;...&quot;&gt;  
+        &lt;result&gt;error.jsp&lt;/result&gt;
+    &lt;/action&gt; 
+&lt;/package&gt; 
+
+
+
+&lt;package name=&quot;passingRequestParameters&quot;extends=&quot;struts-default&quot;namespace=&quot;/passingRequestParameters&quot;&gt;  
+&lt;-- Passparameters (reportType, width and height)，重定向到Action并且传参，如果参数是中文：请参看最底部例子 --&gt; 
+&lt;!--  
+TheredirectAction url generated will be :   
+/genReport/generateReport.action?reportType=pie&amp;width=100&amp;height=100 
+--&gt; 
+    &lt;action name=&quot;gatherReportInfo&quot; class=&quot;...&quot;&gt;  
+        &lt;result name=&quot;showReportResult&quot; type=&quot;redirectAction&quot;&gt;  
+            &lt;param name=&quot;actionName&quot;&gt;generateReport&lt;/param&gt; 
+            &lt;param name=&quot;namespace&quot;&gt;/genReport&lt;/param&gt; 
+            &lt;param name=&quot;reportType&quot;&gt;pie&lt;/param&gt; 
+            &lt;param name=&quot;width&quot;&gt;100&lt;/param&gt;
+            &lt;param name=&quot;height&quot;&gt;100&lt;/param&gt;
+            &lt;param name=&quot;empty&quot;&gt;&lt;/param&gt;
+            &lt;param name=&quot;supressEmptyParameters&quot;&gt;true&lt;/param&gt; 
+        &lt;/result&gt; 
+    &lt;/action&gt; 
+&lt;/package&gt;
+</code></pre><h3 id="4、链接类型-result-chain（从一个Action转发到另一个Action）"><a href="#4、链接类型-result-chain（从一个Action转发到另一个Action）" class="headerlink" title="4、链接类型  result:chain（从一个Action转发到另一个Action）"></a>4、链接类型  result:chain（从一个Action转发到另一个Action）</h3><p>chain结果类型有4个属性，分别是：</p>
+<hr>
+<p><strong>actionName (default)</strong> - the name of the action that will be chained to</p>
+<p><strong>namespace</strong> - used to determine which namespace the Action is in that we’re chaining. If namespace is null, this defaults to the current namespace</p>
+<p><strong>method</strong> - used to specify another method on target action to be invoked. If null, this defaults to execute method</p>
+<p><strong>skipActions</strong> - (optional) the list of comma separated action names for the actions that could be chained to</p>
+<hr>
+<p>这个Result使用ActionMapperFactory提供的ActionMapper来重定位浏览器的URL来调用指定的action和(可选的)namespace. 这个Result比ServletRedirectResult要好.因为你不需要把URL编码成xwork.xml中配置的ActionMapper提供的模式. 这就是说你可以在任意点上改变URL模式而不会影响你的应用程序.</p>
+<p>redirctAction在转发时无法携带原有的参数，而使用chain类型则直接将参数等信息传递到下一个action</p>
+<p>示例、</p>
+<pre><code>&lt;package name=&quot;public&quot;extends=&quot;struts-default&quot;&gt;  
+&lt;!-- Chain creatAccount to login, using the default parameter ，链接到同一命名空间下的Action，--&gt; 
+    &lt;action name=&quot;createAccount&quot; class=&quot;...&quot;&gt;  
+        &lt;result type=&quot;chain&quot;&gt;login&lt;/result&gt;
+    &lt;/action&gt; 
+    &lt;action name=&quot;login&quot; class=&quot;...&quot;&gt;  
+    &lt;!--Chain to another namespace --&gt; 
+        &lt;result type=&quot;chain&quot;&gt;  
+            &lt;param name=&quot;actionName&quot;&gt;dashboard&lt;/param&gt; 
+            &lt;param name=&quot;namespace&quot;&gt;/secure&lt;/param&gt; 
+        &lt;/result&gt; 
+    &lt;/action&gt; 
+&lt;/package&gt; 
+</code></pre><p>首先是 删除商品的控制器所对应的xml配置文件如下  </p>
+<pre><code>&lt;!-- This action 负责将用户不需的商品从购物车删除 --&gt;  
+&lt;action  name=&quot;deletefromcart&quot; class=&quot;eshop.action.DeletefromCart&quot;&gt;  
+    &lt;interceptor-ref name=&quot;completeStack&quot;&gt;&lt;/interceptor-ref&gt;  
+        &lt;result name=&quot;success&quot; type=&quot;chain&quot;&gt;displaycart&lt;/result&gt;  
+    &lt;result name=&quot;error&quot; &gt;error.html&lt;/result&gt;  
+&lt;/action&gt;  
+</code></pre><p>删除成功后,其中用type=chain的拦截器,指定让其去执行displaycart的控制器,  </p>
+<pre><code>&lt;action name=&quot;displaycart&quot; class=&quot;eshop.action.DisplayCart&quot;&gt;  
+    &lt;interceptor-ref name=&quot;completeStack&quot;&gt;&lt;/interceptor-ref&gt;  
+    &lt;result name=&quot;success&quot; type=&quot;velocity&gt;ShoppingCart.vm&lt;/result&gt;  
+    &lt;result name=&quot;error&quot; &gt;error.html&lt;/result&gt;  
+&lt;/action&gt;  
+</code></pre><p>而这个displaycart的控制器其实就是刷新显示了当前的购物车了</p>
+<h3 id="5、HttpHeader-Result：HttpHeader（用来控制特殊的Http行为）"><a href="#5、HttpHeader-Result：HttpHeader（用来控制特殊的Http行为）" class="headerlink" title="5、HttpHeader Result：HttpHeader（用来控制特殊的Http行为）"></a>5、HttpHeader Result：HttpHeader（用来控制特殊的Http行为）</h3><p>httpheader结果类型很少使用到，它实际上是返回一个HTTP响应的头信息</p>
+<p>示例：</p>
+<pre><code>&lt;result name=&quot;success&quot;type=&quot;httpheader&quot;&gt;  
+    &lt;paramname=&quot;status&quot;&gt;204&lt;/param&gt;
+    &lt;paramname=&quot;headers.a&quot;&gt;a custom header value&lt;/param&gt;      &lt;paramname=&quot;headers.b&quot;&gt;another custom header value&lt;/param&gt; 
+&lt;/result&gt; 
+&lt;result name=&quot;proxyRequired&quot;type=&quot;httpheader&quot;&gt;  
+    &lt;paramname=&quot;error&quot;&gt;305&lt;/param&gt;
+    &lt;paramname=&quot;errorMessage&quot;&gt;this action must be accessed through aprozy&lt;/param&gt; 
+&lt;/result&gt; 
+</code></pre><h3 id="6、Stream-Result（向浏览器发送InputSream对象，通常用来处理文件下载）"><a href="#6、Stream-Result（向浏览器发送InputSream对象，通常用来处理文件下载）" class="headerlink" title="6、Stream Result（向浏览器发送InputSream对象，通常用来处理文件下载）"></a>6、Stream Result（向浏览器发送InputSream对象，通常用来处理文件下载）</h3><pre><code>&lt;result name=&quot;success&quot;type=&quot;stream&quot;&gt;  
+    &lt;param name=&quot;contentType&quot;&gt;image/jpeg&lt;/param&gt; 
+    &lt;param name=&quot;inputName&quot;&gt;imageStream&lt;/param&gt; 
+    &lt;param name=&quot;contentDisposition&quot;&gt;attachment;filename=&quot;document.pdf&quot;&lt;/param&gt;
+    &lt;param name=&quot;bufferSize&quot;&gt;1024&lt;/param&gt; 
+&lt;/result&gt;
+</code></pre><h3 id="7、PlainText-Result（显示原始文件内容，例如文件源代码）"><a href="#7、PlainText-Result（显示原始文件内容，例如文件源代码）" class="headerlink" title="7、PlainText Result（显示原始文件内容，例如文件源代码）"></a>7、PlainText Result（显示原始文件内容，例如文件源代码）</h3><pre><code>&lt;action name=&quot;displayJspRawContent&quot;&gt; 
+    &lt;result type=&quot;plaintext&quot;&gt;/myJspFile.jsp&lt;/result&gt; 
+&lt;/action&gt;  
+&lt;action name=&quot;displayJspRawContent&quot;&gt; 
+    &lt;result type=&quot;plaintext&quot;&gt;  
+        &lt;param name=&quot;location&quot;&gt;/myJspFile.jsp&lt;/param&gt; 
+        &lt;param name=&quot;charSet&quot;&gt;UTF-8&lt;/param&gt;
+    &lt;/result&gt; 
+&lt;/action&gt; 
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">若仅设置type=&quot;plainText&quot;的话，页面中显示中文时会乱码，这时就可以借助它的charSet属性以解决中文显示时的乱码问题，如果不设置charSet属性，反而去配置struts.i18n.encoding全局属性，是不能解决问题的</div><div class="line">设置charSet属性的目的就是让JSP页面的编码与明文显示时的编码一致</div></pre></td></tr></table></figure>
+<h3 id="8、Velocity-Result（处理Velocity模板）"><a href="#8、Velocity-Result（处理Velocity模板）" class="headerlink" title="8、Velocity Result（处理Velocity模板）"></a>8、Velocity Result（处理Velocity模板）</h3><pre><code>&lt;result name=&quot;success&quot;type=&quot;velocity&quot;&gt;  
+    &lt;paramname=&quot;location&quot;&gt;foo.vm&lt;/param&gt; 
+&lt;/result&gt; 
+</code></pre><h3 id="9、XLS-Result（处理XML-XLST模板）"><a href="#9、XLS-Result（处理XML-XLST模板）" class="headerlink" title="9、XLS Result（处理XML/XLST模板）"></a>9、XLS Result（处理XML/XLST模板）</h3><pre><code>&lt;result name=&quot;success&quot; type=&quot;xslt&quot;&gt;  
+    &lt;paramname=&quot;location&quot;&gt;foo.xslt&lt;/param&gt; 
+    &lt;paramname=&quot;matchingPattern&quot;&gt;^/result/[^/*]$&lt;/param&gt; 
+    &lt;paramname=&quot;excludingPattern&quot;&gt;.*(hugeCollection).*&lt;/param&gt; 
+&lt;/result&gt; 
+</code></pre><h3 id="10、-FreeMarkerResult-（处理FreeMarker模板）"><a href="#10、-FreeMarkerResult-（处理FreeMarker模板）" class="headerlink" title="10、 FreeMarkerResult  （处理FreeMarker模板）"></a>10、 FreeMarkerResult  （处理FreeMarker模板）</h3><pre><code>&lt;result name=&quot;success&quot;type=&quot;freemarker&quot;&gt;foo.ftl&lt;/result&gt;
+</code></pre><hr>
+<p>附、另外第三方的Result类型还包括JasperReportsPlugin，专门用来处理JasperReport类型的报表输出。</p>
+<pre><code>&lt;%@ tagliburi=&quot;http://tiles.apache.org/tags-tiles&quot; prefix=&quot;tiles&quot;%&gt; 
+&lt;%@ taglib prefix=&quot;s&quot;uri=&quot;/struts-tags&quot; %&gt; 
+&lt;%-- Show usage; Used in Header --%&gt; 
+&lt;tiles:importAttribute name=&quot;title&quot;scope=&quot;request&quot;/&gt;  
+&lt;html&gt; 
+   &lt;head&gt;&lt;title&gt;&lt;tiles:getAsStringname=&quot;title&quot;/&gt;&lt;/title&gt;&lt;/head&gt;  
+&lt;body&gt; 
+   &lt;tiles:insertAttribute name=&quot;header&quot;/&gt;  
+      &lt;pid=&quot;body&quot;&gt;  
+        &lt;tiles:insertAttributename=&quot;body&quot;/&gt;  
+    &lt;/p&gt; 
+    &lt;p&gt;Noticethat this is a layout made in JSP&lt;/p&gt;
+&lt;/body&gt; 
+&lt;/html&gt;
+</code></pre><hr>
+<h3 id="注意！！！！-传递中文"><a href="#注意！！！！-传递中文" class="headerlink" title="注意！！！！.传递中文"></a>注意！！！！.传递中文</h3><p>记住永远不要在浏览器的地址栏中传递中文。在传递中文前先进行编码</p>
+<h4 id="A-action中"><a href="#A-action中" class="headerlink" title="A.action中"></a>A.action中</h4><pre><code>public class User extends ActionSupport{
+ private String username;
+ public String getUsername() {
+  return username;
+ }
+ public void setUsername(String username) {
+  this.username = username;
+ }
+ @Override
+ public String execute() throws Exception {
+  // TODO Auto-generated method stub
+  username=URLEncoder.encode(&quot;郭蕾&quot;,&quot;utf-8&quot;);//先进行编码
+  System.out.println(username);
+  return &quot;redirect&quot;;
+ }
+}
+</code></pre><h4 id="B-struts-xml中"><a href="#B-struts-xml中" class="headerlink" title="B.struts.xml中"></a>B.struts.xml中</h4><pre><code>&lt;action name=&quot;redirect&quot; class=&quot;action.User&quot;&gt;
+     &lt;result type=&quot;redirect&quot; name=&quot;redirect&quot;&gt;
+     /redirect.jsp?username=${username}//如果要传递两个参数，中间用&amp;amp;代替&amp; &lt;/result&gt;
+&lt;/action&gt;
+</code></pre><p>在这里使用了类似于el表达式的方式传值，${username}其中username为action中定义的</p>
+<h4 id="C-redirect-jsp中"><a href="#C-redirect-jsp中" class="headerlink" title="C.redirect.jsp中"></a>C.redirect.jsp中</h4><pre><code>&lt;body&gt;
+重定向
+    &lt;%String s=request.getParameter(&quot;username&quot;);
+    s=new String(s.getBytes(&quot;iso8859-1&quot;),&quot;utf-8&quot;);
+    s=URLDecoder.decode(s,&quot;utf-8&quot;);
+    out.println(s);
+    %&gt;
+&lt;/body&gt;
+</code></pre><p>重定向中传递中文先进行编码，在jsp页面中先接受参数，然后对其进行字节分解，然后进行解码。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>大爷！赏点电费钱吧！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/3385496-bf8390384eef349d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/3385496-af50d89c24bef0e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
+          
+            <a href="/tags/Struts2/" rel="tag"># Struts2</a>
+          
+            <a href="/tags/action/" rel="tag"># action</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/16/String-StringBuilder-StringBuffer/" rel="next" title="String、StringBuilder、StringBuffer">
+                <i class="fa fa-chevron-left"></i> String、StringBuilder、StringBuffer
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/18/action-result-type/"
+           data-title="action_result_type" data-url="http://www.yanglc.com/2017/01/18/action-result-type/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/touxiang.jpg"
+               alt="杨重山" />
+          <p class="site-author-name" itemprop="name">杨重山</p>
+          <p class="site-description motion-element" itemprop="description">科学缩短了距离</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ChongshanYang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005052689345712" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jianshu.com/" title="JanShu" target="_blank">JanShu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next" target="_blank">Next</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://fontawesome.io/" title="Font awesome" target="_blank">Font awesome</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iissnan.com/progit/" title="Pro git" target="_blank">Pro git</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.liaoxuefeng.com/" title="Liaoxuefeng" target="_blank">Liaoxuefeng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.runoob.com/" title="runoob" target="_blank">runoob</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://w3schools.bootcss.com/default.html" title="w3schools" target="_blank">w3schools</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://music.163.com/" title="Music" target="_blank">Music</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.acfun.cn/" title="No BB" target="_blank">No BB</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、配置-result映射"><span class="nav-number">1.</span> <span class="nav-text">一、配置 result映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、result结果类型详解"><span class="nav-number">2.</span> <span class="nav-text">二、result结果类型详解</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、dispatcher结果类型"><span class="nav-number">2.1.</span> <span class="nav-text">1、dispatcher结果类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）"><span class="nav-number">2.2.</span> <span class="nav-text">2、redirect结果类型（重定向到一个Url，也可以是Action或一个页面）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、redirectAction结果类型（重定向到一个Action）"><span class="nav-number">2.3.</span> <span class="nav-text">3、redirectAction结果类型（重定向到一个Action）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、链接类型-result-chain（从一个Action转发到另一个Action）"><span class="nav-number">2.4.</span> <span class="nav-text">4、链接类型  result:chain（从一个Action转发到另一个Action）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、HttpHeader-Result：HttpHeader（用来控制特殊的Http行为）"><span class="nav-number">2.5.</span> <span class="nav-text">5、HttpHeader Result：HttpHeader（用来控制特殊的Http行为）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、Stream-Result（向浏览器发送InputSream对象，通常用来处理文件下载）"><span class="nav-number">2.6.</span> <span class="nav-text">6、Stream Result（向浏览器发送InputSream对象，通常用来处理文件下载）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、PlainText-Result（显示原始文件内容，例如文件源代码）"><span class="nav-number">2.7.</span> <span class="nav-text">7、PlainText Result（显示原始文件内容，例如文件源代码）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、Velocity-Result（处理Velocity模板）"><span class="nav-number">2.8.</span> <span class="nav-text">8、Velocity Result（处理Velocity模板）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9、XLS-Result（处理XML-XLST模板）"><span class="nav-number">2.9.</span> <span class="nav-text">9、XLS Result（处理XML/XLST模板）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#10、-FreeMarkerResult-（处理FreeMarker模板）"><span class="nav-number">2.10.</span> <span class="nav-text">10、 FreeMarkerResult  （处理FreeMarker模板）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意！！！！-传递中文"><span class="nav-number">2.11.</span> <span class="nav-text">注意！！！！.传递中文</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#A-action中"><span class="nav-number">2.11.1.</span> <span class="nav-text">A.action中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#B-struts-xml中"><span class="nav-number">2.11.2.</span> <span class="nav-text">B.struts.xml中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#C-redirect-jsp中"><span class="nav-number">2.11.3.</span> <span class="nav-text">C.redirect.jsp中</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨重山</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"iissnan-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
