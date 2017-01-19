@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="java,继承,多态，构造器," />
+  <meta name="keywords" content="j2ee,Struts2,action," />
 
 
 
@@ -96,16 +96,16 @@
 
 
 
-<meta name="description" content="在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外">
+<meta name="description" content="在Action的操作中，关键就是Action中的exectue方法，但是此方法并没有request、session、application等对象作为参数，自然就不能利用这些对象来操作。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="使用多态的情况下初始化全过程">
-<meta property="og:url" content="http://www.yanglc.com/2017/01/15/duotai-init/index.html">
+<meta property="og:title" content="在Action获取Scope对象">
+<meta property="og:url" content="http://www.yanglc.com/2017/01/19/action-scope/index.html">
 <meta property="og:site_name" content="Sully">
-<meta property="og:description" content="在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外">
-<meta property="og:updated_time" content="2017-01-15T10:01:05.653Z">
+<meta property="og:description" content="在Action的操作中，关键就是Action中的exectue方法，但是此方法并没有request、session、application等对象作为参数，自然就不能利用这些对象来操作。">
+<meta property="og:updated_time" content="2017-01-19T08:25:15.346Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="使用多态的情况下初始化全过程">
-<meta name="twitter:description" content="在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外">
+<meta name="twitter:title" content="在Action获取Scope对象">
+<meta name="twitter:description" content="在Action的操作中，关键就是Action中的exectue方法，但是此方法并没有request、session、application等对象作为参数，自然就不能利用这些对象来操作。">
 
 
 
@@ -133,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://www.yanglc.com/2017/01/15/duotai-init/"/>
+  <link rel="canonical" href="http://www.yanglc.com/2017/01/19/action-scope/"/>
 
 
 
 
 
-  <title> 使用多态的情况下初始化全过程 | Sully </title>
+  <title> 在Action获取Scope对象 | Sully </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -282,7 +282,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/15/duotai-init/">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/01/19/action-scope/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="杨重山">
@@ -306,7 +306,7 @@
             
             
               
-                使用多态的情况下初始化全过程
+                在Action获取Scope对象
               
             
           </h1>
@@ -321,8 +321,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-15T17:59:26+08:00">
-                2017-01-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-01-19T16:23:47+08:00">
+                2017-01-19
               </time>
             
 
@@ -344,8 +344,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
                   </a>
                 </span>
 
@@ -362,8 +362,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/01/15/duotai-init/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/15/duotai-init/" itemprop="commentCount"></span>
+                <a href="/2017/01/19/action-scope/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/19/action-scope/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -389,53 +389,350 @@
       
 
       
-        <hr>
-<h2 id="在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外"><a href="#在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外" class="headerlink" title="在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外"></a>在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外</h2><a id="more"></a>
-<p>一个动态绑定的方法调用会深入到继承层次的结构中，它可以调用导出类中的方法，如果在基类的构造器中这样做，就可能会调用某个方法，而这个方法所操纵的成员可能还未进行初始化：</p>
-<pre><code>class Glyph{
-    void draw(){
-        print(&quot;Glyph.draw()&quot;);   //这个方法其实并未被调用
+        <p>在Action的操作中，关键就是Action中的exectue方法，但是此方法并没有request、session、application等对象作为参数，自然就不能利用这些对象来操作。</p>
+<a id="more"></a>
+<p>通常可以使用四种方式来获取这些对象：</p>
+<h3 id="方式一、与Servlet解耦合的非IOC方式"><a href="#方式一、与Servlet解耦合的非IOC方式" class="headerlink" title="方式一、与Servlet解耦合的非IOC方式"></a>方式一、与Servlet解耦合的非IOC方式</h3><p><strong>获取的scope对象与容器无关，通过ActionContext获取。</strong></p>
+<pre><code>package test002;
+
+import com.opensymphony.xwork2.ActionContext;
+import com.opensymphony.xwork2.ActionSupport;
+
+import java.util.Map;
+
+/**
+ * Created by yangcs on 2017/1/19.
+ * 通过与servlet解耦和的非IOC方式来获取scope对象
+ */
+public class ScopeAction extends ActionSupport{
+    private String name;
+    private String req;
+    private String sess;
+
+    public String getReq() {
+        return req;
     }
-    Glyph{
-        print(&quot;Glyph() bfore draw()&quot;);
-        draw();     //就是在这个地方，调用了可能在导出类中重写的方法，将可能导致意外结果
-        print(&quot;Glyph() after draw()&quot;);
+
+    public void setReq(String req) {
+        this.req = req;
+    }
+
+    public String getSess() {
+        return sess;
+    }
+
+    public void setSess(String sess) {
+        this.sess = sess;
+    }
+
+    public String getApp() {
+        return app;
+    }
+
+    public void setApp(String app) {
+        this.app = app;
+    }
+
+    private String app;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    ActionContext context;   //这个是解耦和的关键
+    Map request;
+    Map session;
+    Map application;
+    @Override
+    public String execute(){
+        context = ActionContext.getContext();
+        request = (Map) context.get(&quot;request&quot;);
+        session =context.getSession();
+        application = context.getApplication();
+
+        request.put(&quot;req&quot;,req);
+        session.put(&quot;sess&quot;,sess);
+        application.put(&quot;app&quot;,app);
+        return SUCCESS;
     }
 }
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">分析：通过ActionContext的getContext静态方法得到ActionContext对象，然后ActionContext</div><div class="line">对象调用get方法来获取一个存储在request范围中的对象。我们使用el或通过request.getAttribute</div><div class="line">这样的方式均可以获取对象值，这说明了这些Map request对象实际是存储在request范围内的对象。</div></pre></td></tr></table></figure>
+<h3 id="方式二、与Servlet解耦合的IOC方式"><a href="#方式二、与Servlet解耦合的IOC方式" class="headerlink" title="方式二、与Servlet解耦合的IOC方式"></a>方式二、与Servlet解耦合的IOC方式</h3><pre><code>package test002;
 
-class RoundGlyph extends Glyph{
-    private int radius = 1;
-    RoundGlyph(int r){
-        radius = r;
-        print(&quot;RoundGlyph.RounGlyph(), radius=&quot; + radius);
+import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.interceptor.ApplicationAware;
+import org.apache.struts2.interceptor.RequestAware;
+import org.apache.struts2.interceptor.SessionAware;
+
+import java.util.Map;
+
+/**
+ * Created by yangcs on 2017/1/19.
+ * 与servlet解耦和的IOC方式（依赖于struts框架来实现对象的实例化，依赖注入、控制反转）获取scope对象
+ */
+public class ScopeAction02 extends ActionSupport implements RequestAware,SessionAware,ApplicationAware{
+    private Map request;
+    private Map session;
+    private Map application;
+    @Override
+    public void setApplication(Map&lt;String, Object&gt; map) {
+        application = map;
     }
-    void draw(){
-        print(&quot;RoundGlyph.draw(), radius = &quot;+ radius);   //基类在构造时实际调用的是此方法
+
+    @Override
+    public void setRequest(Map&lt;String, Object&gt; map) {
+        request = map;
+    }
+
+    @Override
+    public void setSession(Map&lt;String, Object&gt; map) {
+        session = map;
+    }
+    private String req;
+    private String sess;
+    private String app;
+
+    public String getReq() {
+        return req;
+    }
+
+    public void setReq(String req) {
+        this.req = req;
+    }
+
+    public String getSess() {
+        return sess;
+    }
+
+    public void setSess(String sess) {
+        this.sess = sess;
+    }
+
+    public String getApp() {
+        return app;
+    }
+
+    public void setApp(String app) {
+        this.app = app;
+    }
+
+    @Override
+    public String execute(){
+        request.put(&quot;req&quot;,req);
+        session.put(&quot;sess&quot;,sess);
+        application.put(&quot;app&quot;,app);
+        System.out.println(&quot;reqMap为：&quot;+request);
+        return &quot;success&quot;;
     }
 }
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">说明：此方法其实和方式一很相似，只是在方式一中我们需要手动的为Map request赋值，</div><div class="line">但是在方式二中它是通过实现接口，在重写接口中的方法中完成对Map requset的赋值，所以称之IOC方式。</div><div class="line"> 强调：方式二是开发中主要用的方式，应重点掌握</div></pre></td></tr></table></figure>
+<h3 id="方式三、与Servlet耦合的非IOC方式"><a href="#方式三、与Servlet耦合的非IOC方式" class="headerlink" title="方式三、与Servlet耦合的非IOC方式"></a>方式三、与Servlet耦合的非IOC方式</h3><pre><code>package test002;
 
-public class Test(){
-    public static void main(String[] args){
-        new RoundGlyph(5);      //初始化过程会先调用基类的构造器，基类初始化完成后才会进行导出类的初始化
+import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.ServletActionContext;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Created by yangcs on 2017/1/19.
+ * 与servlet相耦合的非IOC方式获取scope对象
+ * 这种方式获取的为纯粹的Scope对象，它与容器相关，这些Scope对象操作性更强
+ */
+public class ScopeAction03 extends ActionSupport{
+    private String req;
+    private String sess;
+    private String app;
+
+    public String getReq() {
+        return req;
+    }
+
+    public void setReq(String req) {
+        this.req = req;
+    }
+
+    public String getSess() {
+        return sess;
+    }
+
+    public void setSess(String sess) {
+        this.sess = sess;
+    }
+
+    public String getApp() {
+        return app;
+    }
+
+    public void setApp(String app) {
+        this.app = app;
+    }
+    HttpServletRequest request;
+    HttpSession session;
+    ServletContext application;
+    @Override
+    public String execute(){
+        request = ServletActionContext.getRequest();     //这里，就是耦合了servlet了
+        session = request.getSession();
+        application = ServletActionContext.getServletContext();
+        request.setAttribute(&quot;req&quot;,req);
+        session.setAttribute(&quot;sess&quot;,sess);
+        application.setAttribute(&quot;app&quot;,app);
+        return SUCCESS;
     }
 }
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">此方法获取的纯粹的Scope对象，它与容器相关，这些Scope对象可操作性更强。</div></pre></td></tr></table></figure>
+<h3 id="方式四、与Servlet耦合的IOC方式"><a href="#方式四、与Servlet耦合的IOC方式" class="headerlink" title="方式四、与Servlet耦合的IOC方式"></a>方式四、与Servlet耦合的IOC方式</h3><pre><code>package test002;
 
-/*
-output:
-Glyph() before draw()     
-RoundGlyph.draw(), radius = 0     //调用了导出类中的方法，但相关参数在子类中，还未初始化
-Glyph() after draw()
-RoundGlyph.RounGlyph(), radius= 5  //最后才是进行导出类的初始化
-*/
-</code></pre><p><strong>在使用继承以及多态时的初始化过程：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">1)在任何事件发生之前，将分配给对象的存储空间初始化成二进制的零</div><div class="line"></div><div class="line">2）调用基类构造器。如果此时调用了被重写的方法，用于步骤一的缘故，方法中使用的变量值为0</div><div class="line"></div><div class="line">3）按照声明的顺序调用成员的初始化方法</div><div class="line"></div><div class="line">4）调用导出类的构造器主体</div></pre></td></tr></table></figure>
-<p><strong>注：</strong> 若导出类中的方法通过“组合”方式嵌入了一个类内部的对象的引用，其值就是<strong>null</strong></p>
-<p><strong>总结：</strong></p>
-<hr>
-<p>在编写构造器时，需要尽可能用简单的方法使对象进入正常状态，尽量避免调用其他方法。</p>
-<p>在构造器中能够安全调用的只有基类中的<strong>final</strong>方法（也适用于p<strong>rivate</strong>方法，它们自动属于<strong>final</strong>方法）。这些方法不能被覆盖，因此才是安全的。</p>
-<hr>
+import com.opensymphony.xwork2.ActionSupport;
+import org.apache.struts2.interceptor.ServletRequestAware;
+import org.apache.struts2.util.ServletContextAware;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+/**
+ * Created by yangcs on 2017/1/19.
+ * 与servlet耦合的情况下使用IOC获取scope对象
+ */
+public class ScopeAction04 extends ActionSupport implements ServletRequestAware,ServletContextAware{
+    HttpServletRequest request;
+    HttpSession session;
+    ServletContext application;
+
+    @Override
+    public void setServletRequest(HttpServletRequest httpServletRequest) {
+        request = httpServletRequest;
+    }
+
+    @Override
+    public void setServletContext(ServletContext servletContext) {
+        application = servletContext;
+    }
+    private String req;
+    private String sess;
+    private String app;
+
+    public String getReq() {
+        return req;
+    }
+
+    public void setReq(String req) {
+        this.req = req;
+    }
+
+    public String getSess() {
+        return sess;
+    }
+
+    public void setSess(String sess) {
+        this.sess = sess;
+    }
+
+    public String getApp() {
+        return app;
+    }
+
+    public void setApp(String app) {
+        this.app = app;
+    }
+    @Override
+    public String execute(){
+        request.setAttribute(&quot;req&quot;,req);
+        session = request.getSession();
+        session.setAttribute(&quot;sess&quot;,sess);
+        application.setAttribute(&quot;app&quot;,app);
+        return SUCCESS;
+    }
+}
+</code></pre><h3 id="附：用于测试的访问页面及结果展示页面："><a href="#附：用于测试的访问页面及结果展示页面：" class="headerlink" title="附：用于测试的访问页面及结果展示页面："></a>附：用于测试的访问页面及结果展示页面：</h3><p>struts.xml配置文件：</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+
+&lt;!DOCTYPE struts PUBLIC
+        &quot;-//Apache Software Foundation//DTD Struts Configuration 2.3//EN&quot;
+        &quot;http://struts.apache.org/dtds/struts-2.3.dtd&quot;&gt;
+
+&lt;struts&gt;
+    &lt;package name=&quot;test002&quot; namespace=&quot;/&quot; extends=&quot;struts-default&quot;&gt;
+        &lt;action name=&quot;Action003&quot; class=&quot;test002.ScopeAction&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/JSP/scope01.jsp&lt;/result&gt;
+        &lt;/action&gt;
+        &lt;action name=&quot;Action004&quot; class=&quot;test002.ScopeAction02&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/JSP/scope01.jsp&lt;/result&gt;
+        &lt;/action&gt;
+        &lt;action name=&quot;Action005&quot; class=&quot;test002.ScopeAction03&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/JSP/scope01.jsp&lt;/result&gt;
+        &lt;/action&gt;
+        &lt;action name=&quot;Action006&quot; class=&quot;test002.ScopeAction04&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/JSP/scope01.jsp&lt;/result&gt;
+        &lt;/action&gt;
+
+    &lt;/package&gt;
+
+&lt;/struts&gt;
+</code></pre><p>输入参数页面：</p>
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;scope&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+本页面展示在action中获取scope对象&lt;br&gt;&lt;br&gt;
+&lt;form method=&quot;get&quot; action=&quot;Action003.action&quot;&gt;
+    这个表单是使用与servlet解耦和的非IOC方式来获取scope对象&lt;br&gt;
+    request:&lt;input type=&quot;text&quot; name=&quot;req&quot;/&gt;&lt;br&gt;
+    session:&lt;input type=&quot;text&quot; name=&quot;sess&quot;/&gt;&lt;br&gt;
+    appliaction:&lt;input type=&quot;text&quot; name=&quot;app&quot;/&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+&lt;form method=&quot;get&quot; action=&quot;Action004.action&quot;&gt;
+    这个表单是使用与servlet解耦和的IOC方式来获取scope对象(主要使用)&lt;br&gt;
+    request:&lt;input type=&quot;text&quot; name=&quot;req&quot;/&gt;&lt;br&gt;
+    session:&lt;input type=&quot;text&quot; name=&quot;sess&quot;/&gt;&lt;br&gt;
+    appliaction:&lt;input type=&quot;text&quot; name=&quot;app&quot;/&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+&lt;form method=&quot;get&quot; action=&quot;Action005.action&quot;&gt;
+    这个表单是使用与servlet耦和的非IOC方式来获取scope对象&lt;br&gt;
+    request:&lt;input type=&quot;text&quot; name=&quot;req&quot;/&gt;&lt;br&gt;
+    session:&lt;input type=&quot;text&quot; name=&quot;sess&quot;/&gt;&lt;br&gt;
+    appliaction:&lt;input type=&quot;text&quot; name=&quot;app&quot;/&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+&lt;form method=&quot;get&quot; action=&quot;Action006.action&quot;&gt;
+    这个表单是使用与servlet耦和的IOC方式来获取scope对象&lt;br&gt;
+    request:&lt;input type=&quot;text&quot; name=&quot;req&quot;/&gt;&lt;br&gt;
+    session:&lt;input type=&quot;text&quot; name=&quot;sess&quot;/&gt;&lt;br&gt;
+    appliaction:&lt;input type=&quot;text&quot; name=&quot;app&quot;/&gt;&lt;br&gt;
+    &lt;input type=&quot;submit&quot;/&gt;
+&lt;/form&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>获取参数展示页面：</p>
+<pre><code>&lt;%--
+  Created by IntelliJ IDEA.
+  User: yangcs
+  Date: 2017/1/19
+  To change this template use File | Settings | File Templates.
+--%&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;scope01&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    request:${requestScope.req}&lt;br&gt;
+    session:${sessionScope.sess}&lt;br&gt;
+    application:${applicationScope.app}&lt;br&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
       
     </div>
 
@@ -479,11 +776,11 @@ RoundGlyph.RounGlyph(), radius= 5  //最后才是进行导出类的初始化
       
         <div class="post-tags">
           
-            <a href="/tags/java/" rel="tag"># java</a>
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
           
-            <a href="/tags/继承/" rel="tag"># 继承</a>
+            <a href="/tags/Struts2/" rel="tag"># Struts2</a>
           
-            <a href="/tags/多态，构造器/" rel="tag"># 多态，构造器</a>
+            <a href="/tags/action/" rel="tag"># action</a>
           
         </div>
       
@@ -492,8 +789,8 @@ RoundGlyph.RounGlyph(), radius= 5  //最后才是进行导出类的初始化
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/15/stack-and-queue/" rel="next" title="基于LinkedList实现栈和队列">
-                <i class="fa fa-chevron-left"></i> 基于LinkedList实现栈和队列
+              <a href="/2017/01/18/action-result-type/" rel="next" title="Action的结果值传递类型">
+                <i class="fa fa-chevron-left"></i> Action的结果值传递类型
               </a>
             
           </div>
@@ -501,10 +798,6 @@ RoundGlyph.RounGlyph(), radius= 5  //最后才是进行导出类的初始化
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/01/16/String-StringBuilder-StringBuffer/" rel="prev" title="String、StringBuilder、StringBuffer">
-                String、StringBuilder、StringBuffer <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -533,8 +826,8 @@ RoundGlyph.RounGlyph(), radius= 5  //最后才是进行导出类的初始化
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/01/15/duotai-init/"
-           data-title="使用多态的情况下初始化全过程" data-url="http://www.yanglc.com/2017/01/15/duotai-init/">
+      <div class="ds-thread" data-thread-key="2017/01/19/action-scope/"
+           data-title="在Action获取Scope对象" data-url="http://www.yanglc.com/2017/01/19/action-scope/">
       </div>
     
   </div>
@@ -700,7 +993,7 @@ RoundGlyph.RounGlyph(), radius= 5  //最后才是进行导出类的初始化
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外"><span class="nav-number">1.</span> <span class="nav-text">在基类的构造器中要尽量避免调用可能被继承重写的方法，否则在初始化时将会引发意外</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#方式一、与Servlet解耦合的非IOC方式"><span class="nav-number">1.</span> <span class="nav-text">方式一、与Servlet解耦合的非IOC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式二、与Servlet解耦合的IOC方式"><span class="nav-number">2.</span> <span class="nav-text">方式二、与Servlet解耦合的IOC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式三、与Servlet耦合的非IOC方式"><span class="nav-number">3.</span> <span class="nav-text">方式三、与Servlet耦合的非IOC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方式四、与Servlet耦合的IOC方式"><span class="nav-number">4.</span> <span class="nav-text">方式四、与Servlet耦合的IOC方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#附：用于测试的访问页面及结果展示页面："><span class="nav-number">5.</span> <span class="nav-text">附：用于测试的访问页面及结果展示页面：</span></a></li></ol></div>
             
 
           </div>
