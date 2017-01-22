@@ -309,7 +309,7 @@
               
                 
                 <a class="post-title-link" href="/2017/01/20/aaaaaaa/" itemprop="url">
-                  aaaaaa
+                  值栈（ValueStack）与OGNL
                 </a>
               
             
@@ -335,6 +335,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -372,10 +394,22 @@
 
       
         
-          
-            <p>大巧不工，无射之射</p>
-
-          
+          <hr>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-2d34c31f12858aec.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>ValueStack是一个接口，在struts2中使用OGNL（Object-Graph Navigation Language）表达式实际上是使用 实现了ValueStack接口的类OgnlValueStack.它是ValueStack的默认实现类.</p>
+<p>ValueStack贯穿整个action的生命周期，每一个action实例都拥有一个ValueStack对象，其中保存了当前action对象和其他相关对象.</p>
+<p>struts2把ValueStack对象保存在名为：struts.valueStack的request域中.即ValueStack作用域为request.当action创建的时候，ValueStack就创建了，action被销毁的时候，ValueStack就销毁了</p>
+<p>OGNL是Object Graphic Navigation Language(对象图导航语言)的缩写，它是一个开源项目。</p>
+<p>Struts2使用OGNL作为默认的表达式语言。</p>
+<p>相对于EL表达式，它提供了平时我们需要的一些功能，如：<br>支持对象方法调用，支持各类静态方法调用和值访问，支持操作集合对象。</p>
+<hr>
+          <!--noindex-->
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/01/20/aaaaaaa/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -1927,7 +1961,7 @@ public class DoNew {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

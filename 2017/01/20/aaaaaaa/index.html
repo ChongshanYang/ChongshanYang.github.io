@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="j2ee,struts2,ognl," />
 
 
 
@@ -96,16 +96,21 @@
 
 
 
-<meta name="description" content="大巧不工，无射之射">
+<meta name="description" content="ValueStack是一个接口，在struts2中使用OGNL（Object-Graph Navigation Language）表达式实际上是使用 实现了ValueStack接口的类OgnlValueStack.它是ValueStack的默认实现类.
+ValueStack贯穿整个action的生命周期，每一个action实例都拥有一个ValueStack对象，其中保存了当前action对象和">
 <meta property="og:type" content="article">
-<meta property="og:title" content="aaaaaa">
+<meta property="og:title" content="值栈（ValueStack）与OGNL">
 <meta property="og:url" content="http://www.yanglc.com/2017/01/20/aaaaaaa/index.html">
 <meta property="og:site_name" content="Sully">
-<meta property="og:description" content="大巧不工，无射之射">
-<meta property="og:updated_time" content="2017-01-21T13:52:41.226Z">
+<meta property="og:description" content="ValueStack是一个接口，在struts2中使用OGNL（Object-Graph Navigation Language）表达式实际上是使用 实现了ValueStack接口的类OgnlValueStack.它是ValueStack的默认实现类.
+ValueStack贯穿整个action的生命周期，每一个action实例都拥有一个ValueStack对象，其中保存了当前action对象和">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-2d34c31f12858aec.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-01-22T08:06:00.146Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="aaaaaa">
-<meta name="twitter:description" content="大巧不工，无射之射">
+<meta name="twitter:title" content="值栈（ValueStack）与OGNL">
+<meta name="twitter:description" content="ValueStack是一个接口，在struts2中使用OGNL（Object-Graph Navigation Language）表达式实际上是使用 实现了ValueStack接口的类OgnlValueStack.它是ValueStack的默认实现类.
+ValueStack贯穿整个action的生命周期，每一个action实例都拥有一个ValueStack对象，其中保存了当前action对象和">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3385496-2d34c31f12858aec.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -139,7 +144,7 @@
 
 
 
-  <title> aaaaaa | Sully </title>
+  <title> 值栈（ValueStack）与OGNL | Sully </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +311,7 @@
             
             
               
-                aaaaaa
+                值栈（ValueStack）与OGNL
               
             
           </h1>
@@ -331,6 +336,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -367,7 +394,268 @@
       
 
       
-        <p>大巧不工，无射之射</p>
+        <hr>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-2d34c31f12858aec.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>ValueStack是一个接口，在struts2中使用OGNL（Object-Graph Navigation Language）表达式实际上是使用 实现了ValueStack接口的类OgnlValueStack.它是ValueStack的默认实现类.</p>
+<p>ValueStack贯穿整个action的生命周期，每一个action实例都拥有一个ValueStack对象，其中保存了当前action对象和其他相关对象.</p>
+<p>struts2把ValueStack对象保存在名为：struts.valueStack的request域中.即ValueStack作用域为request.当action创建的时候，ValueStack就创建了，action被销毁的时候，ValueStack就销毁了</p>
+<p>OGNL是Object Graphic Navigation Language(对象图导航语言)的缩写，它是一个开源项目。</p>
+<p>Struts2使用OGNL作为默认的表达式语言。</p>
+<p>相对于EL表达式，它提供了平时我们需要的一些功能，如：<br>支持对象方法调用，支持各类静态方法调用和值访问，支持操作集合对象。</p>
+<hr>
+<a id="more"></a>
+<h2 id="一、ValueStack"><a href="#一、ValueStack" class="headerlink" title="一、ValueStack"></a>一、ValueStack</h2><hr>
+<p>1.ValueStack是一个接口，在struts2中使用OGNL（Object-Graph Navigation Language）表达式实际上是使用<br>实现了ValueStack接口的类OgnlValueStack.它是ValueStack的默认实现类.</p>
+<p>2.ValueStack贯穿整个action的生命周期，每一个action实例都拥有一个ValueStack对象，其中保存了当前action对象和其他相关对象.</p>
+<p>3.struts2把ValueStack对象保存在名为：struts.valueStack的request域中.即ValueStack作用域为request.当action创建的时候，ValueStack就创建了，action被销毁的时候，ValueStack就销毁了</p>
+<p>4.ValueStack中的数据分两部分存放：root（栈结构，CompoundRoot）和context（map形式,OgnlContext）</p>
+<ul>
+<li><p>其中的root对象是CompoundRoot，CompoundRoot继承了ArrayList，提供了额外的方法：push(),和pop()方法，<br>用来对root对象中所包含的数据进行存取.正是由于这两个方法，CompoundRoot变成了一个栈结构.</p>
+</li>
+<li><p>struts2中，一个请求在最终到达Action的方法之前，Action对象本身会被压入ValueStack（实际上就是放到ValueStack<br>的CompoundRoot中），所以action对象是CompoundRoot中的一个元素.</p>
+</li>
+<li><p>其中的context对象是OgnlContext，它实现了map接口，在valuestack的默认实现类中，即OgnlValueStack类中，<br>调用ongl中的方法：Ognl.createDefaultContext(..)给context赋值，查看源代码可知，<br>此方法返回的是一个OgnlContext对象.</p>
+</li>
+</ul>
+<p>5.获取ValueStack的三种方式</p>
+<p>（1）</p>
+<pre><code>ValueStack valueStack = ActionContext.getContext().getValueStack();    
+</code></pre><p>ActionContext为Action的上下文，其中有重要的6大对象</p>
+<ul>
+<li>valueStack,parameters,request,session,application,attr</li>
+<li>而ognl表达式必须选择AcitonContext中的一个对象作为根对象（root），默认为valueStack，<strong>因此访问valueStack中的数据不加#而如果要使用另外5个对象作为根对象，需要加#前缀</strong>.</li>
+</ul>
+<p>（2）</p>
+<pre><code>ValueStack valueStack = ServletActionContext.getValueStack(ServletActionContext.getRequest());        
+</code></pre><p>ServletActionContext继承了ActionContext，它与web容器耦合，可以获取web容器的一些信息.</p>
+<p>（3）</p>
+<pre><code>ValueStack valueStack = (ValueStack)       ServletActionContext.getRequest().getAttribute(&quot;struts.valueStack&quot;);
+</code></pre><p>7.常用的存储数据的方法</p>
+<p>（1）向map栈中存数据，即ValueStack中的context（OgnlContext）</p>
+<ul>
+<li><p>通过request，session等向map中存储数据</p>
+<pre><code>ServletActionContext.getRequest().setAttribute(&quot;username&quot;,&quot;joey&quot;);
+
+ServletActionContext.getSession().put(&quot;pwd&quot;,&quot;123&quot;);
+</code></pre></li>
+<li><p>直接向map栈中放数据</p>
+<pre><code>ActionContext.getContext().put(&quot;msg&quot;,&quot;how you doing&quot;);    
+</code></pre></li>
+</ul>
+<p>（2）向对象栈中存数据，即ValueStack中的root（CompoundRoot）对象</p>
+<ul>
+<li>先得到root，再把数据压入到root中，这种方式是放入到栈底.</li>
+<li><pre><code>ValueStack valueStack = ActionContext.getContext().getValueStack();
+valueStack.getRoot().add(new Person());
+</code></pre></li>
+<li><p>先得到root，利用add(index,Object)把一个对象压入到root中指定位置.</p>
+</li>
+<li><pre><code>ValueStack valueStack = ActionContext.getContext().getValueStack();
+valueStack.getRoot().add(0，new Person());//这里0，表示压入栈顶.
+</code></pre></li>
+<li>存放一个map到对象栈中</li>
+<li><pre><code>ValueStack valueStack = ActionContext.getContext().getValueStack();
+valueStack.set(&quot;msg&quot;,&quot;dude&quot;); //先封装成Map，在把Map放入到对象栈中，且放入栈顶.
+</code></pre></li>
+<li>利用valueStack的push方法把一个对象直接压入栈顶</li>
+<li><pre><code>ValueStack valueStack = ActionContext.getContext().getValueStack();
+valueStack.push(new Person());
+</code></pre></li>
+</ul>
+<p>8.利用OGNL表达式取ValueStack中的数据</p>
+<p>（1）<s:property>：取栈顶的元素.</s:property></p>
+<p>（2）<s:iterator>：取栈顶的元素.</s:iterator></p>
+<p><strong>注意：此标签的value属性值无论来自对象栈还是Map栈，都可以不加#前缀（<s:select>标签也适用）.<br>    因为此标签在迭代的时候，总是把当前正在迭代的元素放入到栈顶.</s:select></strong></p>
+<h2 id="二、ognl"><a href="#二、ognl" class="headerlink" title="二、ognl"></a>二、ognl</h2><h4 id="1"><a href="#1" class="headerlink" title="1."></a>1.</h4><p>ognl是struts2中使用的一种表达式语言，可用于jsp的标签库中，以方便访问各种对象的属性.<br>它用于把界面的参数传递到Action中（并进行类型转换），它还可以用于struts2的配置文件中.</p>
+<h4 id="2-Root对象"><a href="#2-Root对象" class="headerlink" title="2.Root对象"></a>2.Root对象</h4><p>OGNL称为对象图导航语言，所谓对象图，即以任意一个对象为根，通过OGNL可以访问与这个对象关联的其它对象.<br>例如：</p>
+<pre><code> public class User{
+    private String username;
+    private Group group;
+    //省略setter，getter方法
+}
+public class Group{
+    private String name;
+    private Organization org;
+    //省略setter，getter方法
+}
+public class Organization{
+    private String orgId;
+    //省略setter，getter方法
+}
+</code></pre><p>以上三个类，描述了通过一个User对象，同过User对象可以导航到Group对象，进而导航到Organization对象.<br>            以User为根，通过基本的getters方法,可以访问到此根对象的其它关联对象.【对象图的导航，必须通过getters方法导航】</p>
+<p>注意:    </p>
+<ul>
+<li><p>导航的目的，就是为了获取某个对象的值或设置某个对象的值或调用某个对象的方法.</p>
+</li>
+<li><p>OGNL表达式语言的真正目的，是为了在那些不能写java代码的地方执行java代码，或者是为了更方便的执行java代码.</p>
+</li>
+</ul>
+<h4 id="3-Context对象"><a href="#3-Context对象" class="headerlink" title="3.Context对象"></a>3.Context对象</h4><ul>
+<li><p>在OGNL表达式中，有可能需要访问到多个毫不相干的对象，这时候，我们需要给OGNL传递一个Map类型的对象，把表达式中需要用到的对象放到Map中即可.而这个Map对象称为Context</p>
+</li>
+<li><p>要在表达式访问到context中的对象，需要使用”#对象名称”的语法规则.</p>
+</li>
+<li><p>存在context的主要原因就是在OGNL中，不支持多个root对象，而如果需要在表达式中访问多个毫不相关的对象时，<br>只能通过一个Map来把这些对象统一传递给OGNL.</p>
+</li>
+</ul>
+<h4 id="4-普通方法访问"><a href="#4-普通方法访问" class="headerlink" title="4.普通方法访问"></a>4.普通方法访问</h4><p>首先在User中增加一个成员方法，代码如下：</p>
+<pre><code>public String get(){
+    return &quot;这是User中的get方法&quot;;
+}
+</code></pre><p>在LoginAction中也有类似的get方法，随后再在loginSuc.jsp中增加如下代码：</p>
+<pre><code>&lt;s:property value=&quot;user.username.length()&quot;/&gt;&lt;br&gt;  //调用值栈对象中的普通方法1
+&lt;s:property value=&quot;user.get()&quot;/&gt;&lt;br&gt;   //调用值栈对象中的普通方法2
+&lt;s:property value=&quot;get()&quot;/&gt;&lt;br&gt;  //调用LoginAction中的普通方法
+</code></pre><h4 id="4-静态方法访问"><a href="#4-静态方法访问" class="headerlink" title="4.静态方法访问"></a>4.静态方法访问</h4><p>在LoginAction中增加如下方法：</p>
+<pre><code>public static String getSta() {
+        return &quot;这是LoginAction中的静态方法&quot;;
+}
+</code></pre><p>然后在loginSuc.jsp中增加如下代码：</p>
+<pre><code>&lt;s:property value=&quot;@com.asm.LoginAction@getSta()&quot;/&gt;&lt;br&gt; //调用Action中的静态方法
+&lt;s:property value=&quot;@vs@getSta()&quot;/&gt;&lt;br&gt; //调用LoginAction中的静态方_方式(2)
+</code></pre><p>说明：我们在方式二中用到@vs，只有那些值栈中的对象才可以这样写。</p>
+<p>然后访问，发现访问不到,因为在struts2.1.6的版本中，struts.ognl.allowStaticMethodAccess的默认值为false,我们只需在struts.xml中增加如下内容：</p>
+<pre><code>&lt;constant name=&quot;struts.ognl.allowStaticMethodAccess&quot; value=&quot;true&quot;/&gt;
+</code></pre><p>再来访问时便可以访问到。</p>
+<h4 id="5-默认类Math的访问"><a href="#5-默认类Math的访问" class="headerlink" title="5.默认类Math的访问"></a>5.默认类Math的访问</h4><p>在loginSuc.jsp中增加如下代码：</p>
+<pre><code>&lt;s:property value=&quot;@java.lang.Math@min(1,2)&quot;/&gt;&lt;br&gt;//调用Math类中的静态方法
+&lt;s:property value=&quot;@@min(1,2)&quot;/&gt;&lt;br&gt;//调用Math类中的静态方法_方式2
+&lt;s:property value=&quot;@@PI&quot;/&gt;&lt;br&gt;//调用Math类中的字段
+</code></pre><p>说明：因为是默认的类，所以可以省略类名</p>
+<h4 id="6-调用普通类的构造方法"><a href="#6-调用普通类的构造方法" class="headerlink" title="6.调用普通类的构造方法"></a>6.调用普通类的构造方法</h4><p>调用普通类中的构造方法  :</p>
+<pre><code>&lt;s:property value=&quot;new com.asm.vo.Student(&apos;jack&apos;,&apos;20&apos;,&apos;85.5&apos;)&quot;/&gt;&lt;br&gt;
+</code></pre><p>调用普通类中的构造方法并访问其字段 :</p>
+<pre><code>&lt;s:property value=&quot;new com.asm.vo.Student(&apos;jack&apos;,&apos;20&apos;,&apos;85.5&apos;).name&quot;/&gt;
+</code></pre><p>说明：第一种是只new出对象，显示的时候其实是调用对象的toString方法。</p>
+<h4 id="7-集合对象初步"><a href="#7-集合对象初步" class="headerlink" title="7.集合对象初步"></a>7.集合对象初步</h4><p>首先在LoginAction中增加如下字段并提供相应的get/set方法:</p>
+<pre><code>private List myList = new ArrayList();
+private Set mySet = new HashSet();
+private Map myMap = new HashMap();
+</code></pre><p>然后再在execute方法中初始化这些集合对象，代码如下：</p>
+<pre><code>myList.add(&quot;list1&quot;);
+myList.add(&quot;list2&quot;);
+myList.add(&quot;list3&quot;);
+myList.add(&quot;list4&quot;);
+
+mySet.add(&quot;set1&quot;);
+mySet.add(&quot;set3&quot;);
+mySet.add(&quot;set1&quot;);
+mySet.add(&quot;set2&quot;);
+
+myMap.put(&quot;m1&quot;, &quot;map1&quot;);
+myMap.put(&quot;m3&quot;, &quot;map3&quot;);
+myMap.put(&quot;m2&quot;, &quot;map2&quot;);
+</code></pre><p>最后在loginSuc.jsp中增加如下代码：</p>
+<pre><code>&lt;s:property value=&quot;myList&quot;/&gt;&lt;br&gt;//获取List
+&lt;s:property value=&quot;myList[0]&quot;/&gt;&lt;br&gt;//获取List中的第一个元素
+&lt;s:property value=&quot;mySet&quot;/&gt;&lt;br&gt;//获取Set
+&lt;s:property value=&quot;mySet[0]&quot;/&gt;&lt;br&gt;//获取Set中的第一个元素(set无序，不能取到)
+&lt;s:property value=&quot;myMap&quot;/&gt;&lt;br&gt;//获取Map
+&lt;br&gt;
+
+获取Map中的key=m1的元素的值:
+&lt;s:property value=&quot;myMap.m1&quot;/&gt;//方式一
+&lt;s:property value=&quot;myMap[&apos;m1&apos;]&quot;/&gt;&lt;br&gt;&lt;hr&gt;//方式二
+
+获取List的大小：
+&lt;s:property value=&quot;myList.size&quot;/&gt;|&lt;s:property value=&quot;myList.size()&quot;/&gt;&lt;br&gt;
+&lt;s:property value=&quot;myMap.keys&quot;/&gt;&lt;br&gt;//获取Map中所有键
+&lt;s:property value=&quot;myMap.values&quot;/&gt;&lt;br&gt;//获取Map中所有值
+</code></pre><h4 id="8-集合对象进阶"><a href="#8-集合对象进阶" class="headerlink" title="8.集合对象进阶"></a>8.集合对象进阶</h4><p>首先在LoginAction中增加如下字段并提供相应的get/set方法：</p>
+<pre><code>private List studentList = new ArrayList();
+</code></pre><p>然后再在execute中为其初始化赋值，代码如下：</p>
+<pre><code>studentList.add(new Student(&quot;jack&quot;, 20, 86.0f));
+studentList.add(new Student(&quot;lily&quot;, 22, 96.5f));
+studentList.add(new Student(&quot;tom&quot;, 23, 56.5f));
+</code></pre><p>最后在loginSuc.jsp中增加如下代码：</p>
+<pre><code>&lt;s:property value=&quot;studentList&quot;/&gt;&lt;br&gt;//获取List中的Student对象
+&lt;s:property value=&quot;studentList.{name}&quot;/&gt;&lt;br&gt;//利用投影获取List中的name属性
+&lt;s:property value=&quot;studentList.{age}&quot;/&gt;&lt;br&gt;//利用投影获取List中的age属性
+&lt;s:property value=&quot;studentList.[0]{name}&quot;/&gt;   
+&lt;s:property value=&quot;studentList.{name}[0]&quot;/&gt;&lt;br&gt;//利用投影获取List中的第一个对象的name属性
+
+利用选择获取List中grade&gt;60的student信息：
+&lt;s:property value=&quot;studentList.{?#this.grade&gt;60}&quot;/&gt;&lt;br&gt;
+利用选择获取List中grade&gt;60的student名字信息：
+&lt;s:property value=&quot;studentList.{?#this.grade&gt;60}.{name}&quot;/&gt;&lt;br&gt;
+利用选择获取List中grade&gt;60的第一个student名字信息：
+&lt;s:property value=&quot;studentList.{?#this.grade&gt;60}.{name}[0]&quot;/&gt;&lt;br&gt;
+利用选择获取List中grade&gt;60的第一个student名字信息(链表)：
+&lt;s:property value=&quot;studentList.{^#this.grade&gt;60}.{name}&quot;/&gt;&lt;br&gt;
+利用选择获取List中grade&gt;60的最后一个student名字信息(链表)：
+&lt;s:property value=&quot;studentList.{$#this.grade&gt;60}.{name}&quot;/&gt;&lt;br&gt;
+</code></pre><p>说明：这里重点是说明?#的使用，结合此例来看，studentList中有许多Stutdent对象,我们可<strong>以用条件来限制取哪些对象，这些条件必须以?#开始，并且条件要用{}括起。而this是指在判断studentList中的对象是否符合条件的当前对象。?#是指取出符合条件的所有Student对象，而^#是指取出符合条件的第一个对象，$#是指取出符合条件的最后一个对象</strong>。</p>
+<h4 id="9-N语法top语法"><a href="#9-N语法top语法" class="headerlink" title="9.N语法top语法"></a>9.N语法top语法</h4><p>我们在loginSuc.jsp中增加如下下代码：</p>
+<pre><code>N语法[0]：&lt;s:property value=&quot;[0]&quot;/&gt;&lt;br&gt;
+N语法[1]：&lt;s:property value=&quot;[1]&quot;/&gt;&lt;br&gt;
+N语法[0].top：&lt;s:property value=&quot;[0].top&quot;/&gt;&lt;br&gt;
+N语法[1].top：&lt;s:property value=&quot;[1].top&quot;/&gt;&lt;br&gt;
+N语法top：&lt;s:property value=&quot;top&quot;/&gt;&lt;br&gt;
+N语法取值：&lt;s:property value=&quot;[0].user.username&quot;/&gt;&lt;br&gt;
+N语法取值：&lt;s:property value=&quot;top.user.username&quot;/&gt;&lt;br&gt;
+</code></pre><p>说明：<strong>规定栈顶的对象为[0],而我们只使用[0]的意思是从值栈中第一个对象取，一直取至栈底</strong>。N的意思是从值栈中的第N个对象开始，取到栈底为止。如果要想访问某个对象，需要使用[N].top，它的意思是取出符合N语法的栈顶对象，比如在这里，[0]会取出两个对象，而[0].top是取出这两个对象的栈顶对象。纯top可以简洁地取出值栈中的栈顶对象。</p>
+<p><strong>当我们通过chain链访问时，值栈中可能有两个以上的Action对象，如果这些对象中存在相同的属性，N便能正确区分他们。</strong></p>
+<p>从上面的N语法取值实例中，我们知道[N]top语法的一个重要作用就是能通过它们引用值栈对象中的属性。结合前面的五种[N]top语法实例，不难理解这里的取值实例。</p>
+<p>补充：在此实例中，我们用<s:debug>调试会发现，值栈中还有一个DefaultTextProvider对象(因为此Action继承自ActionSupport)，它的作用是获取资源文件中的内容（其实本质是ActionSupport重写了getText()方法），这也就是在国际化问题中我们能直接调用它的getText()方法的原因。</s:debug></p>
+<h4 id="10-获取Stack-Context中的信息"><a href="#10-获取Stack-Context中的信息" class="headerlink" title="10.获取Stack Context中的信息"></a>10.获取Stack Context中的信息</h4><p>我们知道，除了可以从值栈中获取信息，还可以从StackContext中获取信息，只是要加上#，下面我们通过scope对象来演示。</p>
+<p>首先是在LoginAction中增加如下字段：</p>
+<pre><code>Map myRequest;
+Map mySession;
+</code></pre><p>随后再用前面提到的<a href="http://www.jianshu.com/p/de0414bb24cd" target="_blank" rel="external">在Action中获取Scope对象”的方式二</a>来完成这些对象的初始化。即实现RequestAware和SessionAware接口。</p>
+<p>然后再在execute方法中增加如下内容：</p>
+<pre><code>myRequest.put(&quot;req&quot;, &quot;Req属性&quot;);
+mySession.put(&quot;ses&quot;, &quot;Ses属性&quot;);
+</code></pre><p>最后在loginSuc.jsp中增加如下代码：</p>
+<pre><code>&lt;s:property value=&quot;#request.req&quot;/&gt;&lt;br&gt;//获取Request属性
+&lt;s:property value=&quot;#session.ses&quot;/&gt;&lt;br&gt;//获取Session属性
+&lt;s:property value=&quot;#parameters.mes&quot;/&gt;//获取parameters属性
+</code></pre><p>说明：我们获取这些对象都用了#，因为这些对象都是存在一般的ContextMap中，而不是存在值栈中。别最后一个信息的获取是因为我们在login.jsp中增加了如下代码：</p>
+<pre><code>&lt;input type=&quot;hidden&quot; name=&quot;mes&quot; value=&quot;the message is transfer by hidden&quot;&gt;
+</code></pre><p>关于这些scope的更多信息可以参看下表：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>作用</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>parameters</td>
+<td>包含当前HTTP请求参数的Map</td>
+<td>#parameters.id[0]作用相当于request.getParameter(“id”) </td>
+</tr>
+<tr>
+<td>request</td>
+<td>包含当前HttpServletRequest的属性（attribute)的Map</td>
+<td>#request.userName相当于request.getAttribute(“userName”) </td>
+</tr>
+<tr>
+<td>session</td>
+<td>包含当前HttpSession的属性（attribute）的Map</td>
+<td>#session.userName相当于session.getAttribute(“userName”)</td>
+</tr>
+<tr>
+<td>application</td>
+<td>包含当前应用的ServletContext的属性（attribute）的Map</td>
+<td>#application.userName相当于application.getAttribute(“userName”) </td>
+</tr>
+<tr>
+<td>Attr</td>
+<td>用于按request &gt; session &gt; application顺序访问其属性</td>
+<td>#application.userName相当于application.getAttribute(“userName”) </td>
+</tr>
+</tbody>
+</table>
+<h4 id="11-总结-的区别"><a href="#11-总结-的区别" class="headerlink" title="11.总结$ # %的区别"></a>11.总结$ # %的区别</h4><p>$用于i18n和struts配置文件</p>
+<p>#取得ActionContext的值</p>
+<p>%将原来的文本串解析为ognl，对于本来就是ognl的文本不起作用。形式：%{要解析的文本串}</p>
+<h4 id="12-总结OGNL-重点"><a href="#12-总结OGNL-重点" class="headerlink" title="12.总结OGNL[重点]"></a>12.总结OGNL[重点]</h4><p>OGNL有一个上下文的概念，这个上下文件实质就是一个Map结构，它实现了java.utils.Map接口，<strong>在struts2中上下文的实现为ActionContext</strong></p>
+<p><strong>当struts2接受一个请求时，会迅速创建ActionContext，ValueStack，action。然后把action存放进ValueStack，所以action的实例变量可以接受OGNL访问</strong>。</p>
+<p><strong>访问上下文中的对象需要使用#号标注命名空间，如#application、#session</strong>。另外OGNL会设定一个根对象，在struts2中根对象就是ValueStack值栈对象，如果要访问根对象中对象的属性，则可以省略#命名空间，直接访问该对象的属性即可。</p>
+<p>在struts2中，根对象的实现类为OgnlValueStack，该对象不是我们想象的只存放单个值，而是存放一组对象，在OgnlValueStack类里有一个List类型的变量，就是使用这个List变量来存放一组对象。在root变量（List类型）中处于第一位的对象叫栈顶对象，通常我们在Ognl表达式里直接写上属性的名称即可访问root变量里对象的属性，搜索顺序是从栈顶对象开始寻找，如果栈顶对象不存在该属性，就会从第二个对象寻找，如果没有找到就从第三个对象寻找，依次往下寻找。 </p>
+<p><strong>注意：struts2中 ，OGNL表达式需要配合struts的标签才可以使用。</strong></p>
 
       
     </div>
@@ -409,6 +697,16 @@
 
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
+          
+            <a href="/tags/struts2/" rel="tag"># struts2</a>
+          
+            <a href="/tags/ognl/" rel="tag"># ognl</a>
+          
+        </div>
       
 
       
@@ -453,7 +751,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2017/01/20/aaaaaaa/"
-           data-title="aaaaaa" data-url="http://www.yanglc.com/2017/01/20/aaaaaaa/">
+           data-title="值栈（ValueStack）与OGNL" data-url="http://www.yanglc.com/2017/01/20/aaaaaaa/">
       </div>
     
   </div>
@@ -477,8 +775,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/touxiang.jpg"
@@ -509,7 +816,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">24</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -600,6 +907,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、ValueStack"><span class="nav-number">1.</span> <span class="nav-text">一、ValueStack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、ognl"><span class="nav-number">2.</span> <span class="nav-text">二、ognl</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Root对象"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.Root对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Context对象"><span class="nav-number">2.0.3.</span> <span class="nav-text">3.Context对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-普通方法访问"><span class="nav-number">2.0.4.</span> <span class="nav-text">4.普通方法访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-静态方法访问"><span class="nav-number">2.0.5.</span> <span class="nav-text">4.静态方法访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-默认类Math的访问"><span class="nav-number">2.0.6.</span> <span class="nav-text">5.默认类Math的访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-调用普通类的构造方法"><span class="nav-number">2.0.7.</span> <span class="nav-text">6.调用普通类的构造方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-集合对象初步"><span class="nav-number">2.0.8.</span> <span class="nav-text">7.集合对象初步</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-集合对象进阶"><span class="nav-number">2.0.9.</span> <span class="nav-text">8.集合对象进阶</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#9-N语法top语法"><span class="nav-number">2.0.10.</span> <span class="nav-text">9.N语法top语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#10-获取Stack-Context中的信息"><span class="nav-number">2.0.11.</span> <span class="nav-text">10.获取Stack Context中的信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-总结-的区别"><span class="nav-number">2.0.12.</span> <span class="nav-text">11.总结$ # %的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#12-总结OGNL-重点"><span class="nav-number">2.0.13.</span> <span class="nav-text">12.总结OGNL[重点]</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
