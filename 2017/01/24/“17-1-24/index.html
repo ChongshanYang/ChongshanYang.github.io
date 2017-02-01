@@ -80,7 +80,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="j2ee,Struts2,interceptor," />
 
 
 
@@ -96,16 +96,19 @@
 
 
 
-<meta name="description" content="科学缩短了距离">
+<meta name="description" content="拦截器是Struts2框架的核心，它主要完成解析请求参数、将请求参数赋值给Action属性、执行数据校验、文件上传等工作。Struts2设计的灵巧性，拦截器起了关键性的作用，当需要扩展Struts2功能时，只需要提供对应拦截器，并将它配置在Struts2容器中即可；如果不需要该功能时，也只需要取消该拦截器的配置即可。Struts2内建了大量的拦截器，这些拦截器以name-class对的形式配置在">
 <meta property="og:type" content="article">
-<meta property="og:title" content="“17-1-24">
+<meta property="og:title" content="Struts2拦截器Interceptor">
 <meta property="og:url" content="http://www.yanglc.com/2017/01/24/“17-1-24/index.html">
 <meta property="og:site_name" content="Sully">
-<meta property="og:description" content="科学缩短了距离">
-<meta property="og:updated_time" content="2017-01-24T11:03:08.677Z">
+<meta property="og:description" content="拦截器是Struts2框架的核心，它主要完成解析请求参数、将请求参数赋值给Action属性、执行数据校验、文件上传等工作。Struts2设计的灵巧性，拦截器起了关键性的作用，当需要扩展Struts2功能时，只需要提供对应拦截器，并将它配置在Struts2容器中即可；如果不需要该功能时，也只需要取消该拦截器的配置即可。Struts2内建了大量的拦截器，这些拦截器以name-class对的形式配置在">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-5da3ba9537f81276.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/3385496-5989e3d513e0de91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-02-01T14:06:08.906Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="“17-1-24">
-<meta name="twitter:description" content="科学缩短了距离">
+<meta name="twitter:title" content="Struts2拦截器Interceptor">
+<meta name="twitter:description" content="拦截器是Struts2框架的核心，它主要完成解析请求参数、将请求参数赋值给Action属性、执行数据校验、文件上传等工作。Struts2设计的灵巧性，拦截器起了关键性的作用，当需要扩展Struts2功能时，只需要提供对应拦截器，并将它配置在Struts2容器中即可；如果不需要该功能时，也只需要取消该拦截器的配置即可。Struts2内建了大量的拦截器，这些拦截器以name-class对的形式配置在">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/3385496-5da3ba9537f81276.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
 
 
@@ -139,7 +142,7 @@
 
 
 
-  <title> “17-1-24 | Sully </title>
+  <title> Struts2拦截器Interceptor | Sully </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -306,7 +309,7 @@
             
             
               
-                “17-1-24
+                Struts2拦截器Interceptor
               
             
           </h1>
@@ -331,6 +334,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -367,7 +392,385 @@
       
 
       
-        
+        <hr>
+<p>拦截器是Struts2框架的核心，它主要完成解析请求参数、将请求参数赋值给Action属性、执行数据校验、文件上传等工作。Struts2设计的灵巧性，拦截器起了关键性的作用，当需要扩展Struts2功能时，只需要提供对应拦截器，并将它配置在Struts2容器中即可；如果不需要该功能时，也只需要取消该拦截器的配置即可。<br>Struts2内建了大量的拦截器，这些拦截器以name-class对的形式配置在struts-default. xml文件中，其中name是拦截器的名字，就是以后我们使用该拦截器的唯一标识；class则指定了该拦截器的实现类，如果我们定义的package继承了Struts2的默认struts-default包，则可以自由使用它下面定义的拦截器，否则必须自己定义这些拦截器。</p>
+<hr>
+<a id="more"></a>
+<h2 id="2-自定义拦截器的实现"><a href="#2-自定义拦截器的实现" class="headerlink" title="2.自定义拦截器的实现"></a>2.自定义拦截器的实现</h2><p><strong>为了实现某些操作，我们可以自定义拦截器，自定义拦截器有三种方式定义。分别为实现Interceptor接口，继承抽象类AbstractInterceptor，继承MethodFilterInteceptor类。</strong></p>
+<h4 id="方式一，实现Interceptor接口。重写String-intercept-ActionInvocation-invocation-方法。"><a href="#方式一，实现Interceptor接口。重写String-intercept-ActionInvocation-invocation-方法。" class="headerlink" title="方式一，实现Interceptor接口。重写String intercept(ActionInvocation invocation)方法。"></a>方式一，实现Interceptor接口。重写String intercept(ActionInvocation invocation)方法。</h4><pre><code>package test002Iterceptor;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.Interceptor;
+
+/**
+ * Created by yangcs on 2017/2/1.
+ * 通过实现Interceptor接口，重写String intercept(ActionInvocation invocation)方法自定义一个拦截器
+ */
+public class Iterceptor001 implements Interceptor{
+    @Override
+    public void destroy() {
+
+    }
+
+    @Override
+    public void init() {
+
+    }
+
+    @Override
+    public String intercept(ActionInvocation actionInvocation) throws Exception {
+        System.out.println(&quot;开始拦截&quot;);
+        String result = actionInvocation.invoke();  //invoke()方法会把请求传递到下一个拦截器或者最终的action中
+        System.out.println(&quot;结束拦截&quot;);
+        return result;
+    }
+}
+</code></pre><p>为了使用此拦截器，我们必须将此拦截器进行注册，随后再在要使用此拦截器的Action中引用。即首先在<package>中注册，内容如下：</package></p>
+<pre><code>&lt;interceptors&gt;
+      &lt;interceptor name=&quot;login001&quot; class=&quot;test002Iterceptor.Iterceptor001&quot;&gt;&lt;/interceptor&gt;
+&lt;/interceptors&gt;
+</code></pre><p>注册完成后，如果我们要在login.action中使用此拦截器，只需要在<action>中增加如下内容：</action></p>
+<pre><code>&lt;interceptor-ref name=&quot;login001&quot;&gt;&lt;/interceptor-ref&gt;
+</code></pre><p>实例流程分析：当我们为LoginAction配置了拦截器时，并且有客户端请求此Action时，会首先被此拦截器拦住，然后执行System.out.println(“开始拦截”),随后我们调用invocation.invoke()方法，它会把请求继续传递给下一个拦截器，下一个拦截器也会继续执行相应代码后再调用invoke方法继续传递，直到请求到达最后一个拦截器，它会把请求传递给Action，比如，我们这里只用到了一个拦截器，当它执行完成后，会把请求直接转交到LoginAction处理，LoginAction处理完成后，它会返回结果给MyInterceptor拦截器。</p>
+<h4 id="方式二、继承AbstractInterceptor抽象类，重写String-intercept-ActionInvocation-invocation-方法"><a href="#方式二、继承AbstractInterceptor抽象类，重写String-intercept-ActionInvocation-invocation-方法" class="headerlink" title="方式二、继承AbstractInterceptor抽象类，重写String intercept(ActionInvocation invocation)方法"></a>方式二、继承AbstractInterceptor抽象类，重写String intercept(ActionInvocation invocation)方法</h4><pre><code>package test002Iterceptor;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
+import test002.PreResultListenerAction;
+
+/**
+ * Created by yangcs on 2017/2/1.
+ * 继承AbstractInterceptor抽象类，重写String intercept(ActionInvocation invocation)方法实现一个拦截器
+ */
+public class AbsIterceptor002 extends AbstractInterceptor{
+    @Override
+    public String intercept(ActionInvocation actionInvocation) throws Exception {
+        actionInvocation.addPreResultListener(new PreResultListenerAction(){});   //这里调用了定义好的result监听器，则配置了此拦截器的action在发送result前，会调用监听器中的beforeResult()方法！
+        System.out.println(&quot;AbstractIntorceptor开始拦截&quot;);
+        String result = actionInvocation.invoke();
+        System.out.println(&quot;AbstractIntorceptor结束拦截&quot;);
+        return result;
+    }
+}
+</code></pre><p>然后注册此拦截器，在<interceptors>元素进行进行配置，内容如下：</interceptors></p>
+<pre><code>&lt;interceptor name=&quot;login002&quot; class=&quot;test002Iterceptor.AbsIterceptor002&quot;&gt;&lt;/interceptor&gt;
+</code></pre><p>随后再在LoginAction中引用此拦截器，即在<action name="login" ...="">配置如下内容：</action></p>
+<pre><code>&lt;interceptor-ref name=&quot;login002&quot;&gt;&lt;/interceptor-ref&gt;  
+</code></pre><h4 id="方式三、继承MethodFilterInteceptor类，重写String-doIntercept-ActionInvocation-invocation-方法。"><a href="#方式三、继承MethodFilterInteceptor类，重写String-doIntercept-ActionInvocation-invocation-方法。" class="headerlink" title="方式三、继承MethodFilterInteceptor类，重写String doIntercept(ActionInvocation invocation) 方法。"></a>方式三、继承MethodFilterInteceptor类，重写String doIntercept(ActionInvocation invocation) 方法。</h4><pre><code>package test002Iterceptor;
+
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.MethodFilterInterceptor;
+
+/**
+ * Created by yangcs on 2017/2/1.
+ * 继承MethodFilterInteceptor类，重写String doIntercept(ActionInvocation invocation) 方法实现一个拦截器
+ */
+public class MethodFilterInterceptor003 extends MethodFilterInterceptor{
+    @Override
+    protected String doIntercept(ActionInvocation actionInvocation) throws Exception {
+        System.out.println(&quot;MethodFilterInterceptor开始拦截&quot;);
+        String result = actionInvocation.invoke();
+        System.out.println(&quot;MethodFilterInterceptor结束拦截&quot;);
+        return result;
+    }
+}
+</code></pre><p>然后注册此拦截器，在<interceptors>元素进行进行配置，内容如下：</interceptors></p>
+<pre><code>&lt;interceptor name=&quot;login003&quot; class=&quot;test002Iterceptor.AbsIterceptor002&quot;&gt;&lt;/interceptor&gt;
+</code></pre><p>随后再在LoginAction中引用此拦截器，即在<action name="login" ...="">配置如下内容：</action></p>
+<pre><code>&lt;interceptor-ref name=&quot;login003&quot;&gt;&lt;/interceptor-ref&gt;
+</code></pre><p>分析：当配置到此，实质便为LoginAction配置了三个拦截器，当我们点击登录时会在控制台打印出如下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">开始拦截</div><div class="line">Abs开始拦截</div><div class="line">method开始拦截</div><div class="line">--先执行拦截器，再执行此Action</div><div class="line">method结束拦截</div><div class="line">Abs结束拦截</div><div class="line">结束拦截</div></pre></td></tr></table></figure>
+<p><strong>拦截器的执行顺序和过滤器filter一样，取决于在action标签中的配置顺序</strong></p>
+<p>其实当我们点击登录时，本来是要访问LoginAction，最后会把LoginAction的执行结果传递给访问者。但是当我们配置了拦截器时，当我们去访问Action时，会首先被拦截，随后拦截器执行一些操作后才会继续把请求传递下去。</p>
+<p>下图说明拦截流程：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-5da3ba9537f81276.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p><strong>注</strong>：自定义拦截器需要特别注意的是不要忘记引入struts2默认的拦截器，可以使用拦截器栈（Interceptor Stack）来组合多个拦截器：</p>
+<pre><code>&lt;interceptors&gt;
+    &lt;interceptor name=&quot;login001&quot; class=&quot;test002Iterceptor.Iterceptor001&quot;&gt;&lt;/interceptor&gt;
+    &lt;interceptor name=&quot;login002&quot; class=&quot;test002Iterceptor.AbsIterceptor002&quot;&gt;&lt;/interceptor&gt;
+    &lt;interceptor name=&quot;login003&quot; class=&quot;test002Iterceptor.MethodFilterInterceptor003&quot;&gt;&lt;/interceptor&gt;
+    &lt;interceptor name=&quot;interceptor04&quot; class=&quot;test002Iterceptor.MethodFilterInterceptor003&quot;&gt;&lt;/interceptor&gt;
+    &lt;interceptor-stack name=&quot;login&quot;&gt;
+        &lt;interceptor-ref name=&quot;login001&quot; &gt;&lt;/interceptor-ref&gt;
+        &lt;interceptor-ref name=&quot;login002&quot; &gt;&lt;/interceptor-ref&gt;
+        &lt;interceptor-ref name=&quot;login003&quot; &gt;&lt;/interceptor-ref&gt;
+        &lt;interceptor-ref name=&quot;defaultStack&quot;&gt;&lt;/interceptor-ref&gt;
+        &lt;!--这个是struts2默认的拦截器栈，当自定义拦截器时，这个默认的拦截器就会失效，必须手动添加配置，否则就会有问题--&gt;
+    &lt;/interceptor-stack&gt;
+&lt;/interceptors&gt;
+</code></pre><p>上面分别使用了三种方式来创建自定义的拦截器，第一种方式是最原始的实现方式（实现Interceptor接口)，第二种方式的好处是我们可以不必重写所有的方法（继承AbstractInterceptor抽象类），较常用。第三种方式进行了扩展（继承MethodFilterInterceptor类），可以更灵活地对action中不同的方法进行单独的拦截：</p>
+<h5 id="使用来MethodFilterInterceptor灵活拦截"><a href="#使用来MethodFilterInterceptor灵活拦截" class="headerlink" title="使用来MethodFilterInterceptor灵活拦截"></a>使用来MethodFilterInterceptor灵活拦截</h5><p>步骤一、建立MethodAction，代码如下：</p>
+<pre><code>package com.asm;
+import com.opensymphony.xwork2.ActionSupport;
+public class MethodAction extends ActionSupport{
+    public String m1(){
+        return SUCCESS;
+    }
+    public String m2(){
+        return SUCCESS;
+    }
+    public String m3(){
+        return SUCCESS;
+    }
+}
+</code></pre><p>步骤二、注册此Action，并为此Action配置拦截器。配置内容如下：</p>
+<pre><code>&lt;action name=&quot;*_*&quot; class=&quot;com.asm.MethodAction&quot; method=&quot;{2}&quot;&gt;
+        &lt;result name=&quot;success&quot;&gt;/{2}Suc.jsp&lt;/result&gt;
+        &lt;interceptor-ref name=&quot;myMet&quot;&gt;
+        &lt;/interceptor-ref&gt;
+&lt;/action&gt;
+</code></pre><p>我们为此Action配置了前面写的MyMethodFilterInterceptor拦截器，并在link.jsp中增加如下链接：</p>
+<pre><code>&lt;a href=&quot;&lt;%=request.getContextPath()%&gt;/Method_m1.action&quot;&gt;m1&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;&lt;%=request.getContextPath()%&gt;/Method_m2.action&quot;&gt;m2&lt;/a&gt;&lt;br&gt;
+&lt;a href=&quot;&lt;%=request.getContextPath()%&gt;/Method_m3.action&quot;&gt;m3&lt;/a&gt;&lt;br&gt;
+</code></pre><p>当点m1时会访问到m1Suc.jsp页面, 点m2、m3会分别访问到m2Suc.jsp、m3Suc.jsp页面。现在假如我们想访问m2、m3时不被拦截，我们只需修改MyMethodFilterInterceptor注册：修改内容为：</p>
+<pre><code>&lt;interceptor name=&quot;myMet&quot; class=&quot;com.asm.MyMethodFilterInterceptor&quot;&gt;
+    &lt;param name=&quot;excludeMethods&quot;&gt;m2,m3&lt;/param&gt;
+&lt;/interceptor&gt;
+</code></pre><p>它的作用和增加<param name="includeMethods">m1等价。上面是指定m2,m3方法调用时不被拦截，这里是指定只拦截m1。除了这种在注册拦截器时指定拦截外，还可以在引用拦截器时指定，即如下形式：</p>
+<pre><code>&lt;interceptor-ref name=&quot;myMet&quot;&gt;
+    &lt;param name=&quot;excludeMethods&quot;&gt;m2,m3&lt;/param&gt;
+    &lt;param name=&quot;includeMethods&quot;&gt;m1&lt;/param&gt;
+&lt;/interceptor-ref&gt;
+</code></pre><p>上面的两处<param>配置是等价的，但是如果〈param〉配置冲突，谁起作用？即如果我们对m1配置了excludeMethods同时又配置了includeMethods时，谁起作用，我们可以进行这些冲突的验证。以下是验证结果：</p>
+<p> 引用配置（在Action引用拦截器时配置）时，以includeMethods的配置为准。</p>
+<p> 一旦我们为拦截器使用了<param>配置，而对m1这样的方法不配置任何，就不会被拦截。</p>
+<p> 但是如果不使用<param>，它们全部都要被拦截。</p>
+<p> 注册配置时（在注册拦截器时配置），情况和“引用配置”完全一样。<br> 引用配置和注册配置冲突时，以引用配置为准。</p>
+<h4 id="使用默认的execAndWait拦截器实现查询等待效果"><a href="#使用默认的execAndWait拦截器实现查询等待效果" class="headerlink" title="使用默认的execAndWait拦截器实现查询等待效果"></a>使用默认的execAndWait拦截器实现查询等待效果</h4><p>当我们进行数据库查询等相关的操作时，如果服务器负荷过重可能不能及时把数据查询出来，进而会在状态拦显示“正在打开…”，但却一直转不到相关的页面，这将给客户端带来不便，甚于很多人会因此不愿使用网站的所有服务。对此我们可以在客户提交时，马上转到一个页面，并在该页面显示“您的请求已提交，服务器正在查询，请等待…”的内容，这样客户将不会陷于无赖的等待中。</p>
+<p>对于此要求，struts2可以轻松帮我们完成。</p>
+<p>下面新建struts2wait项目演示此实例。<br>建立LoginAction，代码如下：</p>
+<pre><code>package com.asm;
+public class LoginAction extends ActionSupport {
+    public String execute() throws Exception {
+        Thread.sleep(5000);
+        return SUCCESS;
+    }
+}
+</code></pre><p>说明：为了模拟服务器负荷过重，查询时间要很长。我们在使用了线程休眠的方式。<br>随后配置此Action,配置的主要内容如下：</p>
+<pre><code>&lt;action name=&quot;login&quot; class=&quot;com.asm.LoginAction&quot;&gt;
+    &lt;interceptor-ref name=&quot;defaultStack&quot;&gt;&lt;/interceptor-ref&gt;
+    &lt;interceptor-ref name=&quot;execAndWait&quot;&gt;&lt;/interceptor-ref&gt;
+    &lt;result name=&quot;wait&quot;&gt;/wait.jsp&lt;/result&gt;
+    &lt;result name=&quot;success&quot;&gt;/success.jsp&lt;/result&gt;
+&lt;/action&gt;
+</code></pre><p>注意：在配置前我们先是使用了默认的拦截器，再此强调在我们为Action配置拦截器时，应该总是配上默认的拦截器。随后我们使用了execAndWait拦截器，如需要配置此拦截器，此拦截器一定要配置在最后，否则会出现一些难预知的结果。如果使用此拦截器，我们通常还会配置wait的result结果集，因为当我们请求的Action在未执行完，就是未返回结果时，会首先把wait result返回，而在wait result所指定的页面中通常会再次发送请求给原始的Action。所以wait.jsp的主要内容如下：</p>
+<pre><code>&lt;head&gt;
+    &lt;meta http-equiv=&quot;refresh&quot; content=&quot;1;login.action&quot;&gt;
+&lt;/head&gt;
+&lt;body&gt;        查询请求已提交，正在查询数据，请等待...    &lt;/body&gt;
+</code></pre><p>在此页面中，我们指定了每隔1秒便发送请求到login.action中去。这样，客户端便可以及时获取查询结果。结合此实例，我们简要分析流程：当我们发出请求到此Login.Action中去时，首先会被exeAndWait拦截器拦截到，这样它便跳转到wait.jsp页面，在wait.jsp页面中每隔1秒我们会继续发送此Action的请求，当再次请求到达LoginAction时，如果它已经返回，则会跳到此Action返回的页面，如果LoginAction未返回，则继续停留在wait.jsp中，再隔1秒又再次发送请求到LoginAction中去。</p>
+<p>其实如果服务器能很快查询出结果，我们则不需要用到wait.jsp页面，我们只需在<interceptor-ref name="execAndWait"></interceptor-ref>中增加如下一段配置：</p>
+<pre><code>&lt;param name=&quot;delay&quot;&gt;6000&lt;/param&gt;
+</code></pre><p>这样便延迟请求到达wait.jsp页面，这样当请求到达时它会在LoginAction中执行6秒时间再到wait.jsp，而6秒LoginAction足以执行完并返回结果，所以当拦截器<br>执行时首先检查到此Action已经返回结果。则拦截器会直接用此返回页面，如果此时发现LoginAction并未执行完，它便会把wait resutl指定的页面返回。</p>
+<h4 id="使用默认的TokenInterceptor拦截器防止表单重复提交"><a href="#使用默认的TokenInterceptor拦截器防止表单重复提交" class="headerlink" title="使用默认的TokenInterceptor拦截器防止表单重复提交"></a>使用默认的TokenInterceptor拦截器防止表单重复提交</h4><p>由于某些原因，用户在进行类似表单提交的操作后，以为表单未被提交，会进行多次的重复提交。为了避免用户多次提交给服务器带来负荷。我们会对表单提交这样的操作进行一些处理，以告诉用户不要重复提交。<br>下面我们建立struts2token项目，使用struts2的token拦截器来实现此案例（也可以通过自己在session中生成token令牌来实现这一效果：<a href="http://www.jianshu.com/p/a0ef31f41f9c" target="_blank" rel="external">使用Session防止表单重复提交</a>）。<br>步骤一，编写login.jsp页面，内容如下：</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; pageEncoding=&quot;UTF-8&quot;%&gt;
+&lt;%@ taglib uri=&quot;/struts-tags&quot; prefix=&quot;s&quot; %&gt;
+&lt;html&gt;
+    &lt;body&gt;
+        &lt;form action=&quot;&lt;%=request.getContextPath()%&gt;/login.action&quot; &gt;
+            姓名:&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;&lt;br&gt;
+            密码:&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;&lt;br&gt;
+            &lt;input type=&quot;submit&quot; value=&quot;登录&quot;&gt;
+            &lt;s:token&gt;&lt;/s:token&gt;
+        &lt;/form&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>说明，此登录页面中的关键技术就是使用了标签库中的<s:token></s:token>标签，它的作用就是在用户访问此页面时会生成一个sessionId，在提交时会服务器会据此验证表单是否已提交。“To set a token in your form, you should use the token tag. This tag is required and must be used in the forms that submit to actions protected by this interceptor”，这句话的大概意思就是我们必须要在提交的表单中使用这个token tag，这样提交到的Action便能配置TokenInterceptor拦截器验证表单是否重复提交。</p>
+<p>步骤二，编写LoginAction，主要代码如下：</p>
+<pre><code>package com.asm;
+public class LoginAction extends ActionSupport {
+    public String execute() throws Exception {
+        System.out.println(&quot;----&gt;执行execute方法...&quot;);
+        return SUCCESS;
+    }
+}
+</code></pre><p>步骤三，struts.xml主要配置内容如下：</p>
+<pre><code>&lt;struts&gt;
+    &lt;package name=&quot;tokenTest&quot; extends=&quot;struts-default&quot;&gt;
+        &lt;action name=&quot;login&quot; class=&quot;com.asm.LoginAction&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/success.jsp&lt;/result&gt;
+            &lt;result name=&quot;invalid.token&quot;&gt;/subError.jsp&lt;/result&gt;
+            &lt;interceptor-ref name=&quot;token&quot;&gt;&lt;/interceptor-ref&gt;
+            &lt;interceptor-ref name=&quot;defaultStack&quot;&gt;&lt;/interceptor-ref&gt;
+        &lt;/action&gt;
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre><p>说明：在此Action下，我们配置了token拦截器，另注意到在此Action下我们还配置了一个“invalid.token”result，因为提交时服务器如果根据token标签产生的sessionId判断出表单已提交，它则返回invalid.token指向的视图。比如这里，如果重复提交则会转到…/subError.jsp中去。另不要忘记了引入默认的拦截器栈。补充：关于token拦截器更多细节可以访问org.apache.struts2.interceptor.TokenInterceptor类的api说明。</p>
+<p>步骤四，编写配置中所用到jsp页面，这些页面编写简单，在此省去。</p>
+<p>步骤五、发布测试，请注意访问login.jsp页面时，查看源文件时会发现增加了两个隐藏域信息。 </p>
+<p>步骤六、更换拦截器：我们还可以使用tokenSession拦截器，它的功能比上面的增强，它能保证持有相同sessionId的并发请求等待第一个完成之后才能被提交处理，但是它返回的是action执行后的result.接着上例，我们只需要在配置中作如下修改：把上面的token拦截器改成</p>
+<pre><code>&lt;interceptor-ref name=&quot;tokenSession&quot;&gt;&lt;/interceptor-ref&gt; 
+</code></pre><p>即可。随后便可以测试，测试时会发现如果我们重复提交，它总是返回到上一次的success.jsp页面，但是它并不是经过LoginAction中的execute处理后返回(我们System.out.print语句在重复提交时并未打印出来)，而是此拦截器判断出是重复后直接返回上一次提交转向的页面。</p>
+<h4 id="使用拦截器实现权限验证"><a href="#使用拦截器实现权限验证" class="headerlink" title="使用拦截器实现权限验证"></a>使用拦截器实现权限验证</h4><p>为了说明此问题，我们建立struts2auth项目，流程图如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/3385496-5989e3d513e0de91.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<p>简短说明：当我们访问main.jsp页面，并试图通过此页面中的链接地址：note.action来访问到…/WEB-INF/note.jsp页面时，由于访问的note.action配置了拦截器，所以会被拦截，如果拦截器判断登录则可以访问，否则会跳到登录页面。如果我们从登录页面直接到main.jsp页面，再来访问note.action时，同样被拦截但是由于登录过，所以可以访问到此action对应的内容。由这里的分析可以看出关键点就登录成功时给出标志提供给拦截器判断是否成功登录。</p>
+<p>步骤一，搭建好相关的开发环境，并准备好登录页面login.jsp，代码如下：</p>
+<pre><code>&lt;form action=&quot;&lt;%=request.getContextPath()%&gt;/login.action&quot; method=&quot;post&quot;&gt;
+        姓名:&lt;input type=&quot;text&quot; name=&quot;username&quot;&gt;&lt;br&gt;
+        密码:&lt;input type=&quot;password&quot; name=&quot;password&quot;&gt;&lt;br&gt;
+        &lt;input type=&quot;submit&quot; value=&quot;登录&quot;&gt;
+&lt;/form&gt;
+</code></pre><p>步骤二，建立相应的Action:LoginAction。代码如下：</p>
+<pre><code>package com.asm;
+public class LoginAction extends ActionSupport {
+    private String username;
+    Map session;
+    public String execute() throws Exception {
+        if(username.equals(&quot;admin&quot;)){
+            session = ActionContext.getContext().getSession();
+            session.put(&quot;loginSign&quot;, &quot;loginSuccess&quot;);
+            return SUCCESS;
+        }else{
+            return LOGIN;
+        }
+}
+...省略username的get/set方法
+}
+</code></pre><p>说明：我们这里是设定了只有登录用户名为admin时，此Action才设置登录标志。另这里获取Session对象采取的是“与Servlet解耦合的非IOC方式”。</p>
+<p>步骤三，编写拦截器类，代码如下：</p>
+<pre><code>package com.asm.interceptor;
+public class AuthInterceptor extends AbstractInterceptor {
+    public String intercept(ActionInvocation invocation) throws Exception {
+        Map session = invocation.getInvocationContext().getSession();
+        // session=ActionContext.getContext().getSession();
+        if (session.get(&quot;loginSign&quot;) == null) {
+            return &quot;login&quot;;
+        } else {
+            String result = invocation.invoke();
+            return result;
+        }
+    }
+}
+</code></pre><p>步骤四，配置此Action相关，主要配置内容如下：</p>
+<pre><code>&lt;struts&gt;
+    &lt;package name=&quot;tokenTest&quot; extends=&quot;struts-default&quot;&gt;
+        &lt;interceptors&gt;
+            &lt;interceptor name=&quot;auth&quot;
+                class=&quot;com.asm.interceptor.AuthInterceptor&quot;&gt;
+            &lt;/interceptor&gt;
+            &lt;interceptor-stack name=&quot;authStack&quot;&gt;
+                &lt;interceptor-ref name=&quot;auth&quot;&gt;&lt;/interceptor-ref&gt;
+                &lt;interceptor-ref name=&quot;defaultStack&quot;&gt;&lt;/interceptor-ref&gt; 
+            &lt;/interceptor-stack&gt;
+        &lt;/interceptors&gt;
+        &lt;action name=&quot;login&quot; class=&quot;com.asm.LoginAction&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/main.jsp&lt;/result&gt;
+            &lt;result name=&quot;login&quot;&gt;/login.jsp&lt;/result&gt;
+        &lt;/action&gt;
+
+        &lt;action name=&quot;note&quot;&gt;
+            &lt;result&gt;/WEB-INF/note.jsp&lt;/result&gt;
+            &lt;result name=&quot;login&quot;&gt;/login.jsp&lt;/result&gt;
+            &lt;interceptor-ref name=&quot;authStack&quot;&gt;&lt;/interceptor-ref&gt;
+        &lt;/action&gt;
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre><p>说明：结合前面的一些代码来看，当我们为note.action配置了前面写所的AuthInterceptor拦截器时，如果我们要访问note.action，拦截器会首先判断是否登录，如果登录则继续把请求传递下去，如果没有登录则会返回到登录页面。</p>
+<h4 id="使用默认的AnnotationWorkflowInterceptor拦截器为action方法添加注解调用"><a href="#使用默认的AnnotationWorkflowInterceptor拦截器为action方法添加注解调用" class="headerlink" title="使用默认的AnnotationWorkflowInterceptor拦截器为action方法添加注解调用"></a>使用默认的AnnotationWorkflowInterceptor拦截器为action方法添加注解调用</h4><p>AnnotationWorkflowInterceptor此拦截器可以调用在Action中任何有注解的方法。下面我们来演示它的使用，具体步骤如下：</p>
+<p>步骤一，建立struts2annotationInt项目，并建立LoginAction类，代码如下：</p>
+<pre><code>package com.asm;
+...省略导入的包
+public class LoginAction extends ActionSupport {
+    private String username;
+    @Before
+    public String myBefore() {
+        System.out.println(&quot;调用myBefore方法&quot;);
+        return LOGIN;
+    }
+    @After
+    public void myAfter() throws InterruptedException {
+        Thread.sleep(5000);
+        System.out.println(&quot;----调用myAfter方法&quot;);
+    }
+    @BeforeResult
+    public void myBeforeResult() {
+        System.out.println(&quot;----调用myBeforeResult方法&quot;);
+    }
+    public String execute() throws Exception {
+        System.out.println(&quot;调用execute方法&quot;);
+        return SUCCESS;
+    }
+    public String getUsername() {
+        return username;
+    }
+    public void setUsername(String username) {
+        System.out.println(&quot;---调用set方法&quot; + username);
+        this.username = username;
+    }
+}
+</code></pre><p>说明：要想使用方法成为被拦截器监视的注解方法，只需在方法关加上@…这样的形式并导入相关的类即可。</p>
+<p>步骤二，编写相关的jsp及配置该Action，主要配置内容如下：</p>
+<pre><code>&lt;struts&gt;
+    &lt;package name=&quot;ano&quot; extends=&quot;struts-default&quot;&gt;
+        &lt;interceptors&gt;
+            &lt;interceptor name=&quot;anno&quot;                class=&quot;com.opensymphony.xwork2.interceptor.annotations.AnnotationWorkflowInterceptor&quot;&gt;
+            &lt;/interceptor&gt;
+            &lt;interceptor-stack name=&quot;annoStack&quot;&gt;
+                &lt;interceptor-ref name=&quot;anno&quot;&gt;&lt;/interceptor-ref&gt;
+                &lt;interceptor-ref name=&quot;defaultStack&quot;&gt;&lt;/interceptor-ref&gt;
+            &lt;/interceptor-stack&gt;
+        &lt;/interceptors&gt;
+        &lt;action name=&quot;login&quot; class=&quot;com.asm.LoginAction&quot;&gt;
+            &lt;result name=&quot;success&quot;&gt;/success.jsp&lt;/result&gt;
+            &lt;result name=&quot;login&quot;&gt;/login.jsp&lt;/result&gt;
+            &lt;interceptor-ref name=&quot;annoStack&quot;&gt;&lt;/interceptor-ref&gt;
+        &lt;/action&gt;
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre><p>结合配置说明：当我们为LoginAction配置了AnnotationWorkflowInterceptor拦截器时，LoginAction中的所有注解方法才真正生效。下面重点是来讨论这些方法的执行顺序及作用。<br>加@Before注解的方法意思是在action的execute方法执行之前被调用，但是此方法如果返回不为空的话，它的返回结果将是真正的返回结果，比如这里我们return LOGIN，这样无论以什么用户名登录，它总会返回到login result(这里为login.jsp页面) 。但是从执前结果来看，在返回前仍执行了标记为@BeforeResult的方法：will be invoked after the action method but before the result execution。意思是在返回结果集前调用此方法。下面我们把public String myBefore()方法中的return LOGIN注释掉，并让修改此方法的返回类型为void。随后登录测试（注意要重新部署当前项目），可以发现执行结果如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">调用myBefore方法</div><div class="line">---调用set方法</div><div class="line">调用execute方法</div><div class="line">----调用myBeforeResult方法</div><div class="line">----调用myAfter方法</div></pre></td></tr></table></figure>
+<p>从执行的顺序来看，标记为@After的方法最后执行，并且可以发现：它会延时5秒执行，但是在延时执行时，浏览器并没有成功跳到success.jsp页面，而是在5秒后，控制台打印出myArter方法中的内容同步跳转到success.jsp页面。@After ：will be invoked after the action method and result execution。意为在execute方法执行并且返回结果后此方法被调用。但是从测试来看，标记为@After的方法是会影响到结果的返回（延时返回）。 强调：注意方法的执行顺序，相关的内容可以参看AnnotationWorkflowInterceptor类的api文档。</p>
+<h4 id="使用PreResultListener监听器，实现回调"><a href="#使用PreResultListener监听器，实现回调" class="headerlink" title="使用PreResultListener监听器，实现回调"></a>使用PreResultListener监听器，实现回调</h4><p>PreResultListener监听器对象一般是绑定在拦截器上使用。</p>
+<p>下面我们新建struts2PreResultListener项目进行测试。</p>
+<p>步骤一，建立类，实现PreResultListener接口，主要代码如下：</p>
+<pre><code>package com.asm;
+import com.opensymphony.xwork2.ActionInvocation;
+import com.opensymphony.xwork2.interceptor.PreResultListener;
+public class MyPreResultListener implements PreResultListener {
+    public void beforeResult(ActionInvocation invocation, String res) {
+        // System.out.println(invocation.getAction());
+        // System.out.println(invocation.getResultCode());
+        /**回调Action中的方法：
+         * LoginAction lg = (LoginAction) invocation.getAction(); try {
+         * lg.execute(); } catch (Exception e) { e.printStackTrace(); }
+         */
+        System.out.println(&quot;检验到PreResultListener被执行&quot;);
+    }
+}                        
+</code></pre><p>步骤二，copy前面在自定义拦截器中用到的三个拦截器，并绑定MyPreResultListener对象，首先是在MyInterceptor类中，我们只需要修改intercept方法即可，代码如下：</p>
+<pre><code>public String intercept(ActionInvocation invocation) throws Exception {
+        invocation.addPreResultListener(new MyPreResultListener());
+        System.out.println(&quot;开始拦截&quot;);
+        String result = invocation.invoke();
+        System.out.println(&quot;结束拦截&quot;);
+        return result;
+}
+</code></pre><p>随后在MyMethodFilterInterceptor类中作类似修改。为了区别，我们在MyAbstractInterceptor类中不绑定MyPreResultListener对象。</p>
+<p>步骤三，编写struts.xml文件，主要配置内容如下：</p>
+<pre><code>&lt;struts&gt;
+    &lt;package name=&quot;interceptor&quot; extends=&quot;struts-default&quot;&gt;
+        &lt;interceptors&gt;
+            &lt;interceptor name=&quot;myIpt&quot; class=&quot;com.asm.MyInterceptor&quot;&gt;
+            &lt;/interceptor&gt;
+            &lt;interceptor name=&quot;myAbs&quot;
+                class=&quot;com.asm.MyAbstractInterceptor&quot;&gt;
+            &lt;/interceptor&gt;
+            &lt;interceptor name=&quot;myMet&quot;
+                class=&quot;com.asm.MyMethodFilterInterceptor&quot;&gt;
+            &lt;/interceptor&gt;
+        &lt;/interceptors&gt;
+
+        &lt;action name=&quot;login&quot; class=&quot;com.asm.LoginAction&quot;&gt;
+            &lt;interceptor-ref name=&quot;myIpt&quot;&gt;&lt;/interceptor-ref&gt;
+            &lt;interceptor-ref name=&quot;myAbs&quot;&gt;&lt;/interceptor-ref&gt;
+            &lt;interceptor-ref name=&quot;myMet&quot;&gt;&lt;/interceptor-ref&gt;
+            &lt;result name=&quot;success&quot;&gt;/success.jsp&lt;/result&gt;
+        &lt;/action&gt;                
+    &lt;/package&gt;
+&lt;/struts&gt;
+</code></pre><p>说明：此实例的只是简要地演示了PreResultListener的使用，所以相对简单。对于其它相关操作，我们可以从MyPreResultListener类注释掉的内容中找到一此端倪。强调：从执行结果来看，PreResultListener对象会在返回结果前执行，请注意结合拦截器执行的顺序来看。此实例目前作为了解。</p>
+
       
     </div>
 
@@ -408,6 +811,16 @@
 
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
+          
+            <a href="/tags/Struts2/" rel="tag"># Struts2</a>
+          
+            <a href="/tags/interceptor/" rel="tag"># interceptor</a>
+          
+        </div>
       
 
       
@@ -452,7 +865,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2017/01/24/“17-1-24/"
-           data-title="“17-1-24" data-url="http://www.yanglc.com/2017/01/24/“17-1-24/">
+           data-title="Struts2拦截器Interceptor" data-url="http://www.yanglc.com/2017/01/24/“17-1-24/">
       </div>
     
   </div>
@@ -476,8 +889,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/image/touxiang.jpg"
@@ -508,7 +930,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">24</span>
+                <span class="site-state-item-count">25</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -599,6 +1021,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-自定义拦截器的实现"><span class="nav-number">1.</span> <span class="nav-text">2.自定义拦截器的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方式一，实现Interceptor接口。重写String-intercept-ActionInvocation-invocation-方法。"><span class="nav-number">1.0.1.</span> <span class="nav-text">方式一，实现Interceptor接口。重写String intercept(ActionInvocation invocation)方法。</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方式二、继承AbstractInterceptor抽象类，重写String-intercept-ActionInvocation-invocation-方法"><span class="nav-number">1.0.2.</span> <span class="nav-text">方式二、继承AbstractInterceptor抽象类，重写String intercept(ActionInvocation invocation)方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#方式三、继承MethodFilterInteceptor类，重写String-doIntercept-ActionInvocation-invocation-方法。"><span class="nav-number">1.0.3.</span> <span class="nav-text">方式三、继承MethodFilterInteceptor类，重写String doIntercept(ActionInvocation invocation) 方法。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用来MethodFilterInterceptor灵活拦截"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">使用来MethodFilterInterceptor灵活拦截</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用默认的execAndWait拦截器实现查询等待效果"><span class="nav-number">1.0.4.</span> <span class="nav-text">使用默认的execAndWait拦截器实现查询等待效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用默认的TokenInterceptor拦截器防止表单重复提交"><span class="nav-number">1.0.5.</span> <span class="nav-text">使用默认的TokenInterceptor拦截器防止表单重复提交</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用拦截器实现权限验证"><span class="nav-number">1.0.6.</span> <span class="nav-text">使用拦截器实现权限验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用默认的AnnotationWorkflowInterceptor拦截器为action方法添加注解调用"><span class="nav-number">1.0.7.</span> <span class="nav-text">使用默认的AnnotationWorkflowInterceptor拦截器为action方法添加注解调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用PreResultListener监听器，实现回调"><span class="nav-number">1.0.8.</span> <span class="nav-text">使用PreResultListener监听器，实现回调</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
     </div>
