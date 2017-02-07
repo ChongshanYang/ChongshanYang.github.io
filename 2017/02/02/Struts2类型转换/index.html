@@ -1,0 +1,1163 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="j2ee,Struts2," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon00.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="类型转换：将jsp页面的请求参数进行类型的转换后再赋值给action的属性
+Struts2已经内建了对于String和基本类型的类型转换，比如String&amp;lt;–&amp;gt;int 、String&amp;lt;–&amp;gt;boolean等；
+Action属性一定要有getter和setter方法！ 
+Struts2提供了强大的类型转换支持，不仅提供了内置的类型转换器，还可以自定义类型转换器，以满足自定义需">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Struts2类型转换TyperConverter">
+<meta property="og:url" content="http://www.yanglc.com/2017/02/02/Struts2类型转换/index.html">
+<meta property="og:site_name" content="Sully">
+<meta property="og:description" content="类型转换：将jsp页面的请求参数进行类型的转换后再赋值给action的属性
+Struts2已经内建了对于String和基本类型的类型转换，比如String&amp;lt;–&amp;gt;int 、String&amp;lt;–&amp;gt;boolean等；
+Action属性一定要有getter和setter方法！ 
+Struts2提供了强大的类型转换支持，不仅提供了内置的类型转换器，还可以自定义类型转换器，以满足自定义需">
+<meta property="og:updated_time" content="2017-02-07T08:48:16.712Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Struts2类型转换TyperConverter">
+<meta name="twitter:description" content="类型转换：将jsp页面的请求参数进行类型的转换后再赋值给action的属性
+Struts2已经内建了对于String和基本类型的类型转换，比如String&amp;lt;–&amp;gt;int 、String&amp;lt;–&amp;gt;boolean等；
+Action属性一定要有getter和setter方法！ 
+Struts2提供了强大的类型转换支持，不仅提供了内置的类型转换器，还可以自定义类型转换器，以满足自定义需">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6370579524316300000',
+      author: '奥雷里亚诺将军'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yanglc.com/2017/02/02/Struts2类型转换/"/>
+
+
+
+
+
+  <title> Struts2类型转换TyperConverter | Sully </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Sully</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">凡人皆有一死，凡人皆需侍奉</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yanglc.com/2017/02/02/Struts2类型转换/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="杨重山">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/image/touxiang.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Sully">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Sully" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Struts2类型转换TyperConverter
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-02-02T16:16:53+08:00">
+                2017-02-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/j2ee/" itemprop="url" rel="index">
+                    <span itemprop="name">j2ee</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/02/02/Struts2类型转换/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/02/02/Struts2类型转换/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <hr>
+<p><strong>类型转换：将jsp页面的请求参数进行类型的转换后再赋值给action的属性</strong></p>
+<p>Struts2已经内建了对于String和基本类型的类型转换，比如String&lt;–&gt;int 、String&lt;–&gt;boolean等；</p>
+<p>Action属性一定要有getter和setter方法！ </p>
+<p>Struts2提供了强大的类型转换支持，不仅提供了内置的类型转换器，还可以自定义类型转换器，以满足自定义需求；</p>
+<p>Struts2类型转换是通过 params拦截器进行转换；如果转换失败，则 conversionError拦截器拦截该异常，并封装到fieldError中，放入ActionContext中；</p>
+<p>Struts2类型转换还支持OGNL表达式，只需要在表单控件的name属性使用ognl表达式即可，比如表单控件的name属性为user.name，则此控件的数据将进入赋值给Action的user属性中的name属性；</p>
+<hr>
+<a id="more"></a>
+<h2 id="一、struts2自带的类型转换"><a href="#一、struts2自带的类型转换" class="headerlink" title="一、struts2自带的类型转换"></a>一、struts2自带的类型转换</h2><h3 id="1、普通的string-gt-int类型的转换"><a href="#1、普通的string-gt-int类型的转换" class="headerlink" title="1、普通的string-&gt;int类型的转换"></a>1、普通的string-&gt;int类型的转换</h3><p>参数请求页面：</p>
+<pre><code>&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;
+&lt;%--
+  Created by IntelliJ IDEA.
+  User: yangcs
+  Date: 2017/2/6
+  Time: 14:59
+  To change this template use File | Settings | File Templates.
+--%&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;类型转换器&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+使用struts2自带的类型转换器对jsp数据类型进行转换（注意使用了OGNL表达式和struts标签）&lt;br&gt;
+后面要对这样的带有非String类型的数据输入进行校验操作&lt;br&gt;
+具体效果可以看后台&lt;br&gt;
+&lt;s:form action=&quot;Action008&quot;&gt;
+    &lt;s:textfield label=&quot;姓名&quot; name=&quot;name&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;密码&quot; name=&quot;password&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;年龄&quot; name=&quot;p.age&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;薪水&quot; name=&quot;p.salary&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:submit value=&quot;提交&quot;&gt;&lt;/s:submit&gt;
+&lt;/s:form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>接受参数的action：</p>
+<pre><code>package test002;
+
+import Dao.Person;
+import com.opensymphony.xwork2.ActionSupport;
+
+/**
+ * Created by yangcs on 2017/2/6.
+ * 使用struts2自带类型转换器转换类型示例action
+ */
+public class TypeExchangeAction extends ActionSupport{
+    private String name;
+    private int password;
+    private Person p;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPassword() {
+        return password;
+    }
+
+    public void setPassword(int password) {
+        this.password = password;
+    }
+
+    public Person getP() {
+        return p;
+    }
+
+    public void setP(Person p) {
+        this.p = p;
+    }
+
+    public String execute(){
+        System.out.println(name);
+        System.out.println(password);
+        System.out.println(p.getAge());
+        System.out.println(p.getSalary());
+        return SUCCESS;
+    }
+}
+</code></pre><p>结果展示页面：</p>
+<pre><code>&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;
+&lt;%--
+  Created by IntelliJ IDEA.
+  User: yangcs
+  Date: 2017/2/6
+  Time: 14:59
+  To change this template use File | Settings | File Templates.
+--%&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;类型转换器&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+使用struts2自带的类型转换器对jsp数据类型进行转换（注意使用了OGNL表达式和struts标签）&lt;br&gt;
+后面要对这样的带有非String类型的数据输入进行校验操作&lt;br&gt;
+具体效果可以看后台&lt;br&gt;
+&lt;s:form action=&quot;Action008&quot;&gt;
+    &lt;s:textfield label=&quot;姓名&quot; name=&quot;name&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;密码&quot; name=&quot;password&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;年龄&quot; name=&quot;p.age&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;薪水&quot; name=&quot;p.salary&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:submit value=&quot;提交&quot;&gt;&lt;/s:submit&gt;
+&lt;/s:form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h3 id="2、当输入集合类型的参数时的转换"><a href="#2、当输入集合类型的参数时的转换" class="headerlink" title="2、当输入集合类型的参数时的转换"></a>2、当输入集合类型的参数时的转换</h3><p>如果Action的属性为List类型，List<string>lists ，则表单控件的命名方式为 lists[i] ，如 lists[0]表示第1个元素；<br>如果Action的属性为Map类型，Map<string,person> maps;则表单控件的命名方式为maps[ ‘ first ‘ ].salary ，表示map中key为’first’的value中的salary属性;</string,person></string></p>
+<p>参数请求页面：</p>
+<pre><code>&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;
+&lt;%--
+  Created by IntelliJ IDEA.
+  User: yangcs
+  Date: 2017/2/6
+  Time: 16:28
+  To change this template use File | Settings | File Templates.
+--%&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;类型转换&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;s:form action=&quot;Action009&quot;&gt;
+    &lt;s:textfield label=&quot;姓名&quot; name=&quot;lists[0].name&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;密码&quot; name=&quot;lists[0].password&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;年龄&quot; name=&quot;map[&apos;first&apos;].age&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:textfield label=&quot;薪水&quot; name=&quot;map[&apos;first&apos;].salary&quot;&gt;&lt;/s:textfield&gt;
+    &lt;s:submit value=&quot;提交&quot;&gt;&lt;/s:submit&gt;
+&lt;/s:form&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><p>后台接受参数的action：</p>
+<pre><code>package test002;
+
+import Dao.Person;
+import Dao.User;
+import com.opensymphony.xwork2.ActionSupport;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by yangcs on 2017/2/6.
+ * 这个action是使用类型转换成list和map类型的数据的示例
+ */
+public class TypeExchangeAction02 extends ActionSupport{
+    //public List&lt;String&gt; lists;     //这个地方不能定义为private???
+    public List&lt;User&gt; lists;     //定义为private还是不行啊！
+    private Map&lt;String, Person&gt; map;
+
+    public List&lt;User&gt; getLists() {
+        return lists;
+    }
+
+    public void setList(List&lt;User&gt; lists) {
+        this.lists = lists;
+    }
+
+    public Map&lt;String, Person&gt; getMap() {
+        return map;
+    }
+
+    public void setMap(Map&lt;String, Person&gt; map) {
+        this.map = map;
+    }
+
+    public String execute() throws Exception{
+        System.out.println(lists.get(0).getName());
+        System.out.println(lists.get(0).getPassword());
+        System.out.println(map.get(&quot;first&quot;).getAge());
+        System.out.println(map.get(&quot;first&quot;).getSalary());
+        return SUCCESS;
+    }
+}
+</code></pre><p>结果展示页面：</p>
+<pre><code>&lt;%@ taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;
+&lt;%--
+  Created by IntelliJ IDEA.
+  User: yangcs
+  Date: 2017/2/6
+  Time: 16:39
+  To change this template use File | Settings | File Templates.
+--%&gt;
+&lt;%@ page contentType=&quot;text/html;charset=UTF-8&quot; language=&quot;java&quot; %&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;类型转换结果&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+姓名：&lt;s:property value=&quot;lists[0].getName()&quot;&gt;&lt;/s:property&gt;&lt;br&gt;
+密码：&lt;s:property value=&quot;lists[0].getPassword()&quot;&gt;&lt;/s:property&gt;&lt;br&gt;
+年龄：&lt;s:property value=&quot;map[&apos;first&apos;].getAge()&quot;&gt;&lt;/s:property&gt;&lt;br&gt;
+薪水：&lt;s:property value=&quot;map[&apos;first&apos;].getSalary()&quot;&gt;&lt;/s:property&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre><h2 id="二、自定义类型转换器"><a href="#二、自定义类型转换器" class="headerlink" title="二、自定义类型转换器"></a>二、自定义类型转换器</h2><h3 id="1-继承DefaultTypeConverter"><a href="#1-继承DefaultTypeConverter" class="headerlink" title="1.继承DefaultTypeConverter"></a>1.继承DefaultTypeConverter</h3><p>如果我们自定义一个类型转换器，第一种方法是继承DefaultTypeConverter，并重写 public Object convertValue(ActionContext context,Object value,Class toType);<br>这个函数的功能是完成双向转换，即从String数组转到Action属性及Action属性转到String；需要注意的是从String数组转到Action属性，而不是String转到Action属性；如果只有一个字符串，则取params[0] 即可；</p>
+<p>因此一般此函数的模板代码如下：</p>
+<pre><code>public Object convertValue(Map&lt;String, Object&gt; context, Object value,  
+            Class toType) {  
+        if(toType==String.class){  
+            ......  
+            return String;  
+        }  
+        else if(toType==Action属性.class){  
+            String params[] = (String[])value;//必须是字符串数组  
+            .......  
+            return Action属性;  
+        }  
+        return null;  
+    }  
+</code></pre><p>完成自定义类型转换器编写后，如果需要使用此转换器，就需要配置，通常有两种配置方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1.局部类型转换文件中配置，仅对特定的Action的特定属性有效，比如在Action1中有aa属性，则仅对Action1的aa属性有效；</div><div class="line"></div><div class="line">2.全局类型转换文件中配置，对某个类型都有效；比如对Person注册了类型转换器，则对任何Person和String的转换都有效；</div></pre></td></tr></table></figure>
+<p>全局类型转换文件命名为： xwork-conversion.properties，通常放在WEB-INF\classes下；</p>
+<p>文件内容如：attributeName=ConvertClass ，比如org.person.Person = org.convert.Converter2<br>attributeName表示属性名称， convertClass表示转换器的实现类；</p>
+<p>局部类型转换文件命名为：ActionName-conversion.properties,放在特定Action的目录下；<br>文件内容如： typeName=ConvertClass，比如aa=org.convert.Converter1 </p>
+<p>注意：typeName表示转换类型，convertClass表示转换器的实现类；</p>
+<p>代码示例：</p>
+<p>Conversion03Action.java</p>
+<pre><code>package org.conversion.action;  
+
+import org.person.Person;  
+
+import com.opensymphony.xwork2.ActionSupport;  
+
+public class Conversion03Action extends ActionSupport {  
+
+    private Person p ;  
+    public String execute()throws Exception{  
+        System.out.println(p.getGender());  
+        System.out.println(p.getSalary());  
+        return SUCCESS;  
+    }  
+    public Person getP() {  
+        return p;  
+    }  
+    public void setP(Person p) {  
+        this.p = p;  
+    }  
+
+}  
+</code></pre><p>Converter01.java</p>
+<pre><code>package org.converter;  
+
+import java.util.Map;  
+
+import org.person.Person;  
+
+import com.opensymphony.xwork2.conversion.impl.DefaultTypeConverter;  
+
+public class Converter01 extends DefaultTypeConverter {  
+
+    @Override  
+    public Object convertValue(Map&lt;String, Object&gt; context, Object value,  
+            Class toType) {  
+        if(toType==String.class){  
+            Person p = (Person)value;  
+            return p.getSalary()+&quot;,&quot;+p.getGender();  
+        }  
+        else if(toType==Person.class){  
+            String params[] = (String[])value;  
+            String[]values = params[0].split(&quot;\\,&quot;);  
+            Person p = new Person();  
+            p.setGender(values[1]);  
+            p.setSalary(Double.parseDouble(values[0]));  
+            return p;  
+        }  
+        return null;  
+    }  
+
+}  
+</code></pre><p>3.jsp</p>
+<pre><code>&lt;%@ page language=&quot;java&quot; contentType=&quot;text/html; charset=utf-8&quot;  
+    pageEncoding=&quot;utf-8&quot;%&gt;  
+    &lt;%@taglib prefix=&quot;s&quot; uri=&quot;/struts-tags&quot; %&gt;  
+&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;  
+&lt;html&gt;  
+&lt;head&gt;  
+&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot;&gt;  
+&lt;title&gt;Insert title here&lt;/title&gt;  
+&lt;/head&gt;  
+&lt;body&gt;  
+&lt;s:fielderror&gt;&lt;/s:fielderror&gt;  
+    &lt;s:form action=&quot;conversion03&quot; &gt;  
+        &lt;s:textfield label=&quot;薪水，性别&quot; name=&quot;p&quot;&gt;&lt;/s:textfield&gt;  
+        &lt;s:submit value=&quot;提交&quot;&gt;&lt;/s:submit&gt;  
+    &lt;/s:form&gt;  
+&lt;/body&gt;  
+&lt;/html&gt;  
+</code></pre><p>Conversion03Action-conversion.properties</p>
+<pre><code>p=org.convert.Converter01  
+</code></pre><h3 id="2-继承StrutsTypeConverter"><a href="#2-继承StrutsTypeConverter" class="headerlink" title="2.继承StrutsTypeConverter"></a>2.继承StrutsTypeConverter</h3><p>StrutsTypeConverter是DefaultTypeConverter的子类，DefaultTypeConverter的类型转换器是在一个函数中进行双向转换，而继承StrutsTypeConverter的类型转换器则是将两个方向分别用两个函数实现：</p>
+<pre><code>@Override  
+public Object convertFromString(Map context, String[] values, Class toClass) {  
+
+}  
+
+@Override  
+public String convertToString(Map context, Object o) {  
+
+}  
+</code></pre><p>将DefaultTypeConverter中的Converter01换成如下代码就可以完成StrutsTypeConverter的类型转换器；</p>
+<pre><code>package org.converter;  
+
+import java.util.Map;  
+
+import org.apache.struts2.util.StrutsTypeConverter;  
+import org.person.Person;  
+
+public class Converter02 extends StrutsTypeConverter {  
+
+    @Override  
+    public Object convertFromString(Map context, String[] value, Class toClass) {  
+        String params[] = (String[])value;  
+        String[]values = params[0].split(&quot;\\,&quot;);  
+        Person p = new Person();  
+        p.setGender(values[1]);  
+        p.setSalary(Double.parseDouble(values[0]));  
+        return p;  
+    }  
+
+    @Override  
+    public String convertToString(Map context, Object o) {  
+        Person p = (Person)o;  
+        return p.getSalary()+&quot;,&quot;+p.getGender();  
+    }  
+}  
+</code></pre><p>xwork-conversion.properties</p>
+<pre><code>org.person.Person=org.converter.Converter02  
+</code></pre><h2 id="三、错误处理机制"><a href="#三、错误处理机制" class="headerlink" title="三、错误处理机制"></a>三、错误处理机制</h2><p>客户输入错误信息是很正常的事，因此需要对此种行为进行处理，Struts2提供了很好的错误处理机制，是由conversionError拦截器自动完成，我们只需要配置输出什么错误信息即可；</p>
+<p>当发生类型转换错误时，conversionError拦截器拦截此错误，并封装成fieldError，将此错误信息放入ActionContext中，并返回input逻辑视图；当然在<action>元素中必须配一个类似于<result name="input">/1.jsp</result>的子元素，以应对类型转换错误；</action></p>
+<p>而为了显示错误信息，则在jsp页面中使用<s:fielderror>即可显示错误信息；<br>注意：类型转换的Action在struts.xml中配置所在包需要extends=”struts-default”，因此在此文件中包含conversionError拦截器；</s:fielderror></p>
+<p>这时我们需要配置显示的错误信息，错误信息配置方式有两种：</p>
+<h3 id="1-配置默认提示信息"><a href="#1-配置默认提示信息" class="headerlink" title="1.配置默认提示信息"></a>1.配置默认提示信息</h3><p>在国际化资源文件中配置形如：</p>
+<pre><code>xwork.default.invalid.fieldvalue={0},错误;
+</code></pre><p>{0}代表类型转换错误的属性名称；</p>
+<h3 id="2-配置Action特定属性错误信息"><a href="#2-配置Action特定属性错误信息" class="headerlink" title="2.配置Action特定属性错误信息"></a>2.配置Action特定属性错误信息</h3><p>在Action范围的国际化资源文件中配置形如：</p>
+<pre><code>invalid.fieldvalue.attributeName= 内容
+</code></pre><p>attributeName是Action中的属性名称；</p>
+<p>我们在上面的程序中添加类型转换错误的消息：</p>
+<p>在Conversion04Action_zh_CN.properties中添加：</p>
+<pre><code>&lt;span style=&quot;font-family:&apos;Microsoft YaHei&apos;;&quot;&gt;invalid.fieldvalue.p=person类型转换错误；&lt;/span&gt; 
+</code></pre><p>意思是对p属性配置了特定的错误提示信息，当p属性类型转换错误后就会显示此信息；</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>大爷！赏点电费钱吧！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="http://upload-images.jianshu.io/upload_images/3385496-bf8390384eef349d.jpg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="http://upload-images.jianshu.io/upload_images/3385496-af50d89c24bef0e5.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="杨重山 Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/j2ee/" rel="tag"># j2ee</a>
+          
+            <a href="/tags/Struts2/" rel="tag"># Struts2</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/02/02/struts2面试题/" rel="next" title="struts2小总结（面试题）">
+                <i class="fa fa-chevron-left"></i> struts2小总结（面试题）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/02/02/Struts2类型转换/"
+           data-title="Struts2类型转换TyperConverter" data-url="http://www.yanglc.com/2017/02/02/Struts2类型转换/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/image/touxiang.jpg"
+               alt="杨重山" />
+          <p class="site-author-name" itemprop="name">杨重山</p>
+          <p class="site-description motion-element" itemprop="description">科学缩短了距离</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/ChongshanYang" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/p/1005052689345712" target="_blank" title="Weibo">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  Weibo
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.jianshu.com/" title="JanShu" target="_blank">JanShu</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://theme-next.iissnan.com/" title="Next" target="_blank">Next</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://fontawesome.io/" title="Font awesome" target="_blank">Font awesome</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iissnan.com/progit/" title="Pro git" target="_blank">Pro git</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.liaoxuefeng.com/" title="Liaoxuefeng" target="_blank">Liaoxuefeng</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.runoob.com/" title="runoob" target="_blank">runoob</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://w3schools.bootcss.com/default.html" title="w3schools" target="_blank">w3schools</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://music.163.com/" title="Music" target="_blank">Music</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.acfun.cn/" title="No BB" target="_blank">No BB</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、struts2自带的类型转换"><span class="nav-number">1.</span> <span class="nav-text">一、struts2自带的类型转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、普通的string-gt-int类型的转换"><span class="nav-number">1.1.</span> <span class="nav-text">1、普通的string->int类型的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、当输入集合类型的参数时的转换"><span class="nav-number">1.2.</span> <span class="nav-text">2、当输入集合类型的参数时的转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、自定义类型转换器"><span class="nav-number">2.</span> <span class="nav-text">二、自定义类型转换器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-继承DefaultTypeConverter"><span class="nav-number">2.1.</span> <span class="nav-text">1.继承DefaultTypeConverter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-继承StrutsTypeConverter"><span class="nav-number">2.2.</span> <span class="nav-text">2.继承StrutsTypeConverter</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、错误处理机制"><span class="nav-number">3.</span> <span class="nav-text">三、错误处理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-配置默认提示信息"><span class="nav-number">3.1.</span> <span class="nav-text">1.配置默认提示信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-配置Action特定属性错误信息"><span class="nav-number">3.2.</span> <span class="nav-text">2.配置Action特定属性错误信息</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">杨重山</span>
+</div>
+
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"iissnan-notes"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
